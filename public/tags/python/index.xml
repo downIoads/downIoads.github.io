@@ -16,6 +16,13 @@
       <description>Introduction I have bought insecure Mifare Classic 1k cards (Crypto-1 is broken and should not be used), so the only way to securely store data on these cards is with a tamperproof, modern encryption algorithm. So I decided to learn some basics and write a simple Python script that allows me to do this. AES-GCM was chosen because it features tags that are used to determine whether encrypted data was tempered with or not.</description>
     </item>
     <item>
+      <title>Automated self-hosted Gitlab backups to Dropbox using a Python script on Raspberry Pi</title>
+      <link>https://example.com/posts/python-gitlab-backup-rpi/</link>
+      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/python-gitlab-backup-rpi/</guid>
+      <description>Introduction I prefer self-hosted Gitlab over uploading my code to Github. The only disadvantage is that I need to take care of backups myself in case a harddrive dies or gets stolen. Therefore, I wrote a simple Python script that runs on my Raspberry Pi twice a week which backs up my Gitlab config and data and uploads them to my dropbox. Specifically, I am using the free community edition of Gitlab on my rpi.</description>
+    </item>
+    <item>
       <title>Python script for Llama 2 conversations</title>
       <link>https://example.com/posts/llama-python/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>

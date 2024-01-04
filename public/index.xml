@@ -79,6 +79,13 @@
       <description>Introduction Diablo 2 Resurrected is one of my favorite games of all time, but there are a lot of things you need to remember. There are various online tools (the idea of a runeword calculator is not new), but many of them have a terrible User Interface, are outdated, or are located on slow websites that autoplay Twitch streams when you open them. So I decided to learn how to use wxWidgets by making an assistant GUI tool for my favorite game!</description>
     </item>
     <item>
+      <title>Automated self-hosted Gitlab backups to Dropbox using a Python script on Raspberry Pi</title>
+      <link>https://example.com/posts/python-gitlab-backup-rpi/</link>
+      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/python-gitlab-backup-rpi/</guid>
+      <description>Introduction I prefer self-hosted Gitlab over uploading my code to Github. The only disadvantage is that I need to take care of backups myself in case a harddrive dies or gets stolen. Therefore, I wrote a simple Python script that runs on my Raspberry Pi twice a week which backs up my Gitlab config and data and uploads them to my dropbox. Specifically, I am using the free community edition of Gitlab on my rpi.</description>
+    </item>
+    <item>
       <title>Python script for Llama 2 conversations</title>
       <link>https://example.com/posts/llama-python/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>

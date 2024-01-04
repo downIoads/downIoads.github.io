@@ -95,6 +95,15 @@
     <loc>https://example.com/tags/gaming/</loc>
     <lastmod>2023-07-27T22:50:00+02:00</lastmod>
   </url><url>
+    <loc>https://example.com/posts/python-gitlab-backup-rpi/</loc>
+    <lastmod>2023-07-26T18:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/crontab/</loc>
+    <lastmod>2023-07-26T18:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/gitlab/</loc>
+    <lastmod>2023-07-26T18:00:23+02:00</lastmod>
+  </url><url>
     <loc>https://example.com/tags/llama/</loc>
     <lastmod>2023-07-26T18:00:23+02:00</lastmod>
   </url><url>
@@ -102,6 +111,9 @@
     <lastmod>2023-07-26T18:00:23+02:00</lastmod>
   </url><url>
     <loc>https://example.com/posts/llama-python/</loc>
+    <lastmod>2023-07-26T18:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/rpi/</loc>
     <lastmod>2023-07-26T18:00:23+02:00</lastmod>
   </url><url>
     <loc>https://example.com/posts/nfc-mifare-acr122u/</loc>

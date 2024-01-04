@@ -135,6 +135,20 @@
       <description></description>
     </item>
     <item>
+      <title>crontab</title>
+      <link>https://example.com/tags/crontab/</link>
+      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/crontab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>gitlab</title>
+      <link>https://example.com/tags/gitlab/</link>
+      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/gitlab/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>llama</title>
       <link>https://example.com/tags/llama/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
@@ -146,6 +160,13 @@
       <link>https://example.com/tags/llm/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
       <guid>https://example.com/tags/llm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>rpi</title>
+      <link>https://example.com/tags/rpi/</link>
+      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/rpi/</guid>
       <description></description>
     </item>
     <item>

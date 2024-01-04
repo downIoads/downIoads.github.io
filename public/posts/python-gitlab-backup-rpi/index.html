@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Automated self-hosted Gitlab backups to Dropbox using a Python script on Raspberry Pi - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Simple Python script that updates your Gitlab config and data to your dropbox." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Automated self-hosted Gitlab backups to Dropbox using a Python script on Raspberry Pi" />
+<meta property="og:description" content="Simple Python script that updates your Gitlab config and data to your dropbox." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/python-gitlab-backup-rpi/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-26T18:00:23+02:00" />
+<meta property="article:modified_time" content="2023-07-26T18:00:23+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Automated self-hosted Gitlab backups to Dropbox using a Python script on Raspberry Pi"/>
+<meta name="twitter:description" content="Simple Python script that updates your Gitlab config and data to your dropbox."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">Automated self-hosted Gitlab backups to Dropbox using a Python script on Raspberry Pi</h1>
+			<div class="meta">Posted on Jul 26, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#python">Python</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#run-this-script-twice-per-week-using-crontab">Run this script twice per week using crontab</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>I prefer self-hosted Gitlab over uploading my code to Github. The only disadvantage is that I need to take care of backups myself in case a harddrive dies or gets stolen. Therefore, I wrote a simple Python script that runs on my Raspberry Pi twice a week which backs up my Gitlab config and data and uploads them to my dropbox. Specifically, I am using the free community edition of Gitlab on my rpi. Gitlab backups consist of two parts: There is the config (which includes the keys needed to decrypt the data backup) backup and the data backup. Technically, it is recommended to store these two backups seperately but I do not have any sensitive data in my Gitlab projects, I just want to prevent data loss. This is why my script backs up both config and data backup into the same Dropbox account. In order for this script to work you must set up a Dropbox app by using the (Dropbox developer site)[https://www.dropbox.com/developers]. I would recommend limiting the scope of the app into a single folder. This way, the token you put into the Python script can only read and write data to this folder and the rest of the dropbox is untouched. Note that the token you can generated on the website where you adjust your Dropbox App settings is only temporary (a few hours) and will not be used by this script. Instead, read through (this reply)[https://www.dropboxforum.com/t5/Dropbox-API-Support-Feedback/Issue-in-generating-access-token/m-p/592921/highlight/true#M27586] to learn how to use this token to get a permanent refresh token. The script itself then uses this refresh token to get a new authorization token each time it runs. The authorization token you get will always be valid for a few hours (which is enough for the script) and then become invalid. To sum it up: There is a &ldquo;refresh token&rdquo; which is used to request new &ldquo;authorization tokens&rdquo; and the authorization tokens are what you need to be able to access your Dropbox. I had to read lots of threads and documentation until I found the working answer that I linked above to figure this out.</p>
+<p>Another note for setting up Gitlab on your Raspberry Pi: If after installation you get a nginx default page instead of your gitlab login website it means that the port Gitlab tries to use is already taken (e.g. by pihole). In the Gitlab config you have to assign a different, unused port to make Gitlab work.</p>
+<p>The script below assumes that Gitlab Community edition runs on a Raspberry Pi with default OS and default Gitlab backup locations.</p>
+<h2 id="python">Python</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># PREREQ: sudo pip3 install dropbox</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># USAGE: sudo python3 &lt;scriptname.py&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> ast <span style="color:#75715e"># string to dictionary</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> dropbox
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> subprocess
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gitlab folder that stores config backup (required to decrypt data backup) and data backup</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># assumes default locations for linux installation of gitlab community edition</span>
+</span></span><span style="display:flex;"><span>LOCAL_GITLAB_CONFIG_PATH    <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/etc/gitlab/config_backup&#34;</span>
+</span></span><span style="display:flex;"><span>LOCAL_GITLAB_DATA_PATH      <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/var/opt/gitlab/backups&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DROPBOX_APP_KEY     <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;you-have-to-edit-this-field&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>DROPBOX_APP_SECRET  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;you-have-to-edit-this-field&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>DROPBOX_REFRESH_TOKEN <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;you-have-to-edit-this-field&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>DROPBOX_DESTINATION_CONFIG  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/Config&#34;</span>
+</span></span><span style="display:flex;"><span>DROPBOX_DESTINATION_DATA    <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/Data&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># access token only valid 4 hours, but refresh token always valid and used to get new access token.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># this function uses refresh token to get new valid access token</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># read this to know to get refresh token in the first place: https://www.dropboxforum.com/t5/Dropbox-API-Support-Feedback/Issue-in-generating-access-token/m-p/592921/highlight/true#M27586</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getNewAccessToken</span>():
+</span></span><span style="display:flex;"><span>    refreshCommand <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;curl https://api.dropbox.com/oauth2/token -d grant_type=refresh_token -d refresh_token=&#34;</span> <span style="color:#f92672">+</span> DROPBOX_REFRESH_TOKEN <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; -u &#34;</span> <span style="color:#f92672">+</span> DROPBOX_APP_KEY <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> DROPBOX_APP_SECRET
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> subprocess<span style="color:#f92672">.</span>run(refreshCommand, shell<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, check<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, text<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, stdout<span style="color:#f92672">=</span>subprocess<span style="color:#f92672">.</span>PIPE, stderr<span style="color:#f92672">=</span>subprocess<span style="color:#f92672">.</span>PIPE)
+</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> result<span style="color:#f92672">.</span>stdout <span style="color:#75715e"># this is what you get back, contains the data you want</span>
+</span></span><span style="display:flex;"><span>    response_dict <span style="color:#f92672">=</span> ast<span style="color:#f92672">.</span>literal_eval(response)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> response_dict[<span style="color:#e6db74">&#34;access_token&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># e.g. takes &#34;gitlab_config_1702820194_2023_12_17.tar&#34; and returns 1702820194 as int</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># getTimestampFromConfigFilename(&#34;gitlab_config_1702820194_2023_12_17.tar&#34;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getTimestampFromConfigFilename</span>(filename):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># files that are not gitlab config backups are ignored</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> <span style="color:#e6db74">&#34;gitlab_config_&#34;</span> <span style="color:#f92672">in</span> filename:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> int(filename[filename<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#34;gitlab_config_&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">14</span>:filename<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#34;_&#34;</span>, filename<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#34;gitlab_config_&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">14</span>)])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># takes path to dir and returns filename of newest config backup</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getNewestConfigBackupFilename</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># get list of all files in gitlab config backup dir</span>
+</span></span><span style="display:flex;"><span>    configBackupList <span style="color:#f92672">=</span> [f <span style="color:#66d9ef">for</span> f <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(LOCAL_GITLAB_CONFIG_PATH) <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isfile(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(LOCAL_GITLAB_CONFIG_PATH, f))]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># check each filename and remember index of the name with highest timestamp (newest backup)</span>
+</span></span><span style="display:flex;"><span>    newestBackupIndex <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    newestBackupHighestTimestamp <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> index, filename <span style="color:#f92672">in</span> enumerate(configBackupList):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> getTimestampFromConfigFilename(filename) <span style="color:#f92672">&gt;</span> newestBackupHighestTimestamp:
+</span></span><span style="display:flex;"><span>            newestBackupHighestTimestamp <span style="color:#f92672">=</span> getTimestampFromConfigFilename(filename)
+</span></span><span style="display:flex;"><span>            newestBackupIndex <span style="color:#f92672">=</span> index
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> configBackupList[newestBackupIndex]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># e.g. takes &#34;1702758583_2023_12_16_16.5.1_gitlab_backup.tar&#34; and returns 1702758583 as int</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># getTimestampFromDataFilename(&#34;1702758583_2023_12_16_16.5.1_gitlab_backup.tar&#34;)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getTimestampFromDataFilename</span>(filename):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># files that are not gitlab data backups are ignored</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> <span style="color:#e6db74">&#34;_gitlab_backup&#34;</span> <span style="color:#f92672">in</span> filename:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> int(filename[:filename<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#34;_&#34;</span>)])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># takes path to dir and returns filename of newest data backup</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getNewestDataBackupFilename</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># get list of all files in gitlab data backup dir</span>
+</span></span><span style="display:flex;"><span>    dataBackupList <span style="color:#f92672">=</span> [f <span style="color:#66d9ef">for</span> f <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(LOCAL_GITLAB_DATA_PATH) <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isfile(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(LOCAL_GITLAB_DATA_PATH, f))]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># check each filename and remember index of the name with highest timestamp (newest backup)</span>
+</span></span><span style="display:flex;"><span>    newestBackupIndex <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    newestBackupHighestTimestamp <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> index, filename <span style="color:#f92672">in</span> enumerate(dataBackupList):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> getTimestampFromDataFilename(filename) <span style="color:#f92672">&gt;</span> newestBackupHighestTimestamp:
+</span></span><span style="display:flex;"><span>            newestBackupHighestTimestamp <span style="color:#f92672">=</span> getTimestampFromDataFilename(filename)
+</span></span><span style="display:flex;"><span>            newestBackupIndex <span style="color:#f92672">=</span> index
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> dataBackupList[newestBackupIndex]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">uploadToDropbox</span>(accessToken, localFilePath, remoteFolder):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Will use this access token:&#34;</span>, accessToken)
+</span></span><span style="display:flex;"><span>    dbx <span style="color:#f92672">=</span> dropbox<span style="color:#f92672">.</span>Dropbox(accessToken)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(localFilePath, <span style="color:#e6db74">&#34;rb&#34;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        dbx<span style="color:#f92672">.</span>files_upload(f<span style="color:#f92672">.</span>read(), remoteFolder)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># get new access token (valid 240 min)</span>
+</span></span><span style="display:flex;"><span>    DROPBOX_ACCESS_TOKEN <span style="color:#f92672">=</span> getNewAccessToken()    
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ensure local gitlab paths exist</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(LOCAL_GITLAB_CONFIG_PATH)) <span style="color:#f92672">or</span> (<span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(LOCAL_GITLAB_DATA_PATH)):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Local gitlabs paths could not be found. Terminating..&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># create gitlab backups using subprocess (must be run as sudo or will fail)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># for this reason you must also automate this in &#34;sudo crontab -e&#34; (sudo is important)</span>
+</span></span><span style="display:flex;"><span>    commandConfigBackup <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sudo gitlab-ctl backup-etc&#34;</span>
+</span></span><span style="display:flex;"><span>    commandDataBackup   <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sudo gitlab-backup create&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#       make new backups  (might take few minutes but program will wait)</span>
+</span></span><span style="display:flex;"><span>    subprocess<span style="color:#f92672">.</span>run(commandConfigBackup, shell<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    subprocess<span style="color:#f92672">.</span>run(commandDataBackup, shell<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># get filename of newest gitlab config backup</span>
+</span></span><span style="display:flex;"><span>    newestConfigFilename <span style="color:#f92672">=</span> getNewestConfigBackupFilename()
+</span></span><span style="display:flex;"><span>    newestConfigFullPath <span style="color:#f92672">=</span> LOCAL_GITLAB_CONFIG_PATH <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">+</span> newestConfigFilename
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Newest config backup:&#34;</span>, newestConfigFullPath)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># get filename of newest gitlab data backup</span>
+</span></span><span style="display:flex;"><span>    newestDataFilename <span style="color:#f92672">=</span> getNewestDataBackupFilename()
+</span></span><span style="display:flex;"><span>    newestDataFullPath <span style="color:#f92672">=</span> LOCAL_GITLAB_DATA_PATH <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">+</span> newestDataFilename
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Newest data backup:&#34;</span>, newestDataFullPath)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># upload data (if it already exists nothing happens)</span>
+</span></span><span style="display:flex;"><span>    uploadToDropbox(DROPBOX_ACCESS_TOKEN, newestConfigFullPath , DROPBOX_DESTINATION_CONFIG <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">+</span> newestConfigFilename)
+</span></span><span style="display:flex;"><span>    uploadToDropbox(DROPBOX_ACCESS_TOKEN, newestDataFullPath   , DROPBOX_DESTINATION_DATA   <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">+</span> newestDataFilename)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Successfully backed up Gitlab Config and Data.&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>main()
+</span></span></code></pre></div><h2 id="features">Features</h2>
+<p>Quickly reading over the code you probably have noticed that the script determines the newest backups and only uploads them to your Dropbox. Gitlab automatically puts the current timestamp in the filenames of your backups (note that there is a slightly different naming scheme for the config and the data backup filenames) which is what this script makes use of to determine the currently newest backup. Note: If your Dropbox does not have a lot of storage you can earn like 18 GB of free permanent storage by making new accounts with your referral link. Since they only grant the storage if the desktop Dropbox app is installed by your friends you might get the idea that you can set up a VM which reverts each time to simplify this process. But then you might notice that Dropbox will refuse to send out invitation e-mails after you do it three times and the fix might be to use a different browser (who knows, maybe only the browser agent is being checked as the only counter measurement of this strategy). This is all just guessing though.</p>
+<h2 id="run-this-script-twice-per-week-using-crontab">Run this script twice per week using crontab</h2>
+<p>The script needs &ldquo;sudo&rdquo; to trigger the Gitlab backups. For this reason, you must use &ldquo;sudo crontab -e&rdquo; instead of just &ldquo;crontab -e&rdquo;. This ensures, that you have sudo rights when crontab executes the script. If you want to run the script twice per week, you could add the following line to your crontab (adjust paths as needed):
+&ldquo;0 4 * * 3,6 /usr/bin/python3 /home/pi/gitlab-backup.py&rdquo;</p>
+<p>This means the backup is triggered at 4:00 AM of every Wednesday (3) and Saturday (6).</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The script is very useful for me, I wrote it once and it regularly runs ever since. In the process of writing the script I learned about the Dropbox API and how crontab has seperated schedules for sudo and non-sudo. You could improve upon this script by deleting backups older than x, but I did not need this feature as my Gitlab backups are not very large and I have enough Dropbox storage.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/python">python</a></li>
+					
+					<li><a href="/tags/programming">programming</a></li>
+					
+					<li><a href="/tags/gitlab">gitlab</a></li>
+					
+					<li><a href="/tags/crontab">crontab</a></li>
+					
+					<li><a href="/tags/rpi">rpi</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>
