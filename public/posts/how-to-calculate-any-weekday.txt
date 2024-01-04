@@ -1,0 +1,46 @@
+---
+title: "How to calculate any weekday"
+date: 2023-07-04T20:00:00+02:00
+description: Will christmas be a Sunday this year? Let's calculate!
+draft: false
+tags: [tutorial]
+---
+
+## Introduction
+
+I once read about a simple way to calculate what day of the week any given date is. All you need to do is remember a few numbers and do basic math in your head. So let's get started!
+
+## What you need to remember
+
+Each weekday has an assigned number:
+* Sunday = 0
+* Monday = 1
+* Tuesday = 2
+* Wednesday = 3
+* Thursday = 4
+* Friday = 5
+* Saturday = 6
+
+Also remember the following list for the months:
+* January = 6
+* February = 2
+* March = 2
+* April = 5
+* May = 0
+* June = 3
+* July = 5
+* August = 1
+* September = 4
+* October = 6
+* November = 2
+* December = 4
+
+Every year also has a number code, but you only need to know today's day of the week and you can use this knowledge to get this year's code. And if you know this year's code, you can calculate which day this year's 12-31 will be, so you know which weekday next year's 01-01 will be, and so on...
+
+## Ravioli, ravioli, give me the formuoli!
+The formula is: (<day> + <month code> + <year code>) mod 7 = <weekday code>.
+Let's make this clear with an example. This year's code is 0. Which weekday is the 5th of July? 
+5 (Day) + 5 (July code) + 0 (year code) mod 7 = 3 <weekday code>. 3 maps to Wednesday, so that means the 5th of July is a Wednesday. Again, if you know the month codes by heart, you only need to remember one more number, which is this year's code. This year's code will be 0 for the entire year (year codes are always constant for the entirety of the year). So let's do another example: Which day of the week will the 20th of November be? Stop reading and try it yourself. The solution is 20 + 2 + 0 mod 7 = 1, so the solution is Monday!
+
+## Final words
+Congratulations, you now know how to calculate any weekday. You also understand the system well enough to be able to calculate next year's code! The code for 2024 will be 1.

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>c&#43;&#43; on Blog for Tech Enjoyers</title>
+    <link>https://example.com/tags/c&#43;&#43;/</link>
+    <description>Recent content in c&#43;&#43; on Blog for Tech Enjoyers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 27 Jul 2023 22:50:00 +0200</lastBuildDate>
+    <atom:link href="https://example.com/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43; runeword calculator GUI for Diablo 2 Resurrected</title>
+      <link>https://example.com/posts/d2-runewords/</link>
+      <pubDate>Thu, 27 Jul 2023 22:50:00 +0200</pubDate>
+      <guid>https://example.com/posts/d2-runewords/</guid>
+      <description>Introduction Diablo 2 Resurrected is one of my favorite games of all time, but there are a lot of things you need to remember. There are various online tools (the idea of a runeword calculator is not new), but many of them have a terrible User Interface, are outdated, or are located on slow websites that autoplay Twitch streams when you open them. So I decided to learn how to use wxWidgets by making an assistant GUI tool for my favorite game!</description>
+    </item>
+    <item>
+      <title>How to authenticate and write data to Mifare Classic 1k using ACS ACR122U</title>
+      <link>https://example.com/posts/nfc-mifare-acr122u/</link>
+      <pubDate>Sun, 23 Jul 2023 14:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/nfc-mifare-acr122u/</guid>
+      <description>Goal I bought some Mifare Classic 1k tags and all Android/iOS apps I tried (official NXP apps, NFC Tools Pro and Mifare Classic Tool) failed to write data to my tags! Mifare Classic tags are not as straight-forward as e.g. NTAG ones because they are proprietary (they do technically support NDEF, but it&amp;rsquo;s not a compatible as you would like it to be). So to write data to these tags using my ACS ACR122U, I use the Windows Smart Card API to communicate with the NFC reader.</description>
+    </item>
+    <item>
+      <title>Mine your username</title>
+      <link>https://example.com/posts/mine-your-username/</link>
+      <pubDate>Mon, 03 Jul 2023 21:50:00 +0200</pubDate>
+      <guid>https://example.com/posts/mine-your-username/</guid>
+      <description>Introduction So you wanted to sign up for a website but couldn&amp;rsquo;t think of a cool username that wasn&amp;rsquo;t already taken? No way, I was in that same situation! So I decided to write a C++ program that takes your base name (e.g., &amp;ldquo;cafe&amp;rdquo;) and adds a few numbers. The idea is to generate usernames that, when hashed using SHA256 or KECCAK256 result in strings that contain your base name again!</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hashing on Blog for Tech Enjoyers</title>
+    <link>https://example.com/tags/hashing/</link>
+    <description>Recent content in hashing on Blog for Tech Enjoyers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 03 Jul 2023 21:50:00 +0200</lastBuildDate>
+    <atom:link href="https://example.com/tags/hashing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mine your username</title>
+      <link>https://example.com/posts/mine-your-username/</link>
+      <pubDate>Mon, 03 Jul 2023 21:50:00 +0200</pubDate>
+      <guid>https://example.com/posts/mine-your-username/</guid>
+      <description>Introduction So you wanted to sign up for a website but couldn&amp;rsquo;t think of a cool username that wasn&amp;rsquo;t already taken? No way, I was in that same situation! So I decided to write a C++ program that takes your base name (e.g., &amp;ldquo;cafe&amp;rdquo;) and adds a few numbers. The idea is to generate usernames that, when hashed using SHA256 or KECCAK256 result in strings that contain your base name again!</description>
+    </item>
+  </channel>
+</rss>

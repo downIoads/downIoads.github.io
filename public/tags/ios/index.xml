@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>iOS on Blog for Tech Enjoyers</title>
+    <link>https://example.com/tags/ios/</link>
+    <description>Recent content in iOS on Blog for Tech Enjoyers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 20:00:00 +0200</lastBuildDate>
+    <atom:link href="https://example.com/tags/ios/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to use APNs with Golang and Google Firebase &#43; Firestore</title>
+      <link>https://example.com/posts/golang-firebase-apns/</link>
+      <pubDate>Mon, 01 Jan 2024 20:00:00 +0200</pubDate>
+      <guid>https://example.com/posts/golang-firebase-apns/</guid>
+      <description>Introduction If you are building a SwiftUI app like me, you will probably encounter a situation where you want to be able to send out Push Notifications to your users. Google Firebase offers a free plan (completely free with pretty generous usage) that allows you to do just that. Combined with Google Firestore you even get a small database where you can store device tokens (your users will write their device token to the database by using your app, and you send out notifications to all device tokens).</description>
+    </item>
+  </channel>
+</rss>

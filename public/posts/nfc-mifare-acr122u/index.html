@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>How to authenticate and write data to Mifare Classic 1k using ACS ACR122U - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Write to Mifare Classic 1k using ACR122U." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="How to authenticate and write data to Mifare Classic 1k using ACS ACR122U" />
+<meta property="og:description" content="Write to Mifare Classic 1k using ACR122U." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/nfc-mifare-acr122u/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-23T14:00:23+02:00" />
+<meta property="article:modified_time" content="2023-07-23T14:00:23+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="How to authenticate and write data to Mifare Classic 1k using ACS ACR122U"/>
+<meta name="twitter:description" content="Write to Mifare Classic 1k using ACR122U."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">How to authenticate and write data to Mifare Classic 1k using ACS ACR122U</h1>
+			<div class="meta">Posted on Jul 23, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#goal">Goal</a></li>
+    <li><a href="#setup">Setup</a></li>
+    <li><a href="#lets-get-down-to-business">Let&rsquo;s get down to business</a></li>
+    <li><a href="#c">C++</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="goal">Goal</h2>
+<p>I bought some Mifare Classic 1k tags and all Android/iOS apps I tried (official NXP apps, NFC Tools Pro and Mifare Classic Tool) failed to write data to my tags! Mifare Classic tags are not as straight-forward as e.g. NTAG ones because they are proprietary (they do technically support NDEF, but it&rsquo;s not a compatible as you would like it to be). So to write data to these tags using my ACS ACR122U, I use the Windows Smart Card API to communicate with the NFC reader. Then I use special commands to authenticate the block I want to write data to, and then the data is written. I also added a function to NDEF format the entire card so that it becomes compatible with iOS and Android apps!</p>
+<h2 id="setup">Setup</h2>
+<p>To follow this post, you need:</p>
+<ul>
+<li>ACR122U</li>
+<li>Windows with Visual Studio</li>
+<li>Mifare Classic 1k Tag</li>
+</ul>
+<h2 id="lets-get-down-to-business">Let&rsquo;s get down to business</h2>
+<p>First, make sure that there are no special drivers for the ACR122U installed. If you followed my previous post where we used Zadig to replace the standard CCID driver to use WinUSB instead (requirement for nfcpy), then you need to go to the device manager and &ldquo;Uninstall Device&rdquo; to revert to CCID drivers. This requirement is taken from the ACR122U API documentation (2.2. Smart Reader Interface Overview). The default Windows drivers or the official ACS drivers work fine.</p>
+<p>Now install Visual Studio (I use version 2022) and make sure when installing to also install the &ldquo;Windows 11 SDK (10.0.22621.0)&rdquo; so that you can access the winscard.h header. If you made your project in Visual Studio, make sure to right-click the project in the Solution Explorer, go to &ldquo;Properties -&gt; Linker -&gt; Input&rdquo; and in the field &ldquo;Additional Dependencies&rdquo; add &ldquo;;winscard.lib&rdquo;. If you forget to do this, the compilation will fail. Also make sure to not accidently put &lsquo;winscard.h&rsquo;.</p>
+<p>Then get the code I wrote from my <a href="https://github.com/downIoads/nfc_mifaireClassic_acr122u_winscard/blob/main/main.c">Github repo</a>. To keep this post short, I won&rsquo;t go into many details, but basically the hard-coded byte values are taken from the documentations you need to read to understand what&rsquo;s happening. There are two important documents you should take the time to read:</p>
+<ul>
+<li>ACR122U API documentation (API-ACR122U-2.04.pdf)</li>
+<li>MIFARE Classic EV1 1K Product Sheet (MF1S50YYX_V1.pdf)</li>
+</ul>
+<p>This way, you will understand which blocks are writable and why, what the keys A and B are, what the access conditions are etc. Anyways, here is my C++ code:</p>
+<h2 id="c">C++</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// thanks @gentilkiwi for reviewing my code and providing the base construct for the improved version!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdbool.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;windows.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;winscard.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">_SCARD_DUAL_HANDLE</span> {
+</span></span><span style="display:flex;"><span>	SCARDCONTEXT hContext;
+</span></span><span style="display:flex;"><span>	SCARDHANDLE hCard;
+</span></span><span style="display:flex;"><span>} SCARD_DUAL_HANDLE, <span style="color:#f92672">*</span> PSCARD_DUAL_HANDLE;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// allowed block values for safely writing data (assuming non-magic tag)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> BYTE allowedBlocks[] <span style="color:#f92672">=</span> {  <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x02</span>, <span style="color:#ae81ff">0x04</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0x06</span>, <span style="color:#ae81ff">0x08</span>, <span style="color:#ae81ff">0x09</span>, <span style="color:#ae81ff">0x0A</span>,
+</span></span><span style="display:flex;"><span>								<span style="color:#ae81ff">0x0C</span>, <span style="color:#ae81ff">0x0D</span>, <span style="color:#ae81ff">0x0E</span>, <span style="color:#ae81ff">0x10</span>, <span style="color:#ae81ff">0x11</span>, <span style="color:#ae81ff">0x12</span>, <span style="color:#ae81ff">0x14</span>, <span style="color:#ae81ff">0x15</span>,
+</span></span><span style="display:flex;"><span>								<span style="color:#ae81ff">0x16</span>, <span style="color:#ae81ff">0x18</span>, <span style="color:#ae81ff">0x19</span>, <span style="color:#ae81ff">0x1A</span>, <span style="color:#ae81ff">0x1C</span>, <span style="color:#ae81ff">0x1D</span>, <span style="color:#ae81ff">0x1E</span>, <span style="color:#ae81ff">0x20</span>,
+</span></span><span style="display:flex;"><span>								<span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x22</span>, <span style="color:#ae81ff">0x24</span>, <span style="color:#ae81ff">0x25</span>, <span style="color:#ae81ff">0x26</span>, <span style="color:#ae81ff">0x28</span>, <span style="color:#ae81ff">0x29</span>, <span style="color:#ae81ff">0x2A</span>,
+</span></span><span style="display:flex;"><span>								<span style="color:#ae81ff">0x2C</span>, <span style="color:#ae81ff">0x2D</span>, <span style="color:#ae81ff">0x2E</span>, <span style="color:#ae81ff">0x30</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0x32</span>, <span style="color:#ae81ff">0x34</span>, <span style="color:#ae81ff">0x35</span>,
+</span></span><span style="display:flex;"><span>								<span style="color:#ae81ff">0x36</span>, <span style="color:#ae81ff">0x38</span>, <span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0x3A</span>, <span style="color:#ae81ff">0x3C</span>, <span style="color:#ae81ff">0x3D</span>, <span style="color:#ae81ff">0x3E</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// any block that is not 0x00 or in allBlocks but not in allowedBlocks
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> BYTE dangerousSectorBlocks[] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0x07</span>, <span style="color:#ae81ff">0x0B</span>, <span style="color:#ae81ff">0x0F</span>, <span style="color:#ae81ff">0x13</span>, <span style="color:#ae81ff">0x17</span>, <span style="color:#ae81ff">0x1B</span>, <span style="color:#ae81ff">0x1F</span>,
+</span></span><span style="display:flex;"><span>									   <span style="color:#ae81ff">0x23</span>, <span style="color:#ae81ff">0x27</span>, <span style="color:#ae81ff">0x2B</span>, <span style="color:#ae81ff">0x2F</span>, <span style="color:#ae81ff">0x33</span>, <span style="color:#ae81ff">0x37</span>, <span style="color:#ae81ff">0x3B</span>, <span style="color:#ae81ff">0x3F</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// for dumping entire card (read only)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> BYTE allBlocks[] <span style="color:#f92672">=</span> {  <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x02</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0x04</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0x06</span>, <span style="color:#ae81ff">0x07</span>, 
+</span></span><span style="display:flex;"><span>						    <span style="color:#ae81ff">0x08</span>, <span style="color:#ae81ff">0x09</span>, <span style="color:#ae81ff">0x0A</span>, <span style="color:#ae81ff">0x0B</span>, <span style="color:#ae81ff">0x0C</span>, <span style="color:#ae81ff">0x0D</span>, <span style="color:#ae81ff">0x0E</span>, <span style="color:#ae81ff">0x0F</span>,
+</span></span><span style="display:flex;"><span>							<span style="color:#ae81ff">0x10</span>, <span style="color:#ae81ff">0x11</span>, <span style="color:#ae81ff">0x12</span>, <span style="color:#ae81ff">0x13</span>, <span style="color:#ae81ff">0x14</span>, <span style="color:#ae81ff">0x15</span>, <span style="color:#ae81ff">0x16</span>, <span style="color:#ae81ff">0x17</span>,
+</span></span><span style="display:flex;"><span>							<span style="color:#ae81ff">0x18</span>, <span style="color:#ae81ff">0x19</span>, <span style="color:#ae81ff">0x1A</span>, <span style="color:#ae81ff">0x1B</span>, <span style="color:#ae81ff">0x1C</span>, <span style="color:#ae81ff">0x1D</span>, <span style="color:#ae81ff">0x1E</span>, <span style="color:#ae81ff">0x1F</span>,
+</span></span><span style="display:flex;"><span>							<span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x22</span>, <span style="color:#ae81ff">0x23</span>, <span style="color:#ae81ff">0x24</span>, <span style="color:#ae81ff">0x25</span>, <span style="color:#ae81ff">0x26</span>, <span style="color:#ae81ff">0x27</span>,
+</span></span><span style="display:flex;"><span>							<span style="color:#ae81ff">0x28</span>, <span style="color:#ae81ff">0x29</span>, <span style="color:#ae81ff">0x2A</span>, <span style="color:#ae81ff">0x2B</span>, <span style="color:#ae81ff">0x2C</span>, <span style="color:#ae81ff">0x2D</span>, <span style="color:#ae81ff">0x2E</span>, <span style="color:#ae81ff">0x2F</span>,
+</span></span><span style="display:flex;"><span>							<span style="color:#ae81ff">0x30</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0x32</span>, <span style="color:#ae81ff">0x33</span>, <span style="color:#ae81ff">0x34</span>, <span style="color:#ae81ff">0x35</span>, <span style="color:#ae81ff">0x36</span>, <span style="color:#ae81ff">0x37</span>,
+</span></span><span style="display:flex;"><span>							<span style="color:#ae81ff">0x38</span>, <span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0x3A</span>, <span style="color:#ae81ff">0x3B</span>, <span style="color:#ae81ff">0x3C</span>, <span style="color:#ae81ff">0x3D</span>, <span style="color:#ae81ff">0x3E</span>, <span style="color:#ae81ff">0x3F</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintHex</span>(LPCBYTE pbData, DWORD cbData)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	DWORD i;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> cbData; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;%02x &#34;</span>, pbData[i]);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BOOL <span style="color:#a6e22e">SendRecvReader</span>(PSCARD_DUAL_HANDLE pHandle, <span style="color:#66d9ef">const</span> BYTE<span style="color:#f92672">*</span> pbData, <span style="color:#66d9ef">const</span> UINT16 cbData, BYTE<span style="color:#f92672">*</span> pbResult, UINT16<span style="color:#f92672">*</span> pcbResult)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	BOOL status <span style="color:#f92672">=</span> FALSE;
+</span></span><span style="display:flex;"><span>	DWORD cbRecvLenght <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>pcbResult;
+</span></span><span style="display:flex;"><span>	LONG scStatus;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>	PrintHex(pbData, cbData);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	scStatus <span style="color:#f92672">=</span> SCardTransmit(pHandle<span style="color:#f92672">-&gt;</span>hCard, NULL, pbData, cbData, NULL, pbResult, <span style="color:#f92672">&amp;</span>cbRecvLenght);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (scStatus <span style="color:#f92672">==</span> SCARD_S_SUCCESS)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">*</span>pcbResult <span style="color:#f92672">=</span> (UINT16)cbRecvLenght;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;&lt; &#34;</span>);
+</span></span><span style="display:flex;"><span>		PrintHex(pbResult, <span style="color:#f92672">*</span>pcbResult);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		status <span style="color:#f92672">=</span> TRUE;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span> wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;%08x</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, scStatus);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> status;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>BOOL <span style="color:#a6e22e">OpenReader</span>(LPCWSTR szReaderName, PSCARD_DUAL_HANDLE pHandle)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	BOOL status <span style="color:#f92672">=</span> FALSE;
+</span></span><span style="display:flex;"><span>	LONG scStatus;
+</span></span><span style="display:flex;"><span>	DWORD dwActiveProtocol;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	scStatus <span style="color:#f92672">=</span> SCardEstablishContext(SCARD_SCOPE_SYSTEM, NULL, NULL, <span style="color:#f92672">&amp;</span>pHandle<span style="color:#f92672">-&gt;</span>hContext);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (scStatus <span style="color:#f92672">==</span> SCARD_S_SUCCESS)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		scStatus <span style="color:#f92672">=</span> SCardConnect(pHandle<span style="color:#f92672">-&gt;</span>hContext, szReaderName, SCARD_SHARE_SHARED, SCARD_PROTOCOL_Tx, <span style="color:#f92672">&amp;</span>pHandle<span style="color:#f92672">-&gt;</span>hCard, <span style="color:#f92672">&amp;</span>dwActiveProtocol);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (scStatus <span style="color:#f92672">==</span> SCARD_S_SUCCESS)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			status <span style="color:#f92672">=</span> TRUE;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			SCardReleaseContext(pHandle<span style="color:#f92672">-&gt;</span>hContext);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> status;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">CloseReader</span>(PSCARD_DUAL_HANDLE pHandle)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	SCardDisconnect(pHandle<span style="color:#f92672">-&gt;</span>hCard, SCARD_LEAVE_CARD);
+</span></span><span style="display:flex;"><span>	SCardReleaseContext(pHandle<span style="color:#f92672">-&gt;</span>hContext);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">WriteToTag</span>(<span style="color:#66d9ef">const</span> BYTE<span style="color:#f92672">*</span> Msg, BYTE block, <span style="color:#66d9ef">bool</span> allowUnsafeTargetBlocks) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> allowedBlock <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>allowUnsafeTargetBlocks) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">sizeof</span>(allowedBlocks); <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (allowedBlocks[i] <span style="color:#f92672">==</span> block) {
+</span></span><span style="display:flex;"><span>				allowedBlock <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>allowedBlock) {
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Target block is invalid.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ignore safety and write to given block if true was passed for allowUnsafeTargetBlocks
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		allowedBlock <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	BYTE APDU_Write[<span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xd6</span>, <span style="color:#ae81ff">0x00</span>, block, <span style="color:#ae81ff">0x10</span> };	<span style="color:#75715e">// base command 5 bytes + msg up to 16 bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UINT16 apduWriteBaseLength <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(APDU_Write) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(APDU_Write[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>	memcpy(APDU_Write <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>, Msg, <span style="color:#ae81ff">16</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// use line below for DEFAULT KEY A
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> BYTE APDU_LoadDefaultKey[] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0x82</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x06</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> BYTE APDU_Authenticate_Block[] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0x86</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x00</span>, block, <span style="color:#ae81ff">0x60</span>, <span style="color:#ae81ff">0x00</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	SCARD_DUAL_HANDLE hDual;
+</span></span><span style="display:flex;"><span>	BYTE Buffer[<span style="color:#ae81ff">32</span>];
+</span></span><span style="display:flex;"><span>	UINT16 cbBuffer;	<span style="color:#75715e">// usually will be 2 (e.g. response 90 00 for success)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// preparations are complete
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	printf(<span style="color:#e6db74">&#34;Writing Hex:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (UINT16 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">21</span>; <span style="color:#f92672">++</span>i) {		<span style="color:#75715e">// first few chars are not part of message that will be written so skip printing them
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		printf(<span style="color:#e6db74">&#34;0x%02X &#34;</span>, APDU_Write[i]);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// my Laptop:	&#34;ACS ACR122U PICC Interface 0&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// my PC:		&#34;ACS ACR122 0&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (OpenReader(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;ACS ACR122 0&#34;</span>, <span style="color:#f92672">&amp;</span>hDual))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		cbBuffer <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (SendRecvReader(<span style="color:#f92672">&amp;</span>hDual, APDU_LoadDefaultKey, <span style="color:#66d9ef">sizeof</span>(APDU_LoadDefaultKey), Buffer, <span style="color:#f92672">&amp;</span>cbBuffer))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Default Key A has been loaded.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// make sure this operation was successful, terminate if not
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(Buffer[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x90</span> <span style="color:#f92672">&amp;&amp;</span> Buffer[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x00</span>)) {
+</span></span><span style="display:flex;"><span>			CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Error code received. Aborting..</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>			free(APDU_Write);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		cbBuffer <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (SendRecvReader(<span style="color:#f92672">&amp;</span>hDual, APDU_Authenticate_Block, <span style="color:#66d9ef">sizeof</span>(APDU_Authenticate_Block), Buffer, <span style="color:#f92672">&amp;</span>cbBuffer))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Block has been authenticated.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// make sure this operation was successful, terminate if not
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(Buffer[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x90</span> <span style="color:#f92672">&amp;&amp;</span> Buffer[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x00</span>)) {
+</span></span><span style="display:flex;"><span>			CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Error code received. Aborting..</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>			free(APDU_Write);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		cbBuffer <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (SendRecvReader(<span style="color:#f92672">&amp;</span>hDual, APDU_Write, <span style="color:#ae81ff">23</span>, Buffer, <span style="color:#f92672">&amp;</span>cbBuffer))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Data has successfully been written to the block!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// make sure this operation was successful, terminate if not
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(Buffer[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x90</span> <span style="color:#f92672">&amp;&amp;</span> Buffer[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x00</span>)) {
+</span></span><span style="display:flex;"><span>			CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Error code received. Aborting..</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>			free(APDU_Write);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Failed to find NFC reader.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//free(APDU_Write);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ReadFromTag</span>(BYTE block, <span style="color:#66d9ef">bool</span> dump) {
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> BYTE APDU_Read[] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xb0</span>, <span style="color:#ae81ff">0x00</span>, block, <span style="color:#ae81ff">0x10</span> };	<span style="color:#75715e">// page 16 of ACR122U_APIDriverManual.pdf (reads 16 bytes, and the page number is a coincidence)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UINT16 apduReadLength <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(APDU_Read) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(APDU_Read[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> BYTE APDU_LoadDefaultKey[] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0x82</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x06</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span> };
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> BYTE APDU_Authenticate_Block[] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0x86</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x00</span>, block, <span style="color:#ae81ff">0x60</span>, <span style="color:#ae81ff">0x00</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	SCARD_DUAL_HANDLE hDual;
+</span></span><span style="display:flex;"><span>	BYTE Buffer[<span style="color:#ae81ff">18</span>];    <span style="color:#75715e">// return status (success 90 00 or failure 63 00) takes 2 bytes, received data takes 16 bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UINT16 cbBuffer;	<span style="color:#75715e">// usually will be 2 (e.g. response 90 00 for success)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// my Laptop:	&#34;ACS ACR122U PICC Interface 0&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// my PC:		&#34;ACS ACR122 0&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (OpenReader(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;ACS ACR122 0&#34;</span>, <span style="color:#f92672">&amp;</span>hDual))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		cbBuffer <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (SendRecvReader(<span style="color:#f92672">&amp;</span>hDual, APDU_LoadDefaultKey, <span style="color:#66d9ef">sizeof</span>(APDU_LoadDefaultKey), Buffer, <span style="color:#f92672">&amp;</span>cbBuffer))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Default Key A has been loaded.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// make sure this operation was successful, terminate if not
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(Buffer[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x90</span> <span style="color:#f92672">&amp;&amp;</span> Buffer[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x00</span>)) {
+</span></span><span style="display:flex;"><span>			CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Error code received. Aborting..</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		cbBuffer <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (SendRecvReader(<span style="color:#f92672">&amp;</span>hDual, APDU_Authenticate_Block, <span style="color:#66d9ef">sizeof</span>(APDU_Authenticate_Block), Buffer, <span style="color:#f92672">&amp;</span>cbBuffer))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Block has been authenticated.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// make sure this operation was successful, terminate if not
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(Buffer[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x90</span> <span style="color:#f92672">&amp;&amp;</span> Buffer[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x00</span>)) {
+</span></span><span style="display:flex;"><span>			CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Error code received. Aborting..</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		cbBuffer <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (SendRecvReader(<span style="color:#f92672">&amp;</span>hDual, APDU_Read, apduReadLength, Buffer, <span style="color:#f92672">&amp;</span>cbBuffer))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// PrintHex(Buffer, sizeof(Buffer));
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#75715e">// check for success (here the success code is stored after the data read, so read the last two bytes of the buffer)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(Buffer[<span style="color:#ae81ff">16</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x90</span> <span style="color:#f92672">&amp;&amp;</span> Buffer[<span style="color:#ae81ff">17</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x00</span>)) {
+</span></span><span style="display:flex;"><span>				CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>				wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Error code received. Aborting..</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Failed to read block.&#34;</span>);
+</span></span><span style="display:flex;"><span>			CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// print actual characters in cmd if we are not dumping the full card
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dump) {
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Successfully read block.&#34;</span>);
+</span></span><span style="display:flex;"><span>			wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Trying to print read data in human-readable form:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">16</span>; i<span style="color:#f92672">++</span>) {		<span style="color:#75715e">// any text would have ended with \n so dont read last Byte
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				printf(<span style="color:#e6db74">&#34;%c &#34;</span>, Buffer[i]);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// if dump then write read data to fille
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (dump) {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// open file
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			FILE<span style="color:#f92672">*</span> fp;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">int</span> err <span style="color:#f92672">=</span> fopen_s(<span style="color:#f92672">&amp;</span>fp, <span style="color:#e6db74">&#34;dump.txt&#34;</span>, <span style="color:#e6db74">&#34;a&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (err <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>				printf(<span style="color:#e6db74">&#34;Error opening the file.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>				CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (fp <span style="color:#f92672">!=</span> NULL) {
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// each line of the file should start with block #
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				fprintf(fp, <span style="color:#e6db74">&#34;[%02X] &#34;</span>, block);
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// write from BUFFER (but not last two status bytes)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">16</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>					fprintf(fp, <span style="color:#e6db74">&#34;%02X &#34;</span>, Buffer[i]);
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				fprintf(fp, <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>); <span style="color:#75715e">// newline to prepare for next iteration
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// close file
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				fclose(fp);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				printf(<span style="color:#e6db74">&#34;ERROR: FD is zero. Stopping execution..</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>				CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		CloseReader(<span style="color:#f92672">&amp;</span>hDual);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		wprintf(<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;Failed to find NFC reader.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ResetCardContents</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// empty every writable block
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> BYTE Msg[<span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0x00</span> };
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// get size of global allowedBlocks array (amount of elements)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UINT16 arraySize <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(allowedBlocks) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(allowedBlocks[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (UINT16 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> arraySize; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>		UINT16 status_code <span style="color:#f92672">=</span> WriteToTag(Msg, allowedBlocks[i], false);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (status_code <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>			printf(<span style="color:#e6db74">&#34;Error occured while writing! Terminating.&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Successfully reset card contents.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">DumpCard</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// get size of global allowedBlocks array (amount of elements)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UINT16 arraySize <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(allBlocks) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(allBlocks[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (UINT16 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> arraySize; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>		UINT16 status_code <span style="color:#f92672">=</span> ReadFromTag(allBlocks[i], true);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (status_code <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>			printf(<span style="color:#e6db74">&#34;Error occured while trying to dump card! Terminating.&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// wait between iterations to avoid errors with opening/closing file
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		Sleep(<span style="color:#ae81ff">100</span>);	<span style="color:#75715e">// 100 ms usually works, shorter times can lead to a failed dump
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Successfully dumped card content to dump.txt.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// formats the card for NDEF (only works once because it assumes key A of every sector to be the default one
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// after running this code the mifare classic 1k becomes compatible with almost every modern smartphone!! :)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">FormatNDEF</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// STEP 1: Adjust block 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> BYTE block1msg[<span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0x14</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span> };
+</span></span><span style="display:flex;"><span>	BYTE block1Block <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x01</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> step1Success <span style="color:#f92672">=</span> WriteToTag(block1msg, block1Block, false);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (step1Success <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>		printf(<span style="color:#e6db74">&#34;Error occurred while writing to block 1 of sector 0! Terminating.&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	Sleep(<span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// STEP 2: Adjust block 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> BYTE block2msg[<span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0xE1</span> };
+</span></span><span style="display:flex;"><span>	BYTE block2Block <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x02</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> step2Success <span style="color:#f92672">=</span> WriteToTag(block2msg, block2Block, false);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (step2Success <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>		printf(<span style="color:#e6db74">&#34;Error occurred while writing to block 2 of sector 0! Terminating.&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	Sleep(<span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// STEP 3: Adjust trailer sector 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> BYTE SectorZeroMsg[<span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xA0</span>, <span style="color:#ae81ff">0xA1</span>, <span style="color:#ae81ff">0xA2</span>, <span style="color:#ae81ff">0xA3</span>, <span style="color:#ae81ff">0xA4</span>, <span style="color:#ae81ff">0xA5</span>, <span style="color:#ae81ff">0x78</span>, <span style="color:#ae81ff">0x77</span>, <span style="color:#ae81ff">0x88</span>, <span style="color:#ae81ff">0xC1</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span> };
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// const BYTE SectorZeroMsg[16] = { 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0x78, 0x77, 0x88, 0xC1, 0x89, 0xEC, 0xA9, 0x7F, 0x8C, 0x2A };
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	BYTE SectorZeroBlock <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x03</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> step3Success <span style="color:#f92672">=</span> WriteToTag(SectorZeroMsg, SectorZeroBlock, true);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (step3Success <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>		printf(<span style="color:#e6db74">&#34;Error occurred while writing trailer sector 0! Terminating.&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	Sleep(<span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// STEP 4: Write empty NDEF message to block 0 of sector 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> BYTE NDEFmsg[<span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0xFE</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span> };
+</span></span><span style="display:flex;"><span>	BYTE NDEFmsgBlock <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x04</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> step4Success <span style="color:#f92672">=</span> WriteToTag(NDEFmsg, NDEFmsgBlock, false);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (step4Success <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>		printf(<span style="color:#e6db74">&#34;Error occurred while writing to block 0 of sector 1! Terminating.&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	Sleep(<span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// STEP 5: Adjust trailer sectors of sectors 1-15
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> BYTE Msg[<span style="color:#ae81ff">16</span>] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xD3</span>, <span style="color:#ae81ff">0xF7</span>, <span style="color:#ae81ff">0xD3</span>, <span style="color:#ae81ff">0xF7</span>, <span style="color:#ae81ff">0xD3</span>, <span style="color:#ae81ff">0xF7</span>, <span style="color:#ae81ff">0x7F</span>, <span style="color:#ae81ff">0x07</span>, <span style="color:#ae81ff">0x88</span>, <span style="color:#ae81ff">0x40</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span>, <span style="color:#ae81ff">0xFF</span> };
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// get size of global dangerousSectorBlocks array (amount of elements)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UINT16 arraySize <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(dangerousSectorBlocks) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(dangerousSectorBlocks[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (UINT16 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> arraySize; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>		UINT16 status_code <span style="color:#f92672">=</span> WriteToTag(Msg, dangerousSectorBlocks[i], true);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (status_code <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>			printf(<span style="color:#e6db74">&#34;Error occurred while writing! Terminating.&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// wait between iterations to be safe (might not be required tho)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		Sleep(<span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Successfully NDEF formatted the card.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//const BYTE Msg[16] = { 0x00 };	// empty the given block
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// block 01
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//const BYTE Msg[16] = { 0x14, 0x01, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1 };
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//BYTE block = 0x01;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// block 02
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//const BYTE Msg[16] = { 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1, 0x03, 0xE1 };
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//BYTE block = 0x02;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ----------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// determine size of array now (because you cant do that later on from a pointer)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//UINT16 msgSize = sizeof(Msg) / sizeof(Msg[0]);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// ----------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// choose function to run (uncomment):
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// WriteToTag(Msg, block, false);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// ReadFromTag(block, false);	// true / false (store block content in file dump.txt / dont)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// ResetCardContents();	// only works with default keys / sector trailers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// DumpCard();
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	FormatNDEF();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>I learned a lot about the ACR122U reader, Mifare Classic tags and APDU! I managed to write data to my Mifare Classic 1k tag and to NDEF-format it so that it becomes compatible with mobile devices! In the future, I might write functions that split up long input strings automatically across valid blocks etc. Ideas are endless, only time is short :). If you are interested in NFC topics I recommend checking out the Iceman discord server, it has the brightest minds of RFID and is very helpful and active.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/nfc">nfc</a></li>
+					
+					<li><a href="/tags/c&#43;&#43;">c&#43;&#43;</a></li>
+					
+					<li><a href="/tags/programming">programming</a></li>
+					
+					<li><a href="/tags/mifare">mifare</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>wxwidgets on Blog for Tech Enjoyers</title>
+    <link>https://example.com/tags/wxwidgets/</link>
+    <description>Recent content in wxwidgets on Blog for Tech Enjoyers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 25 Oct 2023 14:00:23 +0200</lastBuildDate>
+    <atom:link href="https://example.com/tags/wxwidgets/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wxwidgets macOS guide to compile universal binaries</title>
+      <link>https://example.com/posts/wxwidget-macos-universal-binary/</link>
+      <pubDate>Wed, 25 Oct 2023 14:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/wxwidget-macos-universal-binary/</guid>
+      <description>Introduction I wanted to publish my wxwidgets project &amp;ldquo;D2R Runeword Calculator&amp;rdquo; which I already blogged about, to the macOS App Store. In order to do this with wxwidgets, you are advised to create statically-linked binaries that run both on x86_64 and arm64. But the instructions in the wxwidgets tutorials are outdated and lack crucial information. It took me a few hours, but I figured out how it can be done on macOS Ventura (13.</description>
+    </item>
+    <item>
+      <title>C&#43;&#43; runeword calculator GUI for Diablo 2 Resurrected</title>
+      <link>https://example.com/posts/d2-runewords/</link>
+      <pubDate>Thu, 27 Jul 2023 22:50:00 +0200</pubDate>
+      <guid>https://example.com/posts/d2-runewords/</guid>
+      <description>Introduction Diablo 2 Resurrected is one of my favorite games of all time, but there are a lot of things you need to remember. There are various online tools (the idea of a runeword calculator is not new), but many of them have a terrible User Interface, are outdated, or are located on slow websites that autoplay Twitch streams when you open them. So I decided to learn how to use wxWidgets by making an assistant GUI tool for my favorite game!</description>
+    </item>
+  </channel>
+</rss>

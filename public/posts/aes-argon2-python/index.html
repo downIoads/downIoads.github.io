@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Encrypt data using Argon2 and AES-GCM-256 in Python - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Simple Python script that let&#39;s you safely encrypt data." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Encrypt data using Argon2 and AES-GCM-256 in Python" />
+<meta property="og:description" content="Simple Python script that let&#39;s you safely encrypt data." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/aes-argon2-python/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-08-10T08:00:23+02:00" />
+<meta property="article:modified_time" content="2023-08-10T08:00:23+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Encrypt data using Argon2 and AES-GCM-256 in Python"/>
+<meta name="twitter:description" content="Simple Python script that let&#39;s you safely encrypt data."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">Encrypt data using Argon2 and AES-GCM-256 in Python</h1>
+			<div class="meta">Posted on Aug 10, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#python">Python</a></li>
+    <li><a href="#some-notes-from-my-readme">Some notes from my readme</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>I have bought insecure Mifare Classic 1k cards (Crypto-1 is broken and should not be used), so the only way to securely store data on these cards is with a tamperproof, modern encryption algorithm. So I decided to learn some basics and write a simple Python script that allows me to do this. AES-GCM was chosen because it features tags that are used to determine whether encrypted data was tempered with or not.</p>
+<h2 id="python">Python</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#75715e"># argon2 (pip install argon2-cffi==21.3.0)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> argon2 <span style="color:#f92672">import</span> extract_parameters, low_level, Type
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># pycryptodome (pip install pycryptodome==3.18.0)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> Crypto.Cipher <span style="color:#f92672">import</span> AES
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># invisible user input</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> getpass <span style="color:#f92672">import</span> getpass
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">GetArgonHash</span>(masterPassword, customSalt):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># get argon2 hash (dangerous low_level needed to use custom salt!), hash_len 23 for AES256</span>
+</span></span><span style="display:flex;"><span>    hash <span style="color:#f92672">=</span> low_level<span style="color:#f92672">.</span>hash_secret(secret<span style="color:#f92672">=</span>masterPassword, salt<span style="color:#f92672">=</span>customSalt, time_cost<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, memory_cost<span style="color:#f92672">=</span><span style="color:#ae81ff">65536</span>, parallelism<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, hash_len<span style="color:#f92672">=</span><span style="color:#ae81ff">23</span>, type<span style="color:#f92672">=</span>Type<span style="color:#f92672">.</span>ID, version<span style="color:#f92672">=</span><span style="color:#ae81ff">19</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># type ID means e.g. Argon2id (which is a hybrid of Argon2i and Argon2d)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># timecost means iteration amount</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># cast hash from bytes to string</span>
+</span></span><span style="display:flex;"><span>    hash <span style="color:#f92672">=</span> hash<span style="color:#f92672">.</span>decode()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># extract password</span>
+</span></span><span style="display:flex;"><span>    argonPassword <span style="color:#f92672">=</span> hash<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;$&#39;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># fix padding (must be multiple of 4 chars) by adding required amount of =</span>
+</span></span><span style="display:flex;"><span>    paddingAmount <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">-</span> (len(argonPassword) <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>    argonPassword <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;=&#34;</span> <span style="color:#f92672">*</span> paddingAmount
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># convert it back to bytes</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> argonPassword<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># AES-GCM-256</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">AES_Encrypt</span>(encryptionPassword, customSalt, data):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># encryptionPassword length is 16 = AES128, 32 = AES256</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># nonce is a byte string that must never be reused for any other encryption done with this key, recommended length 16 bytes</span>
+</span></span><span style="display:flex;"><span>    cipher <span style="color:#f92672">=</span> AES<span style="color:#f92672">.</span>new(key<span style="color:#f92672">=</span>encryptionPassword, mode<span style="color:#f92672">=</span>AES<span style="color:#f92672">.</span>MODE_GCM, nonce<span style="color:#f92672">=</span>customSalt)
+</span></span><span style="display:flex;"><span>    ciphertext, tag <span style="color:#f92672">=</span> cipher<span style="color:#f92672">.</span>encrypt_and_digest(data)   <span style="color:#75715e"># tag will be used in decryption to ensure that data has not been tampered with</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Write these two values down, they are required for decryption and authenticity checking:&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Tag:&#34;</span>, tag<span style="color:#f92672">.</span>hex())
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Encrypted data:&#34;</span>, ciphertext<span style="color:#f92672">.</span>hex())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ciphertext, tag
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">AES_Decrypt</span>():
+</span></span><span style="display:flex;"><span>    masterPassword <span style="color:#f92672">=</span> getpass(<span style="color:#e6db74">&#34;Enter password: &#34;</span>)<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>    customSalt <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Enter salt hex in capslock without spaces (e.g. AABBCCDDEEFFAABBCCDDEEFFAABBCCDD): &#34;</span>)<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>    tag <span style="color:#f92672">=</span> bytes<span style="color:#f92672">.</span>fromhex(input(<span style="color:#e6db74">&#34;Enter tag hex: &#34;</span>))
+</span></span><span style="display:flex;"><span>    ciphertext <span style="color:#f92672">=</span> bytes<span style="color:#f92672">.</span>fromhex(input(<span style="color:#e6db74">&#34;Enter encrypted message hex: &#34;</span>))
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># reconstruct argon2 hash</span>
+</span></span><span style="display:flex;"><span>    encryptionPassword <span style="color:#f92672">=</span> GetArgonHash(masterPassword, customSalt)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># decrypt data</span>
+</span></span><span style="display:flex;"><span>    cipher <span style="color:#f92672">=</span> AES<span style="color:#f92672">.</span>new(key<span style="color:#f92672">=</span>encryptionPassword, mode<span style="color:#f92672">=</span>AES<span style="color:#f92672">.</span>MODE_GCM, nonce<span style="color:#f92672">=</span>customSalt)
+</span></span><span style="display:flex;"><span>    plaintext <span style="color:#f92672">=</span> cipher<span style="color:#f92672">.</span>decrypt(ciphertext)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ensure data has not been tampered with</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        cipher<span style="color:#f92672">.</span>verify(tag)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Authenticity of message has successfully been verfied.&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ValueError</span>:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Data has been tampered with! Decryption failed.&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># print decrypted data (as string)</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Decrypted data:&#34;</span>, plaintext<span style="color:#f92672">.</span>decode(encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">EncryptMain</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># collect user inputs</span>
+</span></span><span style="display:flex;"><span>    masterPassword <span style="color:#f92672">=</span> getpass(<span style="color:#e6db74">&#34;Enter password: &#34;</span>)<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (len(masterPassword) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>): <span style="color:#75715e"># &lt; 10 to enforce decent password length (TODO: enfore more rules such as lower/upper/specialchar/number etc)</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;ERROR: Password is too weak.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Exiting..&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    masterPasswordConfirm <span style="color:#f92672">=</span> getpass(<span style="color:#e6db74">&#34;Confirm password: &#34;</span>)<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (masterPassword <span style="color:#f92672">!=</span> masterPasswordConfirm):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;ERROR: Passwords do not match.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Exiting..&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    customSalt <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Enter block 0 of target tag as capslock hex without spaces (e.g. AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP): &#34;</span>)<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (len(customSalt) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">32</span>): <span style="color:#75715e"># != 32 length of mifare classic block 0 (hex, no spaces) that will store data</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;ERROR: Custom salt does not have required length.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Exiting..&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    customSaltConfirm <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;Confirm block 0: &#34;</span>)<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (customSalt <span style="color:#f92672">!=</span> customSaltConfirm):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;ERROR: Blocks 0 do not match.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Exiting..&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Enter data to encrypt: &#34;</span>)<span style="color:#f92672">.</span>encode()
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Prepare encryption</span>
+</span></span><span style="display:flex;"><span>    encryptionPassword <span style="color:#f92672">=</span> GetArgonHash(masterPassword, customSalt)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Encrypt</span>
+</span></span><span style="display:flex;"><span>    ciphertext, tag <span style="color:#f92672">=</span> AES_Encrypt(encryptionPassword, customSalt, data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">DecryptMain</span>():
+</span></span><span style="display:flex;"><span>    AES_Decrypt()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>EncryptMain()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># DecryptMain()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Usage (just comment the one you currently do not need out):
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">1. EncryptMain() -&gt; write down encrypted data and tag
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">2. DecryptMain() -&gt; enter requested data
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">3. Write encrypted data to the mifare classic that has the block0 that you used as salt, write the tag on the card itself (with a pen) + info whats stored in the card
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</span></span></code></pre></div><h2 id="some-notes-from-my-readme">Some notes from my readme</h2>
+<p>What this script does is that the master password is hashed using argon2 to make rainbow table attacks slower. A static salt is used for argon2 because otherwise I would have to store the salt somewhere. Instead, the idea is to store the encrypted data on an NFC tag with a UID that can&rsquo;t be changed, and the UID will be the argon2 salt of the encrypted data it holds. Then argon2 gives a 32byte password which is used for AES-GCM-256 encryption (static nonce which is equal to the salt used in argon2. Let me know if this can be problematic security-wise, I don&rsquo;t really care right now because this was just for learning). The algorithm spits outs two values:</p>
+<ol>
+<li>Encrypted message</li>
+<li>Tag</li>
+</ol>
+<p>The encrypted message will be written to a Mifare Classic 1k tag, which has the UID that was used as salt/nonce. The tag itself will physically be written on the tag along with a description of which data the tag contains, so that I don&rsquo;t have to remember it. If your master password is strong, you should be able to give someone your tag, explain what you did, show your source code, answer any questions (except for revealing the master password) and still be sure that the data won&rsquo;t be decrypted any time soon (that was the goal anyway, maybe next week someone breaks argon2 or AES GCM). The reason for this project is that I have a bunch of Mifare Classic 1k cards which broken encryption, so the only way to safely store data is to encrypt it before it is written on the card. The card is not tamperproof which is why AES-GCM was chosen. The tag written on the NFC chip is there to authenticate the authenticity of the encrypted data. It&rsquo;s a pretty cool feature of the GCM mode. Using custom salts in argon2 and non-random nonces in AES becomes problematic as soon as you encrypt multiple pieces of data with these values and the same password. That&rsquo;s why per NFC tag (so per UID which is the salt/nonce) you should only encrypt data exactly once, then never re-use that salt/tag in combination with your master password ever again. This can be relevant because 4 byte UID is prone to collisions, so you might accidentally have bought Chinese cards with the same UID.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This script allows me to safely store data on outdated NFC tags. I am currently looking to get my hands on newer tags like the Ultralight AES or the DESFire EV3 to play around with the encryption that the tags themselves support.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/python">python</a></li>
+					
+					<li><a href="/tags/programming">programming</a></li>
+					
+					<li><a href="/tags/encryption">encryption</a></li>
+					
+					<li><a href="/tags/cryptography">cryptography</a></li>
+					
+					<li><a href="/tags/mifare">mifare</a></li>
+					
+					<li><a href="/tags/nfc">nfc</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

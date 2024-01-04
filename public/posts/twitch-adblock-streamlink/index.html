@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Blocking Twitch Ads by piping the stream to VLC - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Your browser&#39;s ad blocker is not working on Twitch? Read this." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Blocking Twitch Ads by piping the stream to VLC" />
+<meta property="og:description" content="Your browser&#39;s ad blocker is not working on Twitch? Read this." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/twitch-adblock-streamlink/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-14T08:00:23+02:00" />
+<meta property="article:modified_time" content="2023-10-14T08:00:23+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Blocking Twitch Ads by piping the stream to VLC"/>
+<meta name="twitter:description" content="Your browser&#39;s ad blocker is not working on Twitch? Read this."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">Blocking Twitch Ads by piping the stream to VLC</h1>
+			<div class="meta">Posted on Oct 14, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#setup">Setup</a>
+      <ul>
+        <li><a href="#streamlink">Streamlink</a></li>
+        <li><a href="#yt-dlp">Yt-dlp</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>Twitch keeps changing their backend, and it recently became more difficult to block ads. A few years ago, any ad blocker seemed to work just fine. Then they changed their code, and uBlock Origin, Adblock Plus, etc. all fail to remove ads. While there are still browser plugins that promise to block Twitch ads, many of them are potentially shady, as they route your traffic over some proxy server that does who-knows-what. Since I don&rsquo;t like routing my traffic over shady servers and I want to avoid testing browser extensions that have way too many privileges, I tried to find a different approach. In this post, I will talk about two approaches:</p>
+<ul>
+<li><a href="https://github.com/streamlink/streamlink">Streamlink</a>, which is an excellent tool for routing a stream to a video player you have installed locally. It supports plugins, and there are <a href="https://streamlink.github.io/plugins.html#twitch">many plugins</a> available</li>
+<li><a href="https://github.com/yt-dlp/yt-dlp">Yt-dlp</a>, which is a better version of the well-known youtube-dl.</li>
+</ul>
+<h2 id="setup">Setup</h2>
+<p>Install VLC and add it to your path. This just looks better than having to type out the full path to the VLC executable in the commands later.</p>
+<h3 id="streamlink">Streamlink</h3>
+<p>The setup on Windows is simple: install the required Python version, download the binary for your version, add VLC to the path, and then just use the following command in the terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>streamlink.exe -p vlc &lt;twitch-channel-url&gt; best --twitch-disable-ads
+</span></span></code></pre></div><p>This will automatically open VLC with the Twitch stream playing at the highest quality. The last parameter &ldquo;&ndash;twitch-disable-ads&rdquo; is taken from the Twitch Plugin documentation and sadly does not work as it should: while an ad is playing, the stream stops (frame freezes) and only continues after the ad is over (you don&rsquo;t see or hear anything of the ad). The same behavior happens if you don&rsquo;t use the &ldquo;&ndash;twitch-disable-ads&rdquo; flag. The only difference here is that the frozen frame shown is not the last frame of the stream you are watching, but instead the Twitch banner shown below:</p>
+<p><img src="/images/twitch-stream-adblocking.png" alt="targets" title="Screenshot"></p>
+<p>Okay, but why does the &ldquo;&ndash;twitch-disable-ads&rdquo; flag not work as expected? I did read in the documentation that VLC is not a recommended video player because of how it handles stream discontinuities. If you look at the CMD output during an ad, it will show:</p>
+<p><img src="/images/streamlink-adblock-error.png" alt="targets" title="Screenshot"></p>
+<p>If you read through the <a href="https://streamlink.github.io/cli/plugins/twitch.html#embedded-ads">Twitch Plugin Documentation</a>, you will notice that the authors mention this problem. While VLC did not crash for me, there were stream discontinuity warnings shown in the command line. But using a different player than VLC will not fix this issue, the authors of the documentation write: &ldquo;Unfortunately, entirely preventing embedded ads is not possible unless a loophole on Twitch gets discovered which can be exploited. This has been the case a couple of times now and ad-workarounds have been implemented in Streamlink (see #3210) and various ad-blockers, but the solutions did only last for a couple of weeks or even days until Twitch patched these exploits.&rdquo;</p>
+<p>The only hope seems to be to set special API request headers using the &ldquo;&ndash;twitch-access-token-param&rdquo; flag that might or might not prevent embedded ads. However, even if you find a value that works, it is likely that Twitch will patch the workaround shortly after. Since my goal was to not be annoyed by repetitive ads, I am happy with the current solution of having an automatically paused stream.</p>
+<h3 id="yt-dlp">Yt-dlp</h3>
+<p>I already had this tool on my machine, so after you download it just open a CMD in the folder where yt-dlp.exe lives and run the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>yt-dlp.exe --get-url <span style="color:#e6db74">&#34;https://www.twitch.tv/mission_anime&#34;</span> | vlc -
+</span></span></code></pre></div><p>This stream behaves almost the same as Streamlink without &ldquo;&ndash;twitch-disable-ads&rdquo;. When there is an ad break, you will see the following:</p>
+<p><img src="/images/yt-dlp-twitch.png" alt="targets" title="Screenshot"></p>
+<p>The difference to before is that now this image has an animated background (who cares), but there also is a countdown bottom-right which shows how long the current ad would take. But it turns out that this is useless, because it does not tell you how many ads you would get in a row. So it might go up to 15 seconds three times, which means that even with the countdown you have no idea how long the ad break will take. Sound is muted just like before.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Yt-dlp and streamlink are both good tools for using locally installed video players like VLC instead of having to visit bloated streaming websites. While they do allow you to mute ads (by stopping the video and silencing audio), Twitch does all it can to make it difficult to remove embedded ads. If you truly care about an ad-free Twitch experience, subscribing to Twitch Nitro or using your monthly Twitch Prime (assuming you have Amazon Prime) on your favorite channel  is the easiest and most boring solution. I do think that this post is now more relevant than ever, because Youtube <a href="https://www.ghacks.net/2023/10/10/youtube-is-cracking-down-on-ad-blockers-more-aggressively-heres-how-to-bypass-it/">recently started taking a more aggressive stance in detecting ad blockers&hellip;</a></p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/windows">windows</a></li>
+					
+					<li><a href="/tags/tutorial">tutorial</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

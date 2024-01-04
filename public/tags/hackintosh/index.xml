@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hackintosh on Blog for Tech Enjoyers</title>
+    <link>https://example.com/tags/hackintosh/</link>
+    <description>Recent content in hackintosh on Blog for Tech Enjoyers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 24 Oct 2023 08:00:23 +0200</lastBuildDate>
+    <atom:link href="https://example.com/tags/hackintosh/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hackintosh #3: Running Sonoma on XPS 9370 (i7 8550u - 4k display)</title>
+      <link>https://example.com/posts/hackintosh-xps9370/</link>
+      <pubDate>Tue, 24 Oct 2023 08:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/hackintosh-xps9370/</guid>
+      <description>Introduction macOS Sonoma is the newest macOS version (which always is a challenge for Hackintosh) and installing it on an older laptop is an extra challenge. In this post I will talk about how I successfully hackintoshed the XPS 9370. Note that currently online installers do not work for Sonoma, so you require an Apple machine or a Hackintosh to create an offline installer (first you create a FAT32 partition called EFI (Size around 200MB), then you make an Mac OS Extended (Journaled) partition called MyVolume, then you follow this Apple guide).</description>
+    </item>
+    <item>
+      <title>Hackintosh #2: Running Ventura using Haswell CPU and a spoofed AMD RX 6650 XT</title>
+      <link>https://example.com/posts/hackintosh-ventura-rx6650xt/</link>
+      <pubDate>Tue, 10 Oct 2023 08:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/hackintosh-ventura-rx6650xt/</guid>
+      <description>Introduction In my previous post, I wrote about how I used the following hardware to run Monterey (an older macOS version):&#xA;Intel i5 4400 (Haswell) MSI B85-G41 Intel AX210 BT/Wi-Fi As you can see, this build did not have a dGPU. For this reason, I bought an AMD RX 6650 XT and added it to this computer. This GPU officially is not supported either (so it would have been easier to get an AMD RX 6600 instead), but you can do GPU ID spoofing to make it work.</description>
+    </item>
+    <item>
+      <title>Hackintosh in 2023</title>
+      <link>https://example.com/posts/hackintosh-project1/</link>
+      <pubDate>Mon, 02 Oct 2023 08:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/hackintosh-project1/</guid>
+      <description>Introduction I always enjoy testing different tech-related things, such as different OSes. Having used Windows, Linux, iOS and Android, I thought it was about time I tried macOS for the first time. I prefer not to be trapped within Apple&amp;rsquo;s walled garden, so instead of purchasing a Mac, I tried to give new life to old hardware I still had laying around. In the context of Hackintosh, it is important to know which hardware is supported for what.</description>
+    </item>
+  </channel>
+</rss>

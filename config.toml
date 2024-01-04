@@ -1,0 +1,28 @@
+baseURL = 'https://example.com/'
+languageCode = 'en-us'
+title = 'Blog for Tech Enjoyers'
+theme = 'archie'
+pygmentsstyle = "monokai"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+paginate = 8
+
+[params]
+	favicon ="https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png"
+	mode="toggle"
+	useCDN=true
+
+[[menu.main]]
+name = "Posts"
+url = "/posts"
+weight = 1
+
+[[menu.main]]
+name = "About"
+url = "/about"
+weight = 2
+
+[[menu.main]]
+name = "Tags"
+url = "/tags"
+weight = 3

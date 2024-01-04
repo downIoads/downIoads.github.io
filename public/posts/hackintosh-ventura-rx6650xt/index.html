@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Hackintosh #2: Running Ventura using Haswell CPU and a spoofed AMD RX 6650 XT - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Quick rundown of my second Hackintosh setup and what I learned in the process." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Hackintosh #2: Running Ventura using Haswell CPU and a spoofed AMD RX 6650 XT" />
+<meta property="og:description" content="Quick rundown of my second Hackintosh setup and what I learned in the process." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/hackintosh-ventura-rx6650xt/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-10T08:00:23+02:00" />
+<meta property="article:modified_time" content="2023-10-10T08:00:23+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Hackintosh #2: Running Ventura using Haswell CPU and a spoofed AMD RX 6650 XT"/>
+<meta name="twitter:description" content="Quick rundown of my second Hackintosh setup and what I learned in the process."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">Hackintosh #2: Running Ventura using Haswell CPU and a spoofed AMD RX 6650 XT</h1>
+			<div class="meta">Posted on Oct 10, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#setup-struggles-and-tips">Setup struggles and tips</a></li>
+    <li><a href="#overview-of-acpi-drivers-and-kext">Overview of ACPI, Drivers and Kext</a>
+      <ul>
+        <li><a href="#acpi">ACPI</a></li>
+        <li><a href="#drivers">Drivers</a></li>
+        <li><a href="#kexts">Kexts</a></li>
+      </ul>
+    </li>
+    <li><a href="#short-macos-shortcut-rant">Short MacOS shortcut rant</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>In my <a href="https://example.com/posts/hackintosh-project1/">previous post</a>, I wrote about how I used the following hardware to run Monterey (an older macOS version):</p>
+<ul>
+<li>Intel i5 4400 (Haswell)</li>
+<li>MSI B85-G41</li>
+<li>Intel AX210 BT/Wi-Fi</li>
+</ul>
+<p>As you can see, this build did not have a dGPU. For this reason, I bought an AMD RX 6650 XT and added it to this computer. This GPU officially is not supported either (so it would have been easier to get an AMD RX 6600 instead), but you can do GPU ID spoofing to make it work. I preferred the 6650 XT over the 6600 because in my country both GPUs currently are very cheap, and these two models had the same price! The 6650 XT is slightly more powerful and allows me to learn how GPU spoofing works, so the decision was easy.</p>
+<h2 id="setup-struggles-and-tips">Setup struggles and tips</h2>
+<p>The main difficulty for me was determining the PCIE path of the GPU (it needs to be defined in ACPI) and compiling the SSDT-BRG0.aml correctly so that the GPU can be found. Assuming you have a macOS installation (without detected GPU), the correct approach is to use <a href="https://github.com/acidanthera/gfxutil">Gfxutil</a> to get the GPU device path. Then you pipe this path into <a href="https://github.com/corpnewt/SSDTTime">SSDTTime</a>&rsquo;s PCI Bridge function along with the system DSDT, and it will generate any needed bridges for you. Later for spoofing, you need to know how to edit the config.plist (EF730000 stands for RX 6650 XT, so you spoof it to FF730000 which stands for RX 6600 which is officially supported).</p>
+<p>The reason why I struggled is that I tried to follow this <a href="https://dortania.github.io/Getting-Started-With-ACPI/Universal/spoof.html">Dortania guide</a> when I should have followed these more <a href="https://www.tonymacx86.com/threads/success-amd-rx6000-series-working-in-macos.306736/post-2299282">up-to-date instructions</a> by user @tedyun. The two files from these two approaches are slightly different, and I found the latter easier to follow thanks to the several screenshots that tedyun provided. This finally allowed my GPU to be recognized, which greatly increased the performance (when transparency starts working and everything is smooth, you know you did something correctly) of my machine.</p>
+<p>Another difficulty for me was that my original plan was to install Sonoma instead of Ventura. But Sonoma kept rebooting into the BIOS as soon as the GUI for the macOS installer tried to open. When I tried Ventura, it did allow me to install it (even though at that time there still were many problems with my setup that I later fixed). So my idea was if Sonoma won&rsquo;t let me install, then just install Ventura and then in Ventura do the upgrade to Sonoma. But Ventura ended up working so well that I did not bother with Sonoma yet (maybe there will be a third blog post about this). As long as I can use the newest Xcode version and target the latest iOS versions, I am happy, and Ventura currently allows me to do just that.</p>
+<p>I also noticed that my EFI partition was gone (I upgrade from Monterey to Ventura instead of doing a clean install). So I ended up using the built-in Disk Partition tool to shrink the current partition (while it&rsquo;s running, pretty cool that this even works) by a few hundred MB to have space for an MS-DOS (FAT) partition. Then just put the EFI folder in there, and you don&rsquo;t need a USB stick to boot anymore! In OpenCore boot selection just Ctrl+Enter the boot entry that should be default and in the config.plist remove -v to get the nice Apple boot logo and reduce OC timeout from 5 to like 2 seconds for a faster boot.</p>
+<p>Last but not least, I initially struggled to find out which SMBIOS to target. Especially with Haswell this is complicated, because technically Haswell iGPU is only supported up to Monterey and not beyond that. But with the AMD GPU I can disable the iGPU of the CPU and only use the dGPU. So there ended up being slightly misleading and conflicting information about this specific setup in the Dortania guide, but in the end the best play is to go for MacPro7,1. And I can confirm this runs perfectly stable, but I still like to avoid things like sleep mode, which always can be problematic. Also don&rsquo;t forget to read through <a href="https://github.com/acidanthera/WhateverGreen/blob/master/Manual/FAQ.IntelHD.en.md">WhateverGreen</a>&rsquo;s repo so that you know how to switch the Haswell iGPU to headless mode (you need to put AAPL,ig-platform-id 04001204) since it is not supported in the newest macOS versions.</p>
+<h2 id="overview-of-acpi-drivers-and-kext">Overview of ACPI, Drivers and Kext</h2>
+<p>After trying lots of different things, the following setup ended up working best for me:</p>
+<h3 id="acpi">ACPI</h3>
+<ul>
+<li>SSDT-BRG0.aml (creating this was difficult)</li>
+<li>SSDT-Bridge.aml (creating this was difficult too)</li>
+<li>SSDT-EC-DESKTOP.aml</li>
+<li>SSDT-PLUG-DRTNIA.aml</li>
+</ul>
+<h3 id="drivers">Drivers</h3>
+<ul>
+<li>HfsPlus.efi</li>
+<li>OpenRuntime.efi</li>
+</ul>
+<h3 id="kexts">Kexts</h3>
+<ul>
+<li>AirportItlwm.kext (v2.3.0-alpha was released today and is the first version that made Wi-Fi and Bluetooth work for me on Ventura)</li>
+<li>AppleALC.kext</li>
+<li>BlueToolFixup.kext</li>
+<li>IntelBluetoothFirmware.kext</li>
+<li>IntelBTPatcher.kext</li>
+<li>Lilu.kext</li>
+<li>RadeonSensor.kext</li>
+<li>RealtekRTL8111.kext</li>
+<li>SMCProcessor.kext</li>
+<li>SMCRadeonGPU.kext</li>
+<li>SMCSuperIO.kext</li>
+<li>USBToolBox.kext (you have to do your own port mapping)</li>
+<li>UTBMap.kext</li>
+<li>VirtualSMC.kext</li>
+<li>WhateverGreen.kext</li>
+</ul>
+<p>Generally, try to get the newest version unless there is a specific reason why you should not.</p>
+<h2 id="short-macos-shortcut-rant">Short MacOS shortcut rant</h2>
+<p>I generally like macOS a lot, but I disagree with trying to re-invent the keyboard and common shortcuts. The equivalent of Windows Alt+Tab on macOS is Ctrl+Tab. The equivalent of Windows Ctrl+X on macOS is Ctrl+C and then Ctrl+Alt+V. Instead of cancelling a process in the terminal with Ctrl+C you have to use Ctrl+. in zsh. Instead of pressing the Windows key to get a search, you have to do Ctrl+Space in macOS. This list could go on and on, I really have to re-learn my muscle memory. :)</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I am glad that I went for the RX 6650 XT instead of the RX 6600 because in the process I learned a lot more about various tools and techniques in the Hackintosh scene. Wi-Fi and Bluetooth are working, Sound is working, Xcode 15 is able to install a hello world app on my iPhone&hellip; I am very happy with this setup! It was frustrating for a few hours, but I managed to get the GPU recognized and hardware acceleration working before going to bed on the same day. Thanks to @corpnewt for patiently supporting me and answering my questions on Discord!</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/hackintosh">hackintosh</a></li>
+					
+					<li><a href="/tags/macos">macos</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

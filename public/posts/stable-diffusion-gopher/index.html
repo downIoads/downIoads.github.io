@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Using Stable Diffusion as Discord Emote Generator - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Short introduction to Stable Diffusion and example pictures." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Using Stable Diffusion as Discord Emote Generator" />
+<meta property="og:description" content="Short introduction to Stable Diffusion and example pictures." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/stable-diffusion-gopher/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-20T22:50:00+02:00" />
+<meta property="article:modified_time" content="2023-10-20T22:50:00+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Using Stable Diffusion as Discord Emote Generator"/>
+<meta name="twitter:description" content="Short introduction to Stable Diffusion and example pictures."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">Using Stable Diffusion as Discord Emote Generator</h1>
+			<div class="meta">Posted on Oct 20, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#generating-discord-emote">Generating Discord Emote</a></li>
+    <li><a href="#examples-prompts-and-images">Examples prompts and images</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>Stable Diffusion is an open-source deep learning text-to-image model that does not have any filters and works offline. There are a few controversies around it (e.g., it has been trained on copyrighted artwork but gives the user of Stable Diffusion the rights to all images it spits out, and it does not have filters and can be used to create all sorts of weird content). It works offline and poses a threat to existing businesses that sell AI-generated images (e.g., OpenAI&rsquo;s closed-source DALLE-3). It is harder to use than, e.g., DALL-E because there are a lot of settings to adjust, which makes it highly customizable but also harder to use. I recently tried using Stable Diffusion again because <a href="https://developer.nvidia.com/blog/unlock-faster-image-generation-in-stable-diffusion-web-ui-with-nvidia-tensorrt/">NVIDIA published new Game Ready drivers for their RTX GPUs, which greatly increases Stable Diffusion&rsquo;s performance</a>.</p>
+<p>The most accessible version of Stable Diffusion is the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui">Github repo of AUTOMATIC1111</a> which already has more than 100k stars (which makes it the most popular Github repository I have ever seen). Installing it on Windows is very simple and does not require any further knowledge.</p>
+<h2 id="generating-discord-emote">Generating Discord Emote</h2>
+<p>The unofficial Golang Programming Discord server lacks an <a href="https://knowyourmeme.com/memes/ackchyually-actually-guy">&ldquo;Ackchyually&rdquo;</a> Gopher emote, so I thought trying to use Stable Diffusion to create such an emote could work. A Gopher is the mascot of the Golang programming language, and <a href="https://www.svgrepo.com/show/373635/go-gopher.svg">this is what a Gopher looks like</a>. The requirements are the following:</p>
+<ul>
+<li>It looks like a blue gopher (a gopher is also a rat animal)</li>
+<li>It wears glasses (the Ackchyually meme is based on someone being extra nerdy and knowledgeable, glasses seem like a good cliché)</li>
+<li>It should be a bit annoying to look at (you are supposed to use the emote when someone is technically right but annoying)</li>
+</ul>
+<p>Below, you can see a screenshot of the Stable Diffusion WebUI:</p>
+<p><img src="/images/gopher-stable-diffusion/stable-diffusion-ui.png" alt="targets" title="Stable Diffusion WebUI"></p>
+<p>There are lots of different sampling methods to choose from, so far, my favorite has been &ldquo;Euler a&rdquo;. It depends on the usecase, but for generating Gopher-like emotes, this one worked the best for me and was fairly consistent (it heavily depends on the prompt). Creating a prompt that works is just trial-and-error; there are people who pretend that writing good prompts should be a paid job. I disagree with this, as currently these text-to-image models are blackboxes that no one fully understands. It&rsquo;s ridiculous to pretend to be an expert at generating good images. While it is true that the prompt itself (and other settings) affect the resulting images, there is no proven &ldquo;correct&rdquo; way to write prompts. Anyone gets better by trial-and-error, and I don&rsquo;t think anyone should call themselves &ldquo;professional prompt engineers&rdquo;. It seems like a pseudoscience to me.</p>
+<h2 id="examples-prompts-and-images">Examples prompts and images</h2>
+<ul>
+<li>Prompt: blue rat, two long front teeth, cute painting, nerd wearing human glasses, face closeup</li>
+<li>Settings: Steps: 30, Sampler: Euler a, CFG scale: 10, Seed: 1643617518, Size: 512x512, Model hash: 6ce0161689, Model: v1-5-pruned-emaonly, Version: v1.6.0</li>
+</ul>
+<p><img src="/images/gopher-stable-diffusion/akshually1.png" alt="targets" title="First gopher"></p>
+<hr>
+<ul>
+<li>Prompt: blue rat, two long front teeth, cute painting, nerd wearing human glasses, face closeup</li>
+<li>Settings: Steps: 30, Sampler: Euler a, CFG scale: 10, Seed: 1604019645, Size: 512x512, Model hash: 6ce0161689, Model: v1-5-pruned-emaonly, Version: v1.6.0</li>
+</ul>
+<p><img src="/images/gopher-stable-diffusion/akshually2.png" alt="targets" title="Second gopher"></p>
+<hr>
+<ul>
+<li>Prompt: blue rat, painting drawn by claude monet, nerd wearing human glasses, face closeup, scruffy and unkept</li>
+<li>Settings: Steps: 36, Sampler: Euler a, CFG scale: 11, Seed: 1228714833, Size: 512x512, Model hash: 6ce0161689, Model: v1-5-pruned-emaonly, Version: v1.6.0</li>
+</ul>
+<p><img src="/images/gopher-stable-diffusion/corpa-gopher.png" alt="targets" title="Corpa gopher"></p>
+<hr>
+<ul>
+<li>Prompt: two long front teeth blue rat, visible, blue sharpie drawing, nerd wearing human glasses, face closeup</li>
+<li>Settings: Steps: 30, Sampler: Euler a, CFG scale: 12, Seed: 3241088859, Size: 512x512, Model hash: 6ce0161689, Model: v1-5-pruned-emaonly, Version: v1.6.0</li>
+</ul>
+<p><a href="/images/gopher-stable-diffusion/akshually3-upscaled.png"><img src="/images/gopher-stable-diffusion/akshually3.png" alt="targets" title="Third gopher"></a></p>
+<hr>
+<p>I really like the last image. It captures the essence of the &ldquo;Ackchyually&rdquo; meme because the Gopher looks both knowledgeable and annoying. With this image, I decided to test Stable Diffusion&rsquo;s upscale capability. Since it is recommended to generate images at 512x512, you can then upscale these images to high resolutions like 3784x2976. I manually edited the upscaled version of the image above to remove the background before upscaling it SwinIR_4x (which can be found under Extras-ScaleTo-Upscaler1). If you click on the image above, you can see the high-resolution result. Now, anyone can make a nice Discord emote from this image. I tried further prompts with &ldquo;Renee French style&rdquo; and &ldquo;Claude Monet style&rdquo;, which also resulted in decent images.</p>
+<h2 id="summary">Summary</h2>
+<p>Modern AI tools are very exciting, and they will only get better from now on. Uncle Ben once said: &ldquo;With great power comes great responsibility&rdquo; and Stable Diffusion is a good example of this. While it can be used to create disturbing content, the CEO of Stability AI is convinced that putting the capabilities of Stable Diffusion into the hands of the public will result in the technology providing a net benefit, in spite of the potential negative consequences. I agree with this, and I hope that other AI technologies from other areas, like e.g., open-source LLMs, can catch up with closed-source models like OpenAI&rsquo;s GPT-4 so that everyone can have free access to these amazing technologies.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/ai">ai</a></li>
+					
+					<li><a href="/tags/text-to-image">text-to-image</a></li>
+					
+					<li><a href="/tags/windows">windows</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

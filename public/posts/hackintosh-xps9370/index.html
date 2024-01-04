@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Hackintosh #3: Running Sonoma on XPS 9370 (i7 8550u - 4k display) - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Quick rundown of my third Hackintosh setup, what works and what does not not." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Hackintosh #3: Running Sonoma on XPS 9370 (i7 8550u - 4k display)" />
+<meta property="og:description" content="Quick rundown of my third Hackintosh setup, what works and what does not not." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/hackintosh-xps9370/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-24T08:00:23+02:00" />
+<meta property="article:modified_time" content="2023-10-24T08:00:23+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Hackintosh #3: Running Sonoma on XPS 9370 (i7 8550u - 4k display)"/>
+<meta name="twitter:description" content="Quick rundown of my third Hackintosh setup, what works and what does not not."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">Hackintosh #3: Running Sonoma on XPS 9370 (i7 8550u - 4k display)</h1>
+			<div class="meta">Posted on Oct 24, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#spoiler-what-works">Spoiler: What works?</a>
+      <ul>
+        <li><a href="#working">Working</a></li>
+        <li><a href="#not-working">Not working</a></li>
+        <li><a href="#not-tested">Not tested</a></li>
+      </ul>
+    </li>
+    <li><a href="#overview-of-acpi-drivers-and-kext">Overview of ACPI, Drivers and Kext</a>
+      <ul>
+        <li><a href="#acpi">ACPI</a></li>
+        <li><a href="#drivers">Drivers</a></li>
+        <li><a href="#kexts">Kexts</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>macOS Sonoma is the newest macOS version (which always is a challenge for Hackintosh) and installing it on an older laptop is an extra challenge. In this post I will talk about how I successfully hackintoshed the XPS 9370. Note that currently online installers do not work for Sonoma, so you require an Apple machine or a Hackintosh to create an offline installer (first you create a FAT32 partition called EFI (Size around 200MB), then you make an Mac OS Extended (Journaled) partition called MyVolume, then you follow <a href="https://support.apple.com/en-mide/HT201372">this Apple guide</a>).</p>
+<h2 id="spoiler-what-works">Spoiler: What works?</h2>
+<p>Before you continue reading, you probably want to know whether the effort will be worth it. So here is what works and what does not.</p>
+<h3 id="working">Working</h3>
+<ul>
+<li>4k resolution</li>
+<li>Trackpad (not as nice as an actual MacBook trackpad but good enough. Gestures work decently)</li>
+<li>Ethernet with USB-adapter (I tried two different ones and both worked)</li>
+<li>Bluetooth (e.g. Audio)</li>
+<li>SD card reader</li>
+<li>Keyboard Backlight</li>
+<li>Battery Percentage</li>
+<li>Wi-Fi with TP-Link Archer 3U dongle and Chris1111 BigSur repo</li>
+<li>Fn Buttons (except shortcut for brightness)</li>
+<li>Sound via speakers (thanks to <a href="https://github.com/corpnewt/SSDTTime">SSDTTime</a> with 1.FixHPET and <a href="https://bitbucket.org/RehabMan/os-x-eapd-codec-commander/downloads/">CodecCommander.kext</a>)</li>
+</ul>
+<h3 id="not-working">Not working</h3>
+<ul>
+<li>Sound via AUX</li>
+<li>Thunderbolt ports rarely work, but they sometimes do</li>
+<li>Sleep mode (disable in settings and try not to click it accidently under Apple logo top-left drop-down)</li>
+</ul>
+<p>Sleep mode is right above Shutdown or Reboot (not sure right now) in the Apple logo drop-down menu. If I accidently press it it goes into sleep mode, but when trying to leave sleep mode to continue working it gets stuck on the lockscreen:</p>
+<p><img src="/images/xps-hackintosh/sleep.png" alt="targets" title="Sleep mode is broken"></p>
+<h3 id="not-tested">Not tested</h3>
+<ul>
+<li>Touchscreen (I never liked this, so I disabled it in the BIOS)</li>
+<li>Camera (I never use this, so I disabled it in the BIOS)</li>
+<li>Microphone (I never use this, so I disabled it in the BIOS)</li>
+</ul>
+<p>All in all, I got everything except non-bluetooth sound working so far.
+4k resolutions works out-of-the-box, but it is called (1920x1080 (default)). There also is 1920x1080 (low resolution) but this is actual 1080p and looks slightly blurry on this 4k display. The former is 4k with upscaling so that everything is nice, sharp and big.
+The XPS has two Thunderbolt 3 ports on the left side and one &ldquo;normal&rdquo; USB-C port on the right side. The right side port works perfectly well with every device I have tested. The thunderbolt ports rarely recognize anything, but I did manage to have my Nintendo Switch Ethernet adapter working on these ports. I was able to plug it in while the OS was already running, and it worked after a few seconds. I have read from others that their Thunderbolt devices work if the USB device was already attached to them before booting, but for me this did not help with anything. So basically you are left with one reliable USB-C port on the right side and should use one of the left side Thunderbolt ports for your charger (this always works). I recommend attaching a USB-hub with many ports (including Ethernet) and maybe even active power to the right-side USB port.
+Keyboard backlight is working when using the same kexts as I do, not much to say about this.
+Surprisingly, Bluetooth works out of the box with my kexts. So the built-in Killer Wi-Fi card (which sadly is soldered and thus can&rsquo;t be replaced) can be used for Bluetooth, but nothing Wi-Fi related will work with it. Bluetooth works perfectly with my Shure headset, even all buttons on it work!
+In order to get Wi-Fi working, I recommend getting a TP-Link Archer 3U dongle (Chris uses that one too and who would know better than him) or the large antenna version of this dongle (also tested by Chris). Then just follow the steps described in <a href="https://github.com/chris1111/Wireless-USB-Big-Sur-Adapter">Chris repo</a>. Note that you can not re-enable csrutil or spctl master after the install as this will break your install, and you will have to re-install. So just follow his video tutorial, then Wi-Fi will work perfectly well as long as you attach the dongle to the right-side USB slot. In short: Go to recovery mode, &ldquo;csrutil disable &amp;&amp; spctl &ndash;master-disable&rdquo;, reboot, install the stuff and allow it, reboot.
+Battery percentage works if you enable it in macOS.
+Fn buttons work, but macOS does not by default allow you to use them as a shortcut for brightness adjustment. So the best workaround is to bind lower brightness to F2 and increase brightness to F3. This way, you use F2 for lower brightness and Fn+F2 for lower audio, F3 for higher brightness and Fn+F3 for higher audio.
+Getting sound to work was difficult. First I did the layout-id mapping with help of <a href="https://github.com/acidanthera/gfxutil/releases">gfxutil</a> in the config.plist (cleaner than alcid boot-arg), then I used SSDTTime to fix IRQ conflicts. This allowed me to adjust sound, but I never got any sound. This only changed after I added the CodecCommander kext. Now it is working perfectly, but sadly AUX is still not working. Many others online had CPU usage issues when using AppleALC and CodecCommander kexts together, but I can&rsquo;t confirm this. My CPU usage is low and the battery is not drained as far as I can tell. So either I got lucky or they fixed it in later versions of the kexts.</p>
+<h2 id="overview-of-acpi-drivers-and-kext">Overview of ACPI, Drivers and Kext</h2>
+<p>Of course, you first do a USB port mapping on Windows before you do anything. Then you follow the standard Dortania tutorial for Kaby Lake. The i7-8550u is a Kaby Lake R generation CPU (which is sometimes referred to as Kaby Lake in the tutorial). As SMBIOS you use MacBookPro14,2 (Ventura) or MacBookPro16,3 (Sonoma). Note that Sonoma requires 15,x +. After following the tutorial, there are two more things you must do to get it to install (possibly only required for 4k display versions of this laptop):</p>
+<ul>
+<li>In your config.plist change &ldquo;DevirtualiseMmio&rdquo; to True</li>
+<li>In your config.plist add the following boot-arg: -igfxmpc</li>
+</ul>
+<p>Also note that when doing the recommend BIOS settings, Dell has some weird names for some things. So just google what the Dell equivalent for x is etc.
+After trying lots of different things, the following setup ended up working best for me:</p>
+<h3 id="acpi">ACPI</h3>
+<ul>
+<li>SSDT-EC-USBX-LAPTOP</li>
+<li>SSDT-PLUG-DRTNIA</li>
+<li>SSDT-PNLF.aml</li>
+<li>SSDT-HPET.aml (created with SSDTTime and 1.FixHPET)</li>
+</ul>
+<h3 id="drivers">Drivers</h3>
+<ul>
+<li>HfsPlus.efi</li>
+<li>OpenRuntime.efi</li>
+<li>(ResetNvramEntry.efi) [I have this one but I don&rsquo;t think you need it]</li>
+</ul>
+<h3 id="kexts">Kexts</h3>
+<ul>
+<li>AirportItlwm.kext (v2.3.0-alpha or newer) [not sure if this does anything with my dongle setup]</li>
+<li>AppleALC.kext</li>
+<li>BlueToolFixup.kext</li>
+<li>BrightnessKeys.kext</li>
+<li>CodecCommander.kext</li>
+<li>IntelBluetoothFirmware.kext</li>
+<li>IntelBTPatcher.kext</li>
+<li>Lilu.kext</li>
+<li>NVMeFix.kext (technically the Toshiba 512GB NVME is supported but it is recommended to use this kext anyways)</li>
+<li>Sinetek-rtsx.kext (fixes SD card reader but after ejecting you must reboot to recognize the same card again)</li>
+<li>SMCBatteryManager.kext</li>
+<li>SMCDellSensors.kext</li>
+<li>SMCProcessor.kext</li>
+<li>SMCSuperIO.kext</li>
+<li>USBToolBox.kext</li>
+<li>UTBMap.kext</li>
+<li>VirtualSMC.kext</li>
+<li>VoodooI2C.kext</li>
+<li>VoodooI2CHID.kext</li>
+<li>VoodooPS2Controller.kext</li>
+<li>WhateverGreen.kext</li>
+</ul>
+<p>Generally, try to get the newest version unless there is a specific reason why you should not. I even used the debug versions of everything even though that is not needed.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I got the newest macOS version running on a 5-year-old laptop and everything is smooth. The touchpad can be annoying because it is just not that great and the battery could be better too. But the OS runs well and stable, 4k is working, and I can actually use it as a productive machine. Wi-Fi works with the dongle thanks to Chris amazing work, and I hope I can figure out how to make aux sound work too.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/hackintosh">hackintosh</a></li>
+					
+					<li><a href="/tags/macos">macos</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

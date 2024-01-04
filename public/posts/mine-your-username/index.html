@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Mine your username - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Multithreaded C&#43;&#43; username miner." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Mine your username" />
+<meta property="og:description" content="Multithreaded C&#43;&#43; username miner." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/mine-your-username/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-03T21:50:00+02:00" />
+<meta property="article:modified_time" content="2023-07-03T21:50:00+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Mine your username"/>
+<meta name="twitter:description" content="Multithreaded C&#43;&#43; username miner."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">Mine your username</h1>
+			<div class="meta">Posted on Jul 3, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#which-cool-usernames-have-you-found-so-far">Which cool usernames have you found so far?</a></li>
+    <li><a href="#final-words">Final words</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>So you wanted to sign up for a website but couldn&rsquo;t think of a cool username that wasn&rsquo;t already taken? No way, I was in that same situation! So I decided to write a C++ program that takes your base name (e.g., &ldquo;cafe&rdquo;) and adds a few numbers. The idea is to generate usernames that, when hashed using SHA256 or KECCAK256 result in strings that contain your base name again! I also added a mode where the requirement is that your base name must be included at least twice in both the SHA256 and the KECCAK256 output. The code of the resulting program is available at this <a href="https://github.com/downIoads/cpp_username_miner/">Github repo</a>. It goes without saying that your base word must be hex-compatible (e.g. cafe, decaf, decade or facade), otherwise it can&rsquo;t possibly be included in the hash output!</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Supports two modes. Mode &lsquo;false&rsquo; only checks that your word is included in both the SHA and the KECCAK hash. Mode &rsquo;true&rsquo; also requires multiple occurrences of your word in both hashes. This problem is much more difficult.</li>
+<li>Multithreading: The program checks how many threads your CPU supports, splits the input space evenly (e.g., you set upper limit to 16 and you have 8 threads, now thread 1 will check [0,1], thread 2 will check [2,3], &hellip;). I found that 100 million was a decent upper limit for my CPU-only setup inside a VM. This way, each search takes around 120 to 150 seconds.</li>
+</ul>
+<h2 id="which-cool-usernames-have-you-found-so-far">Which cool usernames have you found so far?</h2>
+<p>So far, I like &ldquo;bed147373429&rdquo; the most. Its SHA256 is &ldquo;f4a08820f996178982f697079d404b57a006720557bbb7dbed22bedfcaa9d2c5&rdquo; and its KECCAK256 is &ldquo;d6de1963ded05191276e9b9f06dfb99c8d832bed4bed31e574e8197593dd8ed9&rdquo;. So not only does &ldquo;bed&rdquo; occur twice in both hashes, but the occurrences are also very close to each other! Do you know how in Math all kinds of different numbers have names like e.g., happy numbers or unhappy numbers? Imagine a world where finding these weird hash inputs is like a sports. You could create a scoring ladder based on word length (which greatly increases difficulty), amount of occurrences (same here), closeness of occurrences, amount of popular hash functions where these occurrences happen and give points for everything. You might even give names to certain constellations, like the mathematicians do!</p>
+<h2 id="final-words">Final words</h2>
+<p>I am currently learning C++ and reading through text is way less effective for learning than thinking of silly projects and implementing them. So here I learned about simple multithreading and how to incorporate commonly used cryptographic hashing algorithms into your program. Let me know if you find any cool usernames! You can find my Github Discussion page <a href="https://github.com/downIoads/downIoads.github.io/discussions">here</a>.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/c&#43;&#43;">c&#43;&#43;</a></li>
+					
+					<li><a href="/tags/multithreading">multithreading</a></li>
+					
+					<li><a href="/tags/hashing">hashing</a></li>
+					
+					<li><a href="/tags/programming">programming</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

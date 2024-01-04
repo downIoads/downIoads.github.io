@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>How to calculate any weekday - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Will christmas be a Sunday this year? Let&#39;s calculate!" />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="How to calculate any weekday" />
+<meta property="og:description" content="Will christmas be a Sunday this year? Let&#39;s calculate!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/how-to-calculate-any-weekday/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-04T20:00:00+02:00" />
+<meta property="article:modified_time" content="2023-07-04T20:00:00+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="How to calculate any weekday"/>
+<meta name="twitter:description" content="Will christmas be a Sunday this year? Let&#39;s calculate!"/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">How to calculate any weekday</h1>
+			<div class="meta">Posted on Jul 4, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#what-you-need-to-remember">What you need to remember</a></li>
+    <li><a href="#ravioli-ravioli-give-me-the-formuoli">Ravioli, ravioli, give me the formuoli!</a></li>
+    <li><a href="#what-are-the-other-yearcodes">What are the other yearcodes?</a></li>
+    <li><a href="#go">Go</a></li>
+    <li><a href="#final-words">Final words</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>I once read about a simple way to calculate what day of the week any given date is. All you need to do is remember a few numbers and do basic math in your head. So let&rsquo;s get started!</p>
+<h2 id="what-you-need-to-remember">What you need to remember</h2>
+<p>Each weekday has an assigned number:</p>
+<ul>
+<li>Sunday = 0</li>
+<li>Monday = 1</li>
+<li>Tuesday = 2</li>
+<li>Wednesday = 3</li>
+<li>Thursday = 4</li>
+<li>Friday = 5</li>
+<li>Saturday = 6</li>
+</ul>
+<p>Also remember the following list for the months:</p>
+<ul>
+<li>January = 6 (If leap year: 5)</li>
+<li>February = 2 (If Leap year: 1)</li>
+<li>March = 2</li>
+<li>April = 5</li>
+<li>May = 0</li>
+<li>June = 3</li>
+<li>July = 5</li>
+<li>August = 1</li>
+<li>September = 4</li>
+<li>October = 6</li>
+<li>November = 2</li>
+<li>December = 4</li>
+</ul>
+<p>Every year also has a number code, but you only need to know today&rsquo;s day of the week and you can use this knowledge to get this year&rsquo;s code. And if you know this year&rsquo;s code, you can calculate which day this year&rsquo;s 12-31 will be, so you know which weekday next year&rsquo;s 01-01 will be, and so on&hellip;</p>
+<h2 id="ravioli-ravioli-give-me-the-formuoli">Ravioli, ravioli, give me the formuoli!</h2>
+<p>The formula is: (&lt;day&gt; + &lt;month code&gt; + &lt;year code&gt;) mod 7 = &lt;weekday code&gt;.
+Let&rsquo;s make this clear with an example. This year&rsquo;s code is 0. Which weekday is the 5th of July?
+5 (Day) + 5 (July code) + 0 (year code) mod 7 = 3 &lt;weekday code&gt;. 3 maps to Wednesday, so that means the 5th of July is a Wednesday. Again, if you know the month codes by heart, you only need to remember one more number, which is this year&rsquo;s code. This year&rsquo;s code will be 0 for the entire year (year codes are always constant for the entirety of the year). So let&rsquo;s do another example: Which day of the week will the 20th of November be? Stop reading and try it yourself. The solution is 20 + 2 + 0 mod 7 = 1, so the solution is Monday!</p>
+<h2 id="what-are-the-other-yearcodes">What are the other yearcodes?</h2>
+<p>This technique is only impressive if you know the codes of many years by heart. So here is a list to get you started:</p>
+<ul>
+<li>1800 :  3</li>
+<li>1801 :  4</li>
+<li>1802 :  5</li>
+<li>1803 :  6</li>
+<li>1804 (Leap year):  1</li>
+<li>1805 :  2</li>
+<li>1806 :  3</li>
+<li>1807 :  4</li>
+<li>1808 (Leap year):  6</li>
+<li>1809 :  0</li>
+<li>1810 :  1</li>
+<li>1811 :  2</li>
+<li>1812 (Leap year):  4</li>
+<li>1813 :  5</li>
+<li>1814 :  6</li>
+<li>1815 :  0</li>
+<li>1816 (Leap year):  2</li>
+<li>1817 :  3</li>
+<li>1818 :  4</li>
+<li>1819 :  5</li>
+<li>1820 (Leap year):  0</li>
+<li>1821 :  1</li>
+<li>1822 :  2</li>
+<li>1823 :  3</li>
+<li>1824 (Leap year):  5</li>
+<li>1825 :  6</li>
+<li>1826 :  0</li>
+<li>1827 :  1</li>
+<li>1828 (Leap year):  3</li>
+<li>1829 :  4</li>
+<li>1830 :  5</li>
+<li>1831 :  6</li>
+<li>1832 (Leap year):  1</li>
+<li>1833 :  2</li>
+<li>1834 :  3</li>
+<li>1835 :  4</li>
+<li>1836 (Leap year):  6</li>
+<li>1837 :  0</li>
+<li>1838 :  1</li>
+<li>1839 :  2</li>
+<li>1840 (Leap year):  4</li>
+<li>1841 :  5</li>
+<li>1842 :  6</li>
+<li>1843 :  0</li>
+<li>1844 (Leap year):  2</li>
+<li>1845 :  3</li>
+<li>1846 :  4</li>
+<li>1847 :  5</li>
+<li>1848 (Leap year):  0</li>
+<li>1849 :  1</li>
+<li>1850 :  2</li>
+<li>1851 :  3</li>
+<li>1852 (Leap year):  5</li>
+<li>1853 :  6</li>
+<li>1854 :  0</li>
+<li>1855 :  1</li>
+<li>1856 (Leap year):  3</li>
+<li>1857 :  4</li>
+<li>1858 :  5</li>
+<li>1859 :  6</li>
+<li>1860 (Leap year):  1</li>
+<li>1861 :  2</li>
+<li>1862 :  3</li>
+<li>1863 :  4</li>
+<li>1864 (Leap year):  6</li>
+<li>1865 :  0</li>
+<li>1866 :  1</li>
+<li>1867 :  2</li>
+<li>1868 (Leap year):  4</li>
+<li>1869 :  5</li>
+<li>1870 :  6</li>
+<li>1871 :  0</li>
+<li>1872 (Leap year):  2</li>
+<li>1873 :  3</li>
+<li>1874 :  4</li>
+<li>1875 :  5</li>
+<li>1876 (Leap year):  0</li>
+<li>1877 :  1</li>
+<li>1878 :  2</li>
+<li>1879 :  3</li>
+<li>1880 (Leap year):  5</li>
+<li>1881 :  6</li>
+<li>1882 :  0</li>
+<li>1883 :  1</li>
+<li>1884 (Leap year):  3</li>
+<li>1885 :  4</li>
+<li>1886 :  5</li>
+<li>1887 :  6</li>
+<li>1888 (Leap year):  1</li>
+<li>1889 :  2</li>
+<li>1890 :  3</li>
+<li>1891 :  4</li>
+<li>1892 (Leap year):  6</li>
+<li>1893 :  0</li>
+<li>1894 :  1</li>
+<li>1895 :  2</li>
+<li>1896 (Leap year):  4</li>
+<li>1897 :  5</li>
+<li>1898 :  6</li>
+<li>1899 :  0</li>
+<li>1900 :  1</li>
+<li>1901 :  2</li>
+<li>1902 :  3</li>
+<li>1903 :  4</li>
+<li>1904 (Leap year):  6</li>
+<li>1905 :  0</li>
+<li>1906 :  1</li>
+<li>1907 :  2</li>
+<li>1908 (Leap year):  4</li>
+<li>1909 :  5</li>
+<li>1910 :  6</li>
+<li>1911 :  0</li>
+<li>1912 (Leap year):  2</li>
+<li>1913 :  3</li>
+<li>1914 :  4</li>
+<li>1915 :  5</li>
+<li>1916 (Leap year):  0</li>
+<li>1917 :  1</li>
+<li>1918 :  2</li>
+<li>1919 :  3</li>
+<li>1920 (Leap year):  5</li>
+<li>1921 :  6</li>
+<li>1922 :  0</li>
+<li>1923 :  1</li>
+<li>1924 (Leap year):  3</li>
+<li>1925 :  4</li>
+<li>1926 :  5</li>
+<li>1927 :  6</li>
+<li>1928 (Leap year):  1</li>
+<li>1929 :  2</li>
+<li>1930 :  3</li>
+<li>1931 :  4</li>
+<li>1932 (Leap year):  6</li>
+<li>1933 :  0</li>
+<li>1934 :  1</li>
+<li>1935 :  2</li>
+<li>1936 (Leap year):  4</li>
+<li>1937 :  5</li>
+<li>1938 :  6</li>
+<li>1939 :  0</li>
+<li>1940 (Leap year):  2</li>
+<li>1941 :  3</li>
+<li>1942 :  4</li>
+<li>1943 :  5</li>
+<li>1944 (Leap year):  0</li>
+<li>1945 :  1</li>
+<li>1946 :  2</li>
+<li>1947 :  3</li>
+<li>1948 (Leap year):  5</li>
+<li>1949 :  6</li>
+<li>1950 :  0</li>
+<li>1951 :  1</li>
+<li>1952 (Leap year):  3</li>
+<li>1953 :  4</li>
+<li>1954 :  5</li>
+<li>1955 :  6</li>
+<li>1956 (Leap year):  1</li>
+<li>1957 :  2</li>
+<li>1958 :  3</li>
+<li>1959 :  4</li>
+<li>1960 (Leap year):  6</li>
+<li>1961 :  0</li>
+<li>1962 :  1</li>
+<li>1963 :  2</li>
+<li>1964 (Leap year):  4</li>
+<li>1965 :  5</li>
+<li>1966 :  6</li>
+<li>1967 :  0</li>
+<li>1968 (Leap year):  2</li>
+<li>1969 :  3</li>
+<li>1970 :  4</li>
+<li>1971 :  5</li>
+<li>1972 (Leap year):  0</li>
+<li>1973 :  1</li>
+<li>1974 :  2</li>
+<li>1975 :  3</li>
+<li>1976 (Leap year):  5</li>
+<li>1977 :  6</li>
+<li>1978 :  0</li>
+<li>1979 :  1</li>
+<li>1980 (Leap year):  3</li>
+<li>1981 :  4</li>
+<li>1982 :  5</li>
+<li>1983 :  6</li>
+<li>1984 (Leap year):  1</li>
+<li>1985 :  2</li>
+<li>1986 :  3</li>
+<li>1987 :  4</li>
+<li>1988 (Leap year):  6</li>
+<li>1989 :  0</li>
+<li>1990 :  1</li>
+<li>1991 :  2</li>
+<li>1992 (Leap year):  4</li>
+<li>1993 :  5</li>
+<li>1994 :  6</li>
+<li>1995 :  0</li>
+<li>1996 (Leap year):  2</li>
+<li>1997 :  3</li>
+<li>1998 :  4</li>
+<li>1999 :  5</li>
+<li>2000 (Leap year) :  0</li>
+<li>2001 :  1</li>
+<li>2002 :  2</li>
+<li>2003 :  3</li>
+<li>2004 (Leap year) :  5</li>
+<li>2005 :  6</li>
+<li>2006 :  0</li>
+<li>2007 :  1</li>
+<li>2008 (Leap year):  3</li>
+<li>2009 :  4</li>
+<li>2010 :  5</li>
+<li>2011 :  6</li>
+<li>2012 (Leap year):  0</li>
+<li>2013 :  1</li>
+<li>2014 :  3</li>
+<li>2015 :  4</li>
+<li>2016 (Leap year):  6</li>
+<li>2017 :  0</li>
+<li>2018 :  1</li>
+<li>2019 :  2</li>
+<li>2020 (Leap year):  4</li>
+<li>2021 :  5</li>
+<li>2022 :  6</li>
+<li>2023 :  0</li>
+<li>2024 (Leap year):  2</li>
+<li>2025 :  3</li>
+<li>2026 :  4</li>
+<li>2027 :  5</li>
+<li>2028 (Leap year):  0</li>
+<li>2029 :  1</li>
+<li>2030 :  2</li>
+<li>2031 :  3</li>
+<li>2032 (Leap year):  5</li>
+<li>2033 :  6</li>
+<li>2034 :  0</li>
+<li>2035 :  1</li>
+<li>2036 (Leap year):  3</li>
+<li>2037 :  4</li>
+<li>2038 :  5</li>
+<li>2039 :  6</li>
+</ul>
+<p>The program used to generate this list can be found here:</p>
+<h2 id="go">Go</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">get_weekday</span>(<span style="color:#a6e22e">day</span>, <span style="color:#a6e22e">month</span>, <span style="color:#a6e22e">year</span> <span style="color:#66d9ef">uint</span>) <span style="color:#66d9ef">uint</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">date</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Date</span>(int(<span style="color:#a6e22e">year</span>), <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Month</span>(<span style="color:#a6e22e">month</span>), int(<span style="color:#a6e22e">day</span>), <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">UTC</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">weekday</span> <span style="color:#f92672">:=</span> uint(<span style="color:#a6e22e">date</span>.<span style="color:#a6e22e">Weekday</span>())
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">weekday</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">get_yearcode</span>(<span style="color:#a6e22e">weekday</span> <span style="color:#66d9ef">uint</span>) <span style="color:#66d9ef">uint</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">yearcode</span> <span style="color:#66d9ef">uint</span>;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">:=</span><span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">7</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">yearcode</span> = uint((<span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">i</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">7</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">yearcode</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">weekday</span>){
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">yearcode</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">7</span>;	<span style="color:#75715e">// cant happen but we need some return
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">is_leap_year</span>(<span style="color:#a6e22e">year</span> <span style="color:#66d9ef">uint</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">year</span><span style="color:#f92672">%</span><span style="color:#ae81ff">4</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">year</span><span style="color:#f92672">%</span><span style="color:#ae81ff">100</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">year</span><span style="color:#f92672">%</span><span style="color:#ae81ff">400</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// uses the first day of every year as anchor point (might as well take another day)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">day</span> = uint(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">month</span> = uint(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// adjust this depending on the year codes you care about
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">y</span><span style="color:#f92672">:=</span> <span style="color:#ae81ff">1800</span>; <span style="color:#a6e22e">y</span>&lt;<span style="color:#ae81ff">2040</span>; <span style="color:#a6e22e">y</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">year</span> <span style="color:#f92672">:=</span> uint(<span style="color:#a6e22e">y</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">is_leap_year</span> <span style="color:#66d9ef">bool</span> = <span style="color:#a6e22e">is_leap_year</span>(<span style="color:#a6e22e">year</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">weekday</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">get_weekday</span>(<span style="color:#a6e22e">day</span>, <span style="color:#a6e22e">month</span>, <span style="color:#a6e22e">year</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">yearcode</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">get_yearcode</span>(<span style="color:#a6e22e">weekday</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">is_leap_year</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">yearcode</span><span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">yearcode</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">7</span>) {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">yearcode</span> = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;*&#34;</span>, <span style="color:#a6e22e">year</span>, <span style="color:#e6db74">&#34;(Leap year): &#34;</span>, <span style="color:#a6e22e">yearcode</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>		} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;*&#34;</span>, <span style="color:#a6e22e">year</span>, <span style="color:#e6db74">&#34;: &#34;</span>, <span style="color:#a6e22e">yearcode</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="final-words">Final words</h2>
+<p>Congratulations, you now know how to calculate any weekday as long as you remember the codes above and have a basic understand of determining whether a given year is a leap year or not. You also understand the system well enough to be able to calculate next year&rsquo;s code! The code for 2024 will be 2.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/tutorial">tutorial</a></li>
+					
+					<li><a href="/tags/go">go</a></li>
+					
+					<li><a href="/tags/programming">programming</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

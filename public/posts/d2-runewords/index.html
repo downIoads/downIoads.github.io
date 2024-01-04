@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>C&#43;&#43; runeword calculator GUI for Diablo 2 Resurrected - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Uses wxWidgets and has been tested on Windows, macOS and Linux." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="C&#43;&#43; runeword calculator GUI for Diablo 2 Resurrected" />
+<meta property="og:description" content="Uses wxWidgets and has been tested on Windows, macOS and Linux." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/d2-runewords/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-27T22:50:00+02:00" />
+<meta property="article:modified_time" content="2023-07-27T22:50:00+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="C&#43;&#43; runeword calculator GUI for Diablo 2 Resurrected"/>
+<meta name="twitter:description" content="Uses wxWidgets and has been tested on Windows, macOS and Linux."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">C&#43;&#43; runeword calculator GUI for Diablo 2 Resurrected</h1>
+			<div class="meta">Posted on Jul 27, 2023</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#screenshot">Screenshot</a>
+      <ul>
+        <li><a href="#windows-11">Windows 11</a></li>
+        <li><a href="#macos-ventura">macOS Ventura</a></li>
+      </ul>
+    </li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#future-update-ideas">Future update ideas</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>Diablo 2 Resurrected is one of my favorite games of all time, but there are a lot of things you need to remember. There are various online tools (the idea of a runeword calculator is not new), but many of them have a terrible User Interface, are outdated, or are located on slow websites that autoplay Twitch streams when you open them. So I decided to learn how to use wxWidgets by making an assistant GUI tool for my favorite game! I have open-sourced this tool, and you can download it from this <a href="https://github.com/downIoads/cpp_diablo2r_runewordCalculator/tree/main">Github repo</a>. The repo contains the source code and you can build it yourself. The tool has been tested on Windows 11, Ubuntu 22.04.3 LTS and macOS Ventura and Sonoma. It also is available for 4.99€ on the macOS App Store (best option if you are lazy).</p>
+<h2 id="screenshot">Screenshot</h2>
+<h3 id="windows-11">Windows 11</h3>
+<p><img src="/images/d2r.png" alt="targets" title="Windows 11"></p>
+<h3 id="macos-ventura">macOS Ventura</h3>
+<p><img src="/images/osx-d2rrunes.png" alt="targets" title="macOS Ventura"></p>
+<h2 id="features">Features</h2>
+<p>These features are currently supported:</p>
+<ol>
+<li>
+<p>Calculates possible runewords (you select which runes you have, which item type base, how many sockets, and optionally a level requirement, and it will list all possible runewords you can make)</p>
+</li>
+<li>
+<p>Breakpoints for all classes (IBS, FCR, FHR). Attack speed is currently not supported, but I can recommend <a href="https://d2.lc/IAS/">https://d2.lc/IAS/</a></p>
+</li>
+<li>
+<p>List of runewords (in case you know the name of a runeword and want to check what it does)</p>
+</li>
+<li>
+<p>Rune conversions (hover your mouse over a rune, and it will tell you how to upgrade this rune, what this rune is upgraded from, and also which effect this rune has when socketed)</p>
+</li>
+<li>
+<p>Sort Runes A-Z or by rarity (sometimes by rarity is better, but sometimes you just want to know how to upgrade ITH in the cube, and you know where it is alphabetically, but you might not be able to find it quickly if the runes are sorted by rarity)</p>
+</li>
+<li>
+<p>Rune word information (lists the exact details of every runeword, if a runeword has different effects for different item types, these are listed too)</p>
+</li>
+</ol>
+<h2 id="future-update-ideas">Future update ideas</h2>
+<ol>
+<li>
+<p>Dark Mode (gaming at night is not a good idea, but if you do it you might as well have a nice dark mode GUI)</p>
+</li>
+<li>
+<p>Remove sounds (the default info boxes that open when you click stuff play an annoying sound, but I did not find a simple way to disable sounds). If you know how to do this without writing custom classes, please let me know!). A workaround you can use on Windows is right-clicking the Sound symbol and choose &ldquo;Open volume mixer&rdquo;, there just put volume to 0 and it will remember this setting</p>
+</li>
+<li>
+<p>High DPI support by default (this can be done, but it currently seems to be fairly complicated with wxWidgets). A simple workaround is to create a shortcut to the .exe file, and then right-click the shortcut -&gt; Properties -&gt;  Compatability -&gt; Change high DPI settings -&gt; Check the box for &ldquo;Override high DPI scaling behavior&rdquo; and select &ldquo;Application&rdquo;.)</p>
+</li>
+<li>
+<p>More features (it is called a runeword calculator, but in the years I added breakpoints too. So I might as well add stuff like cube receipes for caster gear crafting)</p>
+</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<p>I have used this tool over the years and added features that I personally wanted to use. I learned a lot in the process (about wxWidgets, C++, and the game itself), so I would recommend anyone do something similar for their favorite game! Just think about what features you would like to have and start coding.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/c&#43;&#43;">c&#43;&#43;</a></li>
+					
+					<li><a href="/tags/wxwidgets">wxwidgets</a></li>
+					
+					<li><a href="/tags/gaming">gaming</a></li>
+					
+					<li><a href="/tags/programming">programming</a></li>
+					
+					<li><a href="/tags/windows">windows</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

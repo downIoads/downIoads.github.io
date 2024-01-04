@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>How to use APNs with Golang and Google Firebase &#43; Firestore - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Retrieve data from Firestore and send out push notifications with this simple code." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="How to use APNs with Golang and Google Firebase &#43; Firestore" />
+<meta property="og:description" content="Retrieve data from Firestore and send out push notifications with this simple code." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/golang-firebase-apns/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-01T20:00:00+02:00" />
+<meta property="article:modified_time" content="2024-01-01T20:00:00+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="How to use APNs with Golang and Google Firebase &#43; Firestore"/>
+<meta name="twitter:description" content="Retrieve data from Firestore and send out push notifications with this simple code."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">How to use APNs with Golang and Google Firebase &#43; Firestore</h1>
+			<div class="meta">Posted on Jan 1, 2024</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#go">Go</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>If you are building a SwiftUI app like me, you will probably encounter a situation where you want to be able to send out Push Notifications to your users. Google Firebase offers a free plan (completely free with pretty generous usage) that allows you to do just that. Combined with Google Firestore you even get a small database where you can store device tokens (your users will write their device token to the database by using your app, and you send out notifications to all device tokens). This post is not about the Google Firebase / Firestore setup, but here is a note: If you directly go to the Firestore website and try to create an account it will force you to give them your payment info even if you choose the free plan. But if you just create a Firebase account with the Spark plan (free), you will be able to access Firestore from your dashboard without ever giving out your payment information. This can be useful as you might make a mistake in your Firestore Rules setup which allows anyone to write to it, which potentially could lead to very large bills. But if you never gave Google your payment info, you do not have to worry about scenarios such as this one. So let&rsquo;s look at the Golang code I use to send out APNs notifications to my users.</p>
+<h2 id="go">Go</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;log&#34;</span>       <span style="color:#75715e">// logging
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">&#34;time&#34;</span>      <span style="color:#75715e">// timeouts
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">firebase</span> <span style="color:#e6db74">&#34;firebase.google.com/go&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;firebase.google.com/go/messaging&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;google.golang.org/api/iterator&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;google.golang.org/api/option&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sendNotifications</span>(<span style="color:#e6db74">&#34;test notification&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sendNotifications</span>(<span style="color:#a6e22e">notificationText</span> <span style="color:#66d9ef">string</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ---- Connect to Firebase ----
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sa</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">option</span>.<span style="color:#a6e22e">WithCredentialsFile</span>(<span style="color:#e6db74">&#34;./firebaseAdmin.json&#34;</span>)	<span style="color:#75715e">// you create and dl this from your firebase dashboard
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">app</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">firebase</span>.<span style="color:#a6e22e">NewApp</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">sa</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">client</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">Firestore</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalln</span>(<span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ---- Preparations ----
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">curTime</span> <span style="color:#f92672">:=</span> int(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">Unix</span>())
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">deviceTokenList</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">string</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ---- Read data from firestore collection (in my case it is called device-tokens-apns) ----
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">iter</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Collection</span>(<span style="color:#e6db74">&#34;device-tokens-apns&#34;</span>).<span style="color:#a6e22e">Documents</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">doc</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">iter</span>.<span style="color:#a6e22e">Next</span>()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">iterator</span>.<span style="color:#a6e22e">Done</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to iterate: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// in my case each entry is a dict with keys &#34;timestamp&#34; and &#34;token&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// convert timestamp to int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">timestampInterface</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">doc</span>.<span style="color:#a6e22e">Data</span>()[<span style="color:#e6db74">&#34;timestamp&#34;</span>]
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#e6db74">&#34;Failed to convert timestamp to int&#34;</span>)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//      first from the interface{} get the int64
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">timestampInt64</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">timestampInterface</span>.(<span style="color:#66d9ef">int64</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//      then cast int64 to int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">timestamp</span> <span style="color:#f92672">:=</span> int(<span style="color:#a6e22e">timestampInt64</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// convert token to string
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">tokenInterface</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">doc</span>.<span style="color:#a6e22e">Data</span>()[<span style="color:#e6db74">&#34;token&#34;</span>]
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#e6db74">&#34;Failed to convert token to string&#34;</span>)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//      cast interface{} to string
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">tokenString</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tokenInterface</span>.(<span style="color:#66d9ef">string</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//fmt.Println(&#34;Token:&#34;, tokenString)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">//fmt.Println(&#34;Timestamp:&#34;, timestamp)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// if timestamp less old than 1 month, add the token to the list (dont notify dead devices, each app start renews token)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">curTime</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">timestamp</span> &lt; <span style="color:#ae81ff">2592000</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// only add string to slice if its not already in there
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#a6e22e">isNewString</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">deviceTokenList</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">s</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">tokenString</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">isNewString</span> = <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">isNewString</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">deviceTokenList</span> = append(<span style="color:#a6e22e">deviceTokenList</span>, <span style="color:#a6e22e">tokenString</span>)  
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ---- Send notification to each device in token list ----
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fcmClient</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">Messaging</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;error getting Messaging client: %v\n&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// note that the multi-send-notification is decprecated so my approach is recommended:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">registrationToken</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">deviceTokenList</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// fmt.Println(&#34;Now trying to send notification to:&#34;, registrationToken)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// define notification message (IMPORTANT: this code works, but the code in the Google Documentation for APNs did NOT work for me)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">message</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">messaging</span>.<span style="color:#a6e22e">Message</span>{
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">Notification</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">messaging</span>.<span style="color:#a6e22e">Notification</span>{
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">Title</span>: <span style="color:#e6db74">&#34;My notification title&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">Body</span>: <span style="color:#a6e22e">notificationText</span>,
+</span></span><span style="display:flex;"><span>                    },
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">Token</span>: <span style="color:#a6e22e">registrationToken</span>,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// send notification to device (ignore return, if there is a problem with the token just don&#39;t send a notification to it)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">fcmClient</span>.<span style="color:#a6e22e">Send</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">message</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>It was frustrating for me that the <a href="https://firebase.google.com/docs/cloud-messaging/send-message#go">Google documentation</a> shows Go code that did not send out notifications for me. There are no errors, but also no notifications are being sent out. The problem fix for me was to replace the &ldquo;Data&rdquo; field of messaging.Message with the &ldquo;Notification&rdquo; construct I use, which contains &ldquo;Title&rdquo; and &ldquo;Body&rdquo;. All in all, I am glad that Google offers a free plan that works well when set up. It slightly disappoints me that Apple does not offer any service for this (almost every iOS/macOS dev at some point will have to become a Google / Amazon customer for this) but maybe this will change in the future. It just seems to me that this is a very fundamental feature most apps want to make use of and Apple is losing customers for no reason (if you charge $100 a year, you could at least include some way to store device tokens and simplify the sending out notifications process).</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/ios">iOS</a></li>
+					
+					<li><a href="/tags/go">go</a></li>
+					
+					<li><a href="/tags/programming">programming</a></li>
+					
+					<li><a href="/tags/firebase">firebase</a></li>
+					
+					<li><a href="/tags/tutorial">tutorial</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

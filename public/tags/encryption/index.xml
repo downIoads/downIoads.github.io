@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>encryption on Blog for Tech Enjoyers</title>
+    <link>https://example.com/tags/encryption/</link>
+    <description>Recent content in encryption on Blog for Tech Enjoyers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 10 Aug 2023 08:00:23 +0200</lastBuildDate>
+    <atom:link href="https://example.com/tags/encryption/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Encrypt data using Argon2 and AES-GCM-256 in Python</title>
+      <link>https://example.com/posts/aes-argon2-python/</link>
+      <pubDate>Thu, 10 Aug 2023 08:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/aes-argon2-python/</guid>
+      <description>Introduction I have bought insecure Mifare Classic 1k cards (Crypto-1 is broken and should not be used), so the only way to securely store data on these cards is with a tamperproof, modern encryption algorithm. So I decided to learn some basics and write a simple Python script that allows me to do this. AES-GCM was chosen because it features tags that are used to determine whether encrypted data was tempered with or not.</description>
+    </item>
+  </channel>
+</rss>
