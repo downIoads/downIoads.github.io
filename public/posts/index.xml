@@ -6,8 +6,22 @@
     <description>Recent content in Posts on Blog for Tech Enjoyers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Jan 2024 20:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jan 2024 14:00:23 +0200</lastBuildDate>
     <atom:link href="https://example.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to fake GitHub commits</title>
+      <link>https://example.com/posts/github-commit-faking/</link>
+      <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/github-commit-faking/</guid>
+      <description>Introduction In Git, you have to set your E-Mail address using the command:&#xA;&amp;#34;git config --global user.email myEmail@example.com&amp;#34; The problem is that when you now commit to a GitHub repository, GitHub will map this E-Mail to a GitHub account (if it exists) and then show the commit as if that account would have committed it. This has two direct implications:&#xA;You can find out the GitHub account of people you know the E-Mail of (security problem) You can use this technique to fake contribute to your repo to make it seem more trustworthy The E-Mail addresses of popular devs are often known from mailing lists etc.</description>
+    </item>
+    <item>
+      <title>Automated self-hosted GitLab backups to Dropbox using a Python script on Raspberry Pi</title>
+      <link>https://example.com/posts/python-gitlab-backup-rpi/</link>
+      <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/python-gitlab-backup-rpi/</guid>
+      <description>Introduction I prefer self-hosted GitLab over uploading my code to GitHub. The only disadvantage is that I need to take care of backups myself in case a hard drive dies or gets stolen. Therefore, I wrote a simple Python script that runs on my Raspberry Pi twice a week, which backs up my GitLab config and data and uploads them to my Dropbox. Specifically, I am using the free community edition of GitLab on my RPI.</description>
+    </item>
     <item>
       <title>How to use APNs with Golang and Google Firebase &#43; Firestore</title>
       <link>https://example.com/posts/golang-firebase-apns/</link>
@@ -77,13 +91,6 @@
       <pubDate>Thu, 27 Jul 2023 22:50:00 +0200</pubDate>
       <guid>https://example.com/posts/d2-runewords/</guid>
       <description>Introduction Diablo 2 Resurrected is one of my favorite games of all time, but there are a lot of things you need to remember. There are various online tools (the idea of a runeword calculator is not new), but many of them have a terrible User Interface, are outdated, or are located on slow websites that autoplay Twitch streams when you open them. So I decided to learn how to use wxWidgets by making an assistant GUI tool for my favorite game!</description>
-    </item>
-    <item>
-      <title>Automated self-hosted Gitlab backups to Dropbox using a Python script on Raspberry Pi</title>
-      <link>https://example.com/posts/python-gitlab-backup-rpi/</link>
-      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/python-gitlab-backup-rpi/</guid>
-      <description>Introduction I prefer self-hosted Gitlab over uploading my code to Github. The only disadvantage is that I need to take care of backups myself in case a harddrive dies or gets stolen. Therefore, I wrote a simple Python script that runs on my Raspberry Pi twice a week which backs up my Gitlab config and data and uploads them to my dropbox. Specifically, I am using the free community edition of Gitlab on my rpi.</description>
     </item>
     <item>
       <title>Python script for Llama 2 conversations</title>

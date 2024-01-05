@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>How to fake GitHub commits - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="This article explains how to make it seem as if famous devs contributed to your repo." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="How to fake GitHub commits" />
+<meta property="og:description" content="This article explains how to make it seem as if famous devs contributed to your repo." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/github-commit-faking/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-03T14:00:23+02:00" />
+<meta property="article:modified_time" content="2024-01-03T14:00:23+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="How to fake GitHub commits"/>
+<meta name="twitter:description" content="This article explains how to make it seem as if famous devs contributed to your repo."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">How to fake GitHub commits</h1>
+			<div class="meta">Posted on Jan 3, 2024</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>In Git, you have to set your E-Mail address using the command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e6db74">&#34;git config --global user.email myEmail@example.com&#34;</span>
+</span></span></code></pre></div><p>The problem is that when you now commit to a GitHub repository, GitHub will map this E-Mail to a GitHub account (if it exists) and then show the commit as if that account would have committed it. This has two direct implications:</p>
+<ul>
+<li>You can find out the GitHub account of people you know the E-Mail of (security problem)</li>
+<li>You can use this technique to fake contribute to your repo to make it seem more trustworthy</li>
+</ul>
+<p>The E-Mail addresses of popular devs are often known from mailing lists etc. or can be found with a simple Google search. Look at the following <a href="https://github.com/downIoads/downIoads.github.io/graphs/contributors">example</a> (purely as a Proof-of-Concept), here you can see who &ldquo;contributed&rdquo; to my blog:
+<img src="/images/github-fake-commit.png" alt="targets" title="Commit overview of my blog"></p>
+<p>As you can see, it looks as if Notch (Minecraft), Linus Torvalds (Linux) and Tim Berners-Lee all contributed to my blog. There is no warning about unverified commit signatures and GitHub links to their actual profiles. The only way to tell whether the commit is real or not is to look at the recent activity on their profiles (where these fake contributions do not show up). I think it should not be that easy to spoof contributions. The next time you see an open source projects with 2000 contributors and a lot of stars (these can easily be faked too by creating accounts / pay services) better look at the actual source code instead of &ldquo;trusting&rdquo; the repo because it appears to be popular. It&rsquo;s trivial to write a script that uses a list of common E-Mail addresses (that might be used by someone on GitHub) to bloat the contributors number. IMO, GitHub should enable &ldquo;verified commits&rdquo; by default to make this strategy infeasible: I generate a private key and add the corresponding public key to my GitHub account (which is linked to MY e-mail address), now when I push changes it&rsquo;s trivial to check whether my Git E-Mail identify is equal to that of my account or not. While I do understand that it should be possible to push commits of someone else, there must be a solution to this problem as the current situation is not acceptable IMO.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>GitHub contributions can easily be spoofed. Do not trust repos that appear popular, always check the code yourself. If you checked the code, and it looks harmless, do not assume that the binaries in the Releases section are trustworthy too. I stumbled on this issue by accident, but of course it was already known. It seems that GitHub does not view this as a critical security problem, but IMO the current situation is unacceptable.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/tutorial">tutorial</a></li>
+					
+					<li><a href="/tags/security">security</a></li>
+					
+					<li><a href="/tags/git">git</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

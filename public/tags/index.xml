@@ -6,8 +6,64 @@
     <description>Recent content in Tags on Blog for Tech Enjoyers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Jan 2024 20:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jan 2024 14:00:23 +0200</lastBuildDate>
     <atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>git</title>
+      <link>https://example.com/tags/git/</link>
+      <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/git/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>security</title>
+      <link>https://example.com/tags/security/</link>
+      <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>tutorial</title>
+      <link>https://example.com/tags/tutorial/</link>
+      <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>crontab</title>
+      <link>https://example.com/tags/crontab/</link>
+      <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/crontab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>gitlab</title>
+      <link>https://example.com/tags/gitlab/</link>
+      <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/gitlab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>programming</title>
+      <link>https://example.com/tags/programming/</link>
+      <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/programming/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>python</title>
+      <link>https://example.com/tags/python/</link>
+      <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>rpi</title>
+      <link>https://example.com/tags/rpi/</link>
+      <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/rpi/</guid>
+      <description></description>
+    </item>
     <item>
       <title>firebase</title>
       <link>https://example.com/tags/firebase/</link>
@@ -27,20 +83,6 @@
       <link>https://example.com/tags/ios/</link>
       <pubDate>Mon, 01 Jan 2024 20:00:00 +0200</pubDate>
       <guid>https://example.com/tags/ios/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>programming</title>
-      <link>https://example.com/tags/programming/</link>
-      <pubDate>Mon, 01 Jan 2024 20:00:00 +0200</pubDate>
-      <guid>https://example.com/tags/programming/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>tutorial</title>
-      <link>https://example.com/tags/tutorial/</link>
-      <pubDate>Mon, 01 Jan 2024 20:00:00 +0200</pubDate>
-      <guid>https://example.com/tags/tutorial/</guid>
       <description></description>
     </item>
     <item>
@@ -114,13 +156,6 @@
       <description></description>
     </item>
     <item>
-      <title>python</title>
-      <link>https://example.com/tags/python/</link>
-      <pubDate>Thu, 10 Aug 2023 08:00:23 +0200</pubDate>
-      <guid>https://example.com/tags/python/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>c&#43;&#43;</title>
       <link>https://example.com/tags/c&#43;&#43;/</link>
       <pubDate>Thu, 27 Jul 2023 22:50:00 +0200</pubDate>
@@ -135,20 +170,6 @@
       <description></description>
     </item>
     <item>
-      <title>crontab</title>
-      <link>https://example.com/tags/crontab/</link>
-      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
-      <guid>https://example.com/tags/crontab/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>gitlab</title>
-      <link>https://example.com/tags/gitlab/</link>
-      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
-      <guid>https://example.com/tags/gitlab/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>llama</title>
       <link>https://example.com/tags/llama/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
@@ -160,13 +181,6 @@
       <link>https://example.com/tags/llm/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
       <guid>https://example.com/tags/llm/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>rpi</title>
-      <link>https://example.com/tags/rpi/</link>
-      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
-      <guid>https://example.com/tags/rpi/</guid>
       <description></description>
     </item>
     <item>
