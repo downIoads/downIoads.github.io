@@ -3,7 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://example.com/</loc>
-    <lastmod>2024-01-13T14:00:23+02:00</lastmod>
+    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/posts/</loc>
+    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/posts/win98-se-vmware/</loc>
+    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/</loc>
+    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/tutorial/</loc>
+    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/vmware/</loc>
+    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/windows/</loc>
+    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/windows-98/</loc>
+    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/macos/</loc>
     <lastmod>2024-01-13T14:00:23+02:00</lastmod>
@@ -11,16 +32,10 @@
     <loc>https://example.com/posts/swiftui-ytdl/</loc>
     <lastmod>2024-01-13T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/</loc>
-    <lastmod>2024-01-13T14:00:23+02:00</lastmod>
-  </url><url>
     <loc>https://example.com/tags/swift/</loc>
     <lastmod>2024-01-13T14:00:23+02:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/swiftui/</loc>
-    <lastmod>2024-01-13T14:00:23+02:00</lastmod>
-  </url><url>
-    <loc>https://example.com/tags/</loc>
     <lastmod>2024-01-13T14:00:23+02:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/git/</loc>
@@ -30,9 +45,6 @@
     <lastmod>2024-01-03T14:00:23+02:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/security/</loc>
-    <lastmod>2024-01-03T14:00:23+02:00</lastmod>
-  </url><url>
-    <loc>https://example.com/tags/tutorial/</loc>
     <lastmod>2024-01-03T14:00:23+02:00</lastmod>
   </url><url>
     <loc>https://example.com/posts/python-gitlab-backup-rpi/</loc>
@@ -84,9 +96,6 @@
     <lastmod>2023-10-20T22:50:00+02:00</lastmod>
   </url><url>
     <loc>https://example.com/posts/stable-diffusion-gopher/</loc>
-    <lastmod>2023-10-20T22:50:00+02:00</lastmod>
-  </url><url>
-    <loc>https://example.com/tags/windows/</loc>
     <lastmod>2023-10-20T22:50:00+02:00</lastmod>
   </url><url>
     <loc>https://example.com/posts/twitch-adblock-streamlink/</loc>

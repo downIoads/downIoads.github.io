@@ -6,8 +6,36 @@
     <description>Recent content in Tags on Blog for Tech Enjoyers</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Jan 2024 14:00:23 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 13 Feb 2024 14:00:23 +0200</lastBuildDate>
     <atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>tutorial</title>
+      <link>https://example.com/tags/tutorial/</link>
+      <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>vmware</title>
+      <link>https://example.com/tags/vmware/</link>
+      <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/vmware/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>windows</title>
+      <link>https://example.com/tags/windows/</link>
+      <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/windows/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>windows 98</title>
+      <link>https://example.com/tags/windows-98/</link>
+      <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
+      <guid>https://example.com/tags/windows-98/</guid>
+      <description></description>
+    </item>
     <item>
       <title>macos</title>
       <link>https://example.com/tags/macos/</link>
@@ -41,13 +69,6 @@
       <link>https://example.com/tags/security/</link>
       <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
       <guid>https://example.com/tags/security/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>tutorial</title>
-      <link>https://example.com/tags/tutorial/</link>
-      <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
-      <guid>https://example.com/tags/tutorial/</guid>
       <description></description>
     </item>
     <item>
@@ -132,13 +153,6 @@
       <link>https://example.com/tags/text-to-image/</link>
       <pubDate>Fri, 20 Oct 2023 22:50:00 +0200</pubDate>
       <guid>https://example.com/tags/text-to-image/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>windows</title>
-      <link>https://example.com/tags/windows/</link>
-      <pubDate>Fri, 20 Oct 2023 22:50:00 +0200</pubDate>
-      <guid>https://example.com/tags/windows/</guid>
       <description></description>
     </item>
     <item>

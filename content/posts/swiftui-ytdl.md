@@ -28,11 +28,11 @@ gave the info I needed: "File created by an AppSandbox, exec/open not allowed". 
 ```bash
 stat ./filename
 ```
-on the binary that the sandbox downloaded and the binary that you downloaded manually. Only then, you can see that the file sizes are different. This is interesting, as running 
+on the binary that the sandbox downloaded and the binary that you downloaded manually. Only then, you can see that the inodes are different (unique identifier that macOS uses manage the file's metadata). Running 
 ```bash
 shasum -a 256 ./filename
 ```
-will result in the same hash for both files. After removing the sandbox permission (which I do not need for private use), everything worked perfectly. Below you can see some testing I did:
+will result in the same hash for both files, so macOS remembers which files were created/affected by a sandboxed app and places restrictions on these files. After removing the sandbox permission (which I do not need for private use), everything worked perfectly. Below you can see some testing I did:
 ![targets](/images/ytdl/sandbox-noExec1.png "Hashes and permissions are the same, but one can not be executed")
 ![targets](/images/ytdl/sandbox-noExec2.png "Spctl and stats commands made me understand why this is happening")
 

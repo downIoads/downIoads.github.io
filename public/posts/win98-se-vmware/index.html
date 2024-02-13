@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Running Windows 98 SE in Vmware Workstation on modern hardware - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="It works if you work around a few issues." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Running Windows 98 SE in Vmware Workstation on modern hardware" />
+<meta property="og:description" content="It works if you work around a few issues." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/posts/win98-se-vmware/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-02-13T14:00:23+02:00" />
+<meta property="article:modified_time" content="2024-02-13T14:00:23+02:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Running Windows 98 SE in Vmware Workstation on modern hardware"/>
+<meta name="twitter:description" content="It works if you work around a few issues."/>
+<script src="https://example.com/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://example.com/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://example.com/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://example.com/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="https://example.com/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">Running Windows 98 SE in Vmware Workstation on modern hardware</h1>
+			<div class="meta">Posted on Feb 13, 2024</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#vm-settings-and-getting-past-the-installer">VM settings and getting past the installer</a></li>
+    <li><a href="#installing-vmware-tools-to-get-support-of-high-resolutions-and-true-color-mode">Installing VMware tools to get support of high resolutions and true color mode</a></li>
+    <li><a href="#getting-usb-stick-pass-through-to-work">Getting USB stick pass-through to work</a></li>
+    <li><a href="#screenshots">Screenshots</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>Remember the good old days when your OS did not annoy you with ads or features you never asked for? When everything seemed minimalistic and lightweight, and it did not feel as if every mouse movement you make gets data mined and sent to Microsoft servers? I found an old Win98 SE (Second Edition, 4.10.2222A) install disc, created an image and tried to set it up using VMware Workstation 16. This blog post is about the general setup and a few tricks to make it work. It is not as easy to spin up as let&rsquo;s say a Win XP VM, but when you get it working it runs flawlessly (except that there is no 3D acceleration with stops some but not all games from running).</p>
+<h2 id="vm-settings-and-getting-past-the-installer">VM settings and getting past the installer</h2>
+<p>There are a few things to keep in mind when configuring the settings of the VM itself, as the VMware/Win 98 combi has a few restrictions:</p>
+<ul>
+<li>Max 1 CPU / 1 Core per CPU</li>
+<li>Max 1 GB of RAM</li>
+<li>Less than 128 GB of storage</li>
+<li>Set USB mode to 1.1 or 2.0 (the latter requires a fix also described in this post)</li>
+<li>All virtualization options disabled</li>
+</ul>
+<p>Not sure if that is necessary, but when setting up the VM I chose &ldquo;Custom&rdquo; and then set VMware&rsquo;s compatibility mode to VMware 5.x (as new versions of workstations are not officially supported, but maybe they just mean the 3D acceleration driver).</p>
+<p>When you start your VM, you choose &ldquo;Boot from CD&rdquo; and then &ldquo;Boot from this CD-ROM&rdquo;. Now, if you have a modern AMD CPU (Ryzen 3000+) or Intel CPU (11 Gen or newer) like me, the installer will crash due to a well-known <a href="https://blog.stuffedcow.net/2015/08/win9x-tlb-invalidation-bug/">TLB invalidation bug</a>. The workaround is to use <a href="https://github.com/JHRobotics/patcher9x">patcher9x on GitHub</a> to patch the VMM.VXD driver. All you need to do is download the <a href="https://github.com/JHRobotics/patcher9x/releases/download/v0.8.50/patcher9x-0.8.50-boot.ima">floppy image</a> and pass it to the VM by adding a floppy disk in the VM settings. When you then restart the VM, just enter &ldquo;patcher9x&rdquo; followed by pressing enter a few times and confirming with &ldquo;y&rdquo; and the bug is fixed! It is great to see an active community that builds simple, open-source tools to fix these niche problems. Now the VM will install without crashing.</p>
+<h2 id="installing-vmware-tools-to-get-support-of-high-resolutions-and-true-color-mode">Installing VMware tools to get support of high resolutions and true color mode</h2>
+<p>Even though not listed on their website, the file &ldquo;winPre2k.iso&rdquo; is a working vmware-tools installer for Windows 97, and it still exists in the installation folder of Vmware Workstation&rsquo;s modern version and can be passed to the VM via the CD-Rom ISO option. Windows then will install it and allow you to set high resolutions (my monitor maxes out at 1080p and that worked perfectly). Generally, since copy-paste between Host and Guest is not working (even with vmware-tools) and it also does not support folder sharing, at first the only option to pass data from the host to the guest is via the CD-Rom ISO option. Note that you can bundle any file as ISO (e.g. text.txt and myProgram.exe) by e.g. using Ubuntu and running</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install genisoimage
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>genisoimage -r -J -o ./output.iso ./&lt;folder-to-compress&gt;/
+</span></span></code></pre></div><p>This is your best option until you followed the next step that enables USB stick support (which Windows 98 SE does not have by default).</p>
+<h2 id="getting-usb-stick-pass-through-to-work">Getting USB stick pass-through to work</h2>
+<p>There is a nice unoffical tool called <a href="https://www.philscomputerlab.com/windows-98-usb-storage-driver.html">nusb36e</a> which adds the necessary drivers to Windows 98 so that USB sticks are recognized (even USB 2.0 will be working!). So you bundle that .exe as .iso and pass it through the VM and follows its steps (remove all USB drivers and Unknown Device drivers via Device Manager before running the tool). After rebooting you will get all necessary drivers (just keep clicking Next, Next, Ok, Ok, Skip if necessary due to error that occurs) and you will be able to pass-through your USB stick to the VM, and it will be recognized and usable if you make sure to format it to be FAT32. I think modern Windows does not even list FAT32 as a formatting option these days, so I recommend you use <a href="https://rufus.ie/en/">Rufus</a> to do that. Now you are able to pass data from the VM back to the host! Before I tried this, I tried nusb33e, and I could not get it to work, so I recommend using nusb36e.</p>
+<h2 id="screenshots">Screenshots</h2>
+<p>The main thing that motivated me to do this afternoon project is to run the best version of Paint. I greatly dislike modern versions of it, and last time I tried using it on Windows 11 it failed on me. The good old Win 98 Paint on the other hand just works :)</p>
+<p><img src="/images/win98/win98_paint.png" alt="targets" title="Paint is an amazing tool"></p>
+<p><img src="/images/win98/win98_usb_working.png" alt="targets" title="My USB stick is now usable"></p>
+<h2 id="summary">Summary</h2>
+<p>It is much more work to get Win 98 to run than e.g. Windows XP, as tools like VMware officially do not support it anymore. But it still can be done, and once you figure out how it runs perfectly! The lack of 3D acceleration with the driver that winPre2k.iso provides only becomes noticeable when you try to play old games that rely on 3D acceleration, but there are plenty of games that will work without it. The only thing I would like to see in the future is a fix on how to enable copy-and-paste between guest and host, but even without it the USB stick pass-through is a decent workaround. All in all, a nice project and a beautifully simple OS.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/tutorial">tutorial</a></li>
+					
+					<li><a href="/tags/windows">windows</a></li>
+					
+					<li><a href="/tags/windows-98">windows 98</a></li>
+					
+					<li><a href="/tags/vmware">vmware</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+</div>
+    </body>
+</html>

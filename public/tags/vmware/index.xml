@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vmware on Blog for Tech Enjoyers</title>
+    <link>https://example.com/tags/vmware/</link>
+    <description>Recent content in vmware on Blog for Tech Enjoyers</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 13 Feb 2024 14:00:23 +0200</lastBuildDate>
+    <atom:link href="https://example.com/tags/vmware/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running Windows 98 SE in Vmware Workstation on modern hardware</title>
+      <link>https://example.com/posts/win98-se-vmware/</link>
+      <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
+      <guid>https://example.com/posts/win98-se-vmware/</guid>
+      <description>Introduction Remember the good old days when your OS did not annoy you with ads or features you never asked for? When everything seemed minimalistic and lightweight, and it did not feel as if every mouse movement you make gets data mined and sent to Microsoft servers? I found an old Win98 SE (Second Edition, 4.10.2222A) install disc, created an image and tried to set it up using VMware Workstation 16.</description>
+    </item>
+  </channel>
+</rss>
