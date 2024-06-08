@@ -1,60 +1,67 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>tutorial on Blog for Tech Enjoyers</title>
-    <link>https://example.com/tags/tutorial/</link>
-    <description>Recent content in tutorial on Blog for Tech Enjoyers</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Tutorial on Blog for Tech Enjoyers</title>
+    <link>http://localhost:1313/tags/tutorial/</link>
+    <description>Recent content in Tutorial on Blog for Tech Enjoyers</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 Feb 2024 14:00:23 +0200</lastBuildDate>
-    <atom:link href="https://example.com/tags/tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 07 Jun 2024 20:00:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using nginx with self-signed certificates to encrypt local communications</title>
+      <link>http://localhost:1313/posts/nginx-selfsigned-certs-tutorial/</link>
+      <pubDate>Fri, 07 Jun 2024 20:00:00 +0200</pubDate>
+      <guid>http://localhost:1313/posts/nginx-selfsigned-certs-tutorial/</guid>
+      <description>Introduction When you run local servers on your Raspberry Pi you by default only get unencrypted http communications which makes it trivial for anyone in your LAN to snoop the traffic. This post is a brief tutorial how to get free encrypted https communcations without having to purchase a real domain name. I use the example of a self-hosted Gitlab server as this was my actual use-case, but this tutorial should be useful even if you do not care about the Gitlab part.</description>
+    </item>
     <item>
       <title>Running Windows 98 SE in Vmware Workstation on modern hardware</title>
-      <link>https://example.com/posts/win98-se-vmware/</link>
+      <link>http://localhost:1313/posts/win98-se-vmware/</link>
       <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/win98-se-vmware/</guid>
+      <guid>http://localhost:1313/posts/win98-se-vmware/</guid>
       <description>Introduction Remember the good old days when your OS did not annoy you with ads or features you never asked for? When everything seemed minimalistic and lightweight, and it did not feel as if every mouse movement you make gets data mined and sent to Microsoft servers? I found an old Win98 SE (Second Edition, 4.10.2222A) install disc, created an image and tried to set it up using VMware Workstation 16.</description>
     </item>
     <item>
       <title>How to fake GitHub commits</title>
-      <link>https://example.com/posts/github-commit-faking/</link>
+      <link>http://localhost:1313/posts/github-commit-faking/</link>
       <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/github-commit-faking/</guid>
+      <guid>http://localhost:1313/posts/github-commit-faking/</guid>
       <description>Introduction In Git, you have to set your E-Mail address using the command:&#xA;&amp;#34;git config --global user.email myEmail@example.com&amp;#34; The problem is that when you now commit to a GitHub repository, GitHub will map this E-Mail to a GitHub account (if it exists) and then show the commit as if that account would have committed it. This has two direct implications:&#xA;You can find out the GitHub account of people you know the E-Mail of (security problem) You can use this technique to fake contribute to your repo to make it seem more trustworthy The E-Mail addresses of popular devs are often known from mailing lists etc.</description>
     </item>
     <item>
       <title>How to use APNs with Golang and Google Firebase &#43; Firestore</title>
-      <link>https://example.com/posts/golang-firebase-apns/</link>
+      <link>http://localhost:1313/posts/golang-firebase-apns/</link>
       <pubDate>Mon, 01 Jan 2024 20:00:00 +0200</pubDate>
-      <guid>https://example.com/posts/golang-firebase-apns/</guid>
+      <guid>http://localhost:1313/posts/golang-firebase-apns/</guid>
       <description>Introduction If you are building a SwiftUI app like me, you will probably encounter a situation where you want to be able to send out Push Notifications to your users. Google Firebase offers a free plan (completely free with pretty generous usage) that allows you to do just that. Combined with Google Firestore you even get a small database where you can store device tokens (your users will write their device token to the database by using your app, and you send out notifications to all device tokens).</description>
     </item>
     <item>
       <title>Wxwidgets macOS guide to compile universal binaries</title>
-      <link>https://example.com/posts/wxwidget-macos-universal-binary/</link>
+      <link>http://localhost:1313/posts/wxwidget-macos-universal-binary/</link>
       <pubDate>Wed, 25 Oct 2023 14:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/wxwidget-macos-universal-binary/</guid>
+      <guid>http://localhost:1313/posts/wxwidget-macos-universal-binary/</guid>
       <description>Introduction I wanted to publish my wxwidgets project &amp;ldquo;D2R Runeword Calculator&amp;rdquo; which I already blogged about, to the macOS App Store. In order to do this with wxwidgets, you are advised to create statically-linked binaries that run both on x86_64 and arm64. But the instructions in the wxwidgets tutorials are outdated and lack crucial information. It took me a few hours, but I figured out how it can be done on macOS Ventura (13.</description>
     </item>
     <item>
       <title>Blocking Twitch Ads by piping the stream to VLC</title>
-      <link>https://example.com/posts/twitch-adblock-streamlink/</link>
+      <link>http://localhost:1313/posts/twitch-adblock-streamlink/</link>
       <pubDate>Sat, 14 Oct 2023 08:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/twitch-adblock-streamlink/</guid>
+      <guid>http://localhost:1313/posts/twitch-adblock-streamlink/</guid>
       <description>Introduction Twitch keeps changing their backend, and it recently became more difficult to block ads. A few years ago, any ad blocker seemed to work just fine. Then they changed their code, and uBlock Origin, Adblock Plus, etc. all fail to remove ads. While there are still browser plugins that promise to block Twitch ads, many of them are potentially shady, as they route your traffic over some proxy server that does who-knows-what.</description>
     </item>
     <item>
       <title>How to calculate any weekday</title>
-      <link>https://example.com/posts/how-to-calculate-any-weekday/</link>
+      <link>http://localhost:1313/posts/how-to-calculate-any-weekday/</link>
       <pubDate>Tue, 04 Jul 2023 20:00:00 +0200</pubDate>
-      <guid>https://example.com/posts/how-to-calculate-any-weekday/</guid>
+      <guid>http://localhost:1313/posts/how-to-calculate-any-weekday/</guid>
       <description>Introduction I once read about a simple way to calculate what day of the week any given date is. All you need to do is remember a few numbers and do basic math in your head. So let&amp;rsquo;s get started!&#xA;What you need to remember Each weekday has an assigned number:&#xA;Sunday = 0 Monday = 1 Tuesday = 2 Wednesday = 3 Thursday = 4 Friday = 5 Saturday = 6 Also remember the following list for the months:</description>
     </item>
     <item>
       <title>How to write a tutorial</title>
-      <link>https://example.com/posts/how-to-write-a-tutorial/</link>
+      <link>http://localhost:1313/posts/how-to-write-a-tutorial/</link>
       <pubDate>Sun, 02 Jul 2023 14:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/how-to-write-a-tutorial/</guid>
+      <guid>http://localhost:1313/posts/how-to-write-a-tutorial/</guid>
       <description>Introduction So you have decided to write a tutorial? Remember that there is nothing more frustrating than being a beginner at something, trying to become better at that thing by going through a tutorial and then being unable to complete the tutorial due to errors or unclear instructions. If you are not willing to write a good tutorial, it is better to not write a tutorial at all. So here are a few basic things that you should consider when trying to write a good tutorial.</description>
     </item>
   </channel>

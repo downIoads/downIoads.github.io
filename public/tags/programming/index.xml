@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>programming on Blog for Tech Enjoyers</title>
-    <link>https://example.com/tags/programming/</link>
-    <description>Recent content in programming on Blog for Tech Enjoyers</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Programming on Blog for Tech Enjoyers</title>
+    <link>http://localhost:1313/tags/programming/</link>
+    <description>Recent content in Programming on Blog for Tech Enjoyers</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 02 Jan 2024 18:00:23 +0200</lastBuildDate>
-    <atom:link href="https://example.com/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/programming/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Automated self-hosted GitLab backups to Dropbox using a Python script on Raspberry Pi</title>
-      <link>https://example.com/posts/python-gitlab-backup-rpi/</link>
+      <link>http://localhost:1313/posts/python-gitlab-backup-rpi/</link>
       <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/python-gitlab-backup-rpi/</guid>
+      <guid>http://localhost:1313/posts/python-gitlab-backup-rpi/</guid>
       <description>Introduction I prefer self-hosted GitLab over uploading my code to GitHub. The only disadvantage is that I need to take care of backups myself in case a hard drive dies or gets stolen. Therefore, I wrote a simple Python script that runs on my Raspberry Pi twice a week, which backs up my GitLab config and data and uploads them to my Dropbox. Specifically, I am using the free community edition of GitLab on my RPI.</description>
     </item>
     <item>
       <title>How to use APNs with Golang and Google Firebase &#43; Firestore</title>
-      <link>https://example.com/posts/golang-firebase-apns/</link>
+      <link>http://localhost:1313/posts/golang-firebase-apns/</link>
       <pubDate>Mon, 01 Jan 2024 20:00:00 +0200</pubDate>
-      <guid>https://example.com/posts/golang-firebase-apns/</guid>
+      <guid>http://localhost:1313/posts/golang-firebase-apns/</guid>
       <description>Introduction If you are building a SwiftUI app like me, you will probably encounter a situation where you want to be able to send out Push Notifications to your users. Google Firebase offers a free plan (completely free with pretty generous usage) that allows you to do just that. Combined with Google Firestore you even get a small database where you can store device tokens (your users will write their device token to the database by using your app, and you send out notifications to all device tokens).</description>
     </item>
     <item>
       <title>Encrypt data using Argon2 and AES-GCM-256 in Python</title>
-      <link>https://example.com/posts/aes-argon2-python/</link>
+      <link>http://localhost:1313/posts/aes-argon2-python/</link>
       <pubDate>Thu, 10 Aug 2023 08:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/aes-argon2-python/</guid>
+      <guid>http://localhost:1313/posts/aes-argon2-python/</guid>
       <description>Introduction I have bought insecure Mifare Classic 1k cards (Crypto-1 is broken and should not be used), so the only way to securely store data on these cards is with a tamperproof, modern encryption algorithm. So I decided to learn some basics and write a simple Python script that allows me to do this. AES-GCM was chosen because it features tags that are used to determine whether encrypted data was tempered with or not.</description>
     </item>
     <item>
       <title>Golang&#39;s unintuitive pitfalls</title>
-      <link>https://example.com/posts/golang-unintuitive-pitfalls/</link>
+      <link>http://localhost:1313/posts/golang-unintuitive-pitfalls/</link>
       <pubDate>Fri, 28 Jul 2023 08:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/golang-unintuitive-pitfalls/</guid>
+      <guid>http://localhost:1313/posts/golang-unintuitive-pitfalls/</guid>
       <description>Introduction Disclaimer: I have just recently picked up the language, so don&amp;rsquo;t expect this post to be a deep analysis of advanced Golang concepts. Instead, think of it as the perception of Golang from someone who already knows other programming languages but just recently started to learn Go. As with most things, there is stuff that I really like about Golang, and there are quite a few things that truly annoy me.</description>
     </item>
     <item>
       <title>C&#43;&#43; runeword calculator GUI for Diablo 2 Resurrected</title>
-      <link>https://example.com/posts/d2-runewords/</link>
+      <link>http://localhost:1313/posts/d2-runewords/</link>
       <pubDate>Thu, 27 Jul 2023 22:50:00 +0200</pubDate>
-      <guid>https://example.com/posts/d2-runewords/</guid>
+      <guid>http://localhost:1313/posts/d2-runewords/</guid>
       <description>Introduction Diablo 2 Resurrected is one of my favorite games of all time, but there are a lot of things you need to remember. There are various online tools (the idea of a runeword calculator is not new), but many of them have a terrible User Interface, are outdated, or are located on slow websites that autoplay Twitch streams when you open them. So I decided to learn how to use wxWidgets by making an assistant GUI tool for my favorite game!</description>
     </item>
     <item>
       <title>Python script for Llama 2 conversations</title>
-      <link>https://example.com/posts/llama-python/</link>
+      <link>http://localhost:1313/posts/llama-python/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/llama-python/</guid>
+      <guid>http://localhost:1313/posts/llama-python/</guid>
       <description>Introduction I have played around a bit with the new Llama 2 LLM, more specifically with the 13B parameter Huggingface version that you can download here. In order to run it, check out Llama.cpp. It has precise setup instructions, so I will assume you get that running on your own. What I did not enjoy was having to type long commands into my Windows cmd every time, so I decided to write a short Python script that runs the process in the background and displays the output in the Python shell in real-time (well, almost).</description>
     </item>
     <item>
       <title>How to authenticate and write data to Mifare Classic 1k using ACS ACR122U</title>
-      <link>https://example.com/posts/nfc-mifare-acr122u/</link>
+      <link>http://localhost:1313/posts/nfc-mifare-acr122u/</link>
       <pubDate>Sun, 23 Jul 2023 14:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/nfc-mifare-acr122u/</guid>
+      <guid>http://localhost:1313/posts/nfc-mifare-acr122u/</guid>
       <description>Goal I bought some Mifare Classic 1k tags and all Android/iOS apps I tried (official NXP apps, NFC Tools Pro and Mifare Classic Tool) failed to write data to my tags! Mifare Classic tags are not as straight-forward as e.g. NTAG ones because they are proprietary (they do technically support NDEF, but it&amp;rsquo;s not a compatible as you would like it to be). So to write data to these tags using my ACS ACR122U, I use the Windows Smart Card API to communicate with the NFC reader.</description>
     </item>
     <item>
       <title>NFC in 2023</title>
-      <link>https://example.com/posts/nfc-overview-and-playing-around/</link>
+      <link>http://localhost:1313/posts/nfc-overview-and-playing-around/</link>
       <pubDate>Sun, 09 Jul 2023 14:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/nfc-overview-and-playing-around/</guid>
+      <guid>http://localhost:1313/posts/nfc-overview-and-playing-around/</guid>
       <description>Overview of NFC tags NFC was invented in 2002 by Sony and NXP Semiconductors. Since then, a lot of different standards and tags have been created, so here is a basic overview of commonly used tags and their classification. To simplify things, commonly used NFC tags can usually be put into one of five forum types:&#xA;Forum type 1 (read-only) Forum type 2 (usually read/write and more storage than type 1) Forum type 3 (mainly used in Japan) Forum type 4 (like type 2, but with more storage and features and a higher cost than type 2) Forum type 5 (highest communication range, not commonly used by consumers) These forum types help cluster different tags into categories.</description>
     </item>
     <item>
       <title>How to calculate any weekday</title>
-      <link>https://example.com/posts/how-to-calculate-any-weekday/</link>
+      <link>http://localhost:1313/posts/how-to-calculate-any-weekday/</link>
       <pubDate>Tue, 04 Jul 2023 20:00:00 +0200</pubDate>
-      <guid>https://example.com/posts/how-to-calculate-any-weekday/</guid>
+      <guid>http://localhost:1313/posts/how-to-calculate-any-weekday/</guid>
       <description>Introduction I once read about a simple way to calculate what day of the week any given date is. All you need to do is remember a few numbers and do basic math in your head. So let&amp;rsquo;s get started!&#xA;What you need to remember Each weekday has an assigned number:&#xA;Sunday = 0 Monday = 1 Tuesday = 2 Wednesday = 3 Thursday = 4 Friday = 5 Saturday = 6 Also remember the following list for the months:</description>
     </item>
     <item>
       <title>Mine your username</title>
-      <link>https://example.com/posts/mine-your-username/</link>
+      <link>http://localhost:1313/posts/mine-your-username/</link>
       <pubDate>Mon, 03 Jul 2023 21:50:00 +0200</pubDate>
-      <guid>https://example.com/posts/mine-your-username/</guid>
+      <guid>http://localhost:1313/posts/mine-your-username/</guid>
       <description>Introduction So you wanted to sign up for a website but couldn&amp;rsquo;t think of a cool username that wasn&amp;rsquo;t already taken? No way, I was in that same situation! So I decided to write a C++ program that takes your base name (e.g., &amp;ldquo;cafe&amp;rdquo;) and adds a few numbers. The idea is to generate usernames that, when hashed using SHA256 or KECCAK256 result in strings that contain your base name again!</description>
     </item>
   </channel>

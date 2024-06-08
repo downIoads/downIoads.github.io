@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>windows on Blog for Tech Enjoyers</title>
-    <link>https://example.com/tags/windows/</link>
-    <description>Recent content in windows on Blog for Tech Enjoyers</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Windows on Blog for Tech Enjoyers</title>
+    <link>http://localhost:1313/tags/windows/</link>
+    <description>Recent content in Windows on Blog for Tech Enjoyers</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 13 Feb 2024 14:00:23 +0200</lastBuildDate>
-    <atom:link href="https://example.com/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/windows/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Running Windows 98 SE in Vmware Workstation on modern hardware</title>
-      <link>https://example.com/posts/win98-se-vmware/</link>
+      <link>http://localhost:1313/posts/win98-se-vmware/</link>
       <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/win98-se-vmware/</guid>
+      <guid>http://localhost:1313/posts/win98-se-vmware/</guid>
       <description>Introduction Remember the good old days when your OS did not annoy you with ads or features you never asked for? When everything seemed minimalistic and lightweight, and it did not feel as if every mouse movement you make gets data mined and sent to Microsoft servers? I found an old Win98 SE (Second Edition, 4.10.2222A) install disc, created an image and tried to set it up using VMware Workstation 16.</description>
     </item>
     <item>
       <title>Using Stable Diffusion as Discord Emote Generator</title>
-      <link>https://example.com/posts/stable-diffusion-gopher/</link>
+      <link>http://localhost:1313/posts/stable-diffusion-gopher/</link>
       <pubDate>Fri, 20 Oct 2023 22:50:00 +0200</pubDate>
-      <guid>https://example.com/posts/stable-diffusion-gopher/</guid>
+      <guid>http://localhost:1313/posts/stable-diffusion-gopher/</guid>
       <description>Introduction Stable Diffusion is an open-source deep learning text-to-image model that does not have any filters and works offline. There are a few controversies around it (e.g., it has been trained on copyrighted artwork but gives the user of Stable Diffusion the rights to all images it spits out, and it does not have filters and can be used to create all sorts of weird content). It works offline and poses a threat to existing businesses that sell AI-generated images (e.</description>
     </item>
     <item>
       <title>Blocking Twitch Ads by piping the stream to VLC</title>
-      <link>https://example.com/posts/twitch-adblock-streamlink/</link>
+      <link>http://localhost:1313/posts/twitch-adblock-streamlink/</link>
       <pubDate>Sat, 14 Oct 2023 08:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/twitch-adblock-streamlink/</guid>
+      <guid>http://localhost:1313/posts/twitch-adblock-streamlink/</guid>
       <description>Introduction Twitch keeps changing their backend, and it recently became more difficult to block ads. A few years ago, any ad blocker seemed to work just fine. Then they changed their code, and uBlock Origin, Adblock Plus, etc. all fail to remove ads. While there are still browser plugins that promise to block Twitch ads, many of them are potentially shady, as they route your traffic over some proxy server that does who-knows-what.</description>
     </item>
     <item>
       <title>C&#43;&#43; runeword calculator GUI for Diablo 2 Resurrected</title>
-      <link>https://example.com/posts/d2-runewords/</link>
+      <link>http://localhost:1313/posts/d2-runewords/</link>
       <pubDate>Thu, 27 Jul 2023 22:50:00 +0200</pubDate>
-      <guid>https://example.com/posts/d2-runewords/</guid>
+      <guid>http://localhost:1313/posts/d2-runewords/</guid>
       <description>Introduction Diablo 2 Resurrected is one of my favorite games of all time, but there are a lot of things you need to remember. There are various online tools (the idea of a runeword calculator is not new), but many of them have a terrible User Interface, are outdated, or are located on slow websites that autoplay Twitch streams when you open them. So I decided to learn how to use wxWidgets by making an assistant GUI tool for my favorite game!</description>
     </item>
     <item>
       <title>Python script for Llama 2 conversations</title>
-      <link>https://example.com/posts/llama-python/</link>
+      <link>http://localhost:1313/posts/llama-python/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/llama-python/</guid>
+      <guid>http://localhost:1313/posts/llama-python/</guid>
       <description>Introduction I have played around a bit with the new Llama 2 LLM, more specifically with the 13B parameter Huggingface version that you can download here. In order to run it, check out Llama.cpp. It has precise setup instructions, so I will assume you get that running on your own. What I did not enjoy was having to type long commands into my Windows cmd every time, so I decided to write a short Python script that runs the process in the background and displays the output in the Python shell in real-time (well, almost).</description>
     </item>
   </channel>

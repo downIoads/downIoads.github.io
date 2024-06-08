@@ -2,171 +2,183 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://example.com/</loc>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/gitlab/</loc>
+    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/linux/</loc>
+    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/nginx/</loc>
+    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/raspberrypi/</loc>
+    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/tutorial/</loc>
+    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/nginx-selfsigned-certs-tutorial/</loc>
+    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/win98-se-vmware/</loc>
     <lastmod>2024-02-13T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/</loc>
+    <loc>http://localhost:1313/tags/vmware/</loc>
     <lastmod>2024-02-13T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/win98-se-vmware/</loc>
+    <loc>http://localhost:1313/tags/windows/</loc>
     <lastmod>2024-02-13T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/</loc>
+    <loc>http://localhost:1313/tags/windows-98/</loc>
     <lastmod>2024-02-13T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/tutorial/</loc>
-    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
-  </url><url>
-    <loc>https://example.com/tags/vmware/</loc>
-    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
-  </url><url>
-    <loc>https://example.com/tags/windows/</loc>
-    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
-  </url><url>
-    <loc>https://example.com/tags/windows-98/</loc>
-    <lastmod>2024-02-13T14:00:23+02:00</lastmod>
-  </url><url>
-    <loc>https://example.com/tags/macos/</loc>
+    <loc>http://localhost:1313/tags/macos/</loc>
     <lastmod>2024-01-13T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/swiftui-ytdl/</loc>
+    <loc>http://localhost:1313/posts/swiftui-ytdl/</loc>
     <lastmod>2024-01-13T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/swift/</loc>
+    <loc>http://localhost:1313/tags/swift/</loc>
     <lastmod>2024-01-13T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/swiftui/</loc>
+    <loc>http://localhost:1313/tags/swiftui/</loc>
     <lastmod>2024-01-13T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/git/</loc>
+    <loc>http://localhost:1313/tags/git/</loc>
     <lastmod>2024-01-03T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/github-commit-faking/</loc>
+    <loc>http://localhost:1313/posts/github-commit-faking/</loc>
     <lastmod>2024-01-03T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/security/</loc>
+    <loc>http://localhost:1313/tags/security/</loc>
     <lastmod>2024-01-03T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/python-gitlab-backup-rpi/</loc>
+    <loc>http://localhost:1313/posts/python-gitlab-backup-rpi/</loc>
     <lastmod>2024-01-02T18:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/crontab/</loc>
+    <loc>http://localhost:1313/tags/crontab/</loc>
     <lastmod>2024-01-02T18:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/gitlab/</loc>
+    <loc>http://localhost:1313/tags/programming/</loc>
     <lastmod>2024-01-02T18:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/programming/</loc>
+    <loc>http://localhost:1313/tags/python/</loc>
     <lastmod>2024-01-02T18:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/python/</loc>
+    <loc>http://localhost:1313/tags/rpi/</loc>
     <lastmod>2024-01-02T18:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/rpi/</loc>
-    <lastmod>2024-01-02T18:00:23+02:00</lastmod>
-  </url><url>
-    <loc>https://example.com/tags/firebase/</loc>
+    <loc>http://localhost:1313/tags/firebase/</loc>
     <lastmod>2024-01-01T20:00:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/go/</loc>
+    <loc>http://localhost:1313/tags/go/</loc>
     <lastmod>2024-01-01T20:00:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/golang-firebase-apns/</loc>
+    <loc>http://localhost:1313/posts/golang-firebase-apns/</loc>
     <lastmod>2024-01-01T20:00:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/ios/</loc>
+    <loc>http://localhost:1313/tags/ios/</loc>
     <lastmod>2024-01-01T20:00:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/wxwidgets/</loc>
+    <loc>http://localhost:1313/tags/wxwidgets/</loc>
     <lastmod>2023-10-25T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/wxwidget-macos-universal-binary/</loc>
+    <loc>http://localhost:1313/posts/wxwidget-macos-universal-binary/</loc>
     <lastmod>2023-10-25T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/hackintosh/</loc>
+    <loc>http://localhost:1313/tags/hackintosh/</loc>
     <lastmod>2023-10-24T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/hackintosh-xps9370/</loc>
+    <loc>http://localhost:1313/posts/hackintosh-xps9370/</loc>
     <lastmod>2023-10-24T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/ai/</loc>
+    <loc>http://localhost:1313/tags/ai/</loc>
     <lastmod>2023-10-20T22:50:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/text-to-image/</loc>
+    <loc>http://localhost:1313/tags/text-to-image/</loc>
     <lastmod>2023-10-20T22:50:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/stable-diffusion-gopher/</loc>
+    <loc>http://localhost:1313/posts/stable-diffusion-gopher/</loc>
     <lastmod>2023-10-20T22:50:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/twitch-adblock-streamlink/</loc>
+    <loc>http://localhost:1313/posts/twitch-adblock-streamlink/</loc>
     <lastmod>2023-10-14T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/hackintosh-ventura-rx6650xt/</loc>
+    <loc>http://localhost:1313/posts/hackintosh-ventura-rx6650xt/</loc>
     <lastmod>2023-10-10T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/hackintosh-project1/</loc>
+    <loc>http://localhost:1313/posts/hackintosh-project1/</loc>
     <lastmod>2023-10-02T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/cryptography/</loc>
+    <loc>http://localhost:1313/tags/cryptography/</loc>
     <lastmod>2023-08-10T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/aes-argon2-python/</loc>
+    <loc>http://localhost:1313/posts/aes-argon2-python/</loc>
     <lastmod>2023-08-10T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/encryption/</loc>
+    <loc>http://localhost:1313/tags/encryption/</loc>
     <lastmod>2023-08-10T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/mifare/</loc>
+    <loc>http://localhost:1313/tags/mifare/</loc>
     <lastmod>2023-08-10T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/nfc/</loc>
+    <loc>http://localhost:1313/tags/nfc/</loc>
     <lastmod>2023-08-10T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/golang-unintuitive-pitfalls/</loc>
+    <loc>http://localhost:1313/posts/golang-unintuitive-pitfalls/</loc>
     <lastmod>2023-07-28T08:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/c&#43;&#43;/</loc>
+    <loc>http://localhost:1313/tags/c&#43;&#43;/</loc>
     <lastmod>2023-07-27T22:50:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/d2-runewords/</loc>
+    <loc>http://localhost:1313/posts/d2-runewords/</loc>
     <lastmod>2023-07-27T22:50:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/gaming/</loc>
+    <loc>http://localhost:1313/tags/gaming/</loc>
     <lastmod>2023-07-27T22:50:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/llama/</loc>
+    <loc>http://localhost:1313/tags/llama/</loc>
     <lastmod>2023-07-26T18:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/llm/</loc>
+    <loc>http://localhost:1313/tags/llm/</loc>
     <lastmod>2023-07-26T18:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/llama-python/</loc>
+    <loc>http://localhost:1313/posts/llama-python/</loc>
     <lastmod>2023-07-26T18:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/nfc-mifare-acr122u/</loc>
+    <loc>http://localhost:1313/posts/nfc-mifare-acr122u/</loc>
     <lastmod>2023-07-23T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/nfc-overview-and-playing-around/</loc>
+    <loc>http://localhost:1313/posts/nfc-overview-and-playing-around/</loc>
     <lastmod>2023-07-09T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/how-to-calculate-any-weekday/</loc>
+    <loc>http://localhost:1313/posts/how-to-calculate-any-weekday/</loc>
     <lastmod>2023-07-04T20:00:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/hashing/</loc>
+    <loc>http://localhost:1313/tags/hashing/</loc>
     <lastmod>2023-07-03T21:50:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/mine-your-username/</loc>
+    <loc>http://localhost:1313/posts/mine-your-username/</loc>
     <lastmod>2023-07-03T21:50:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/tags/multithreading/</loc>
+    <loc>http://localhost:1313/tags/multithreading/</loc>
     <lastmod>2023-07-03T21:50:00+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/posts/how-to-write-a-tutorial/</loc>
+    <loc>http://localhost:1313/posts/how-to-write-a-tutorial/</loc>
     <lastmod>2023-07-02T14:00:23+02:00</lastmod>
   </url><url>
-    <loc>https://example.com/about/</loc>
+    <loc>http://localhost:1313/about/</loc>
     <lastmod>2023-07-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://example.com/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url>
 </urlset>

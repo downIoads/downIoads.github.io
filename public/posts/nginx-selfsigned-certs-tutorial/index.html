@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Using nginx with self-signed certificates to encrypt local communications - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Learn how to use self-signed certs in an example with a self-hosted Gitlab server." />
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content="http://localhost:1313/posts/nginx-selfsigned-certs-tutorial/">
+  <meta property="og:site_name" content="Blog for Tech Enjoyers">
+  <meta property="og:title" content="Using nginx with self-signed certificates to encrypt local communications">
+  <meta property="og:description" content="Learn how to use self-signed certs in an example with a self-hosted Gitlab server.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-06-07T20:00:00+02:00">
+    <meta property="article:modified_time" content="2024-06-07T20:00:00+02:00">
+    <meta property="article:tag" content="Tutorial">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Raspberrypi">
+    <meta property="article:tag" content="Gitlab">
+    <meta property="article:tag" content="Nginx">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Using nginx with self-signed certificates to encrypt local communications">
+  <meta name="twitter:description" content="Learn how to use self-signed certs in an example with a self-hosted Gitlab server.">
+<script src="http://localhost:1313/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:1313/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="http://localhost:1313/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="http://localhost:1313/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="http://localhost:1313/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">Using nginx with self-signed certificates to encrypt local communications</h1>
+			<div class="meta">Posted on Jun 7, 2024</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#assumptions">Assumptions</a></li>
+    <li><a href="#installing-nginx">Installing nginx</a></li>
+    <li><a href="#getting-a-self-signed-certificate">Getting a self-signed certificate</a></li>
+    <li><a href="#configuring-nginx">Configuring nginx</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>When you run local servers on your Raspberry Pi, you by default only get unencrypted http communications which makes it trivial for anyone in your LAN to snoop the traffic. This post is a brief tutorial how to get free encrypted https communications without having to purchase a real domain name. I use the example of a self-hosted Gitlab server as this was my actual use-case, but this tutorial should be useful even if you do not care about the Gitlab part.</p>
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+<li>You have a Raspberry Pi running their official OS</li>
+<li>You have Gitlab installed and running already (but it still uses http)</li>
+</ul>
+<h2 id="installing-nginx">Installing nginx</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install nginx
+</span></span></code></pre></div><p>and then to create the directory where we will be putting our self-signed certificate</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir /etc/nginx/certs
+</span></span></code></pre></div><h2 id="getting-a-self-signed-certificate">Getting a self-signed certificate</h2>
+<p>Just run the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo openssl req -x509 -nodes -days <span style="color:#ae81ff">9999</span> -newkey rsa:4096 -keyout /etc/nginx/certs/selfSignedCert.key -out /etc/nginx/certs/selfSignedCert.crt
+</span></span></code></pre></div><p>It doesn&rsquo;t matter which values you put in the fields you are asked to fill. Congrats, now you have an RSA certificate that is valid for 9999 days.</p>
+<h2 id="configuring-nginx">Configuring nginx</h2>
+<p>Let&rsquo;s create our custom config called &ldquo;mylocalserver&rdquo; with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano /etc/nginx/sites-available/mylocalserver
+</span></span></code></pre></div><p>Here, put the following content:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>server {
+</span></span><span style="display:flex;"><span>    listen 80;
+</span></span><span style="display:flex;"><span>    server_name _;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    location /gitlab { # if you want server to only be reachable via https://&lt;localIP&gt;/gitlab
+</span></span><span style="display:flex;"><span>        return 301 https://$host$request_uri;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        # just add another location block if you have another service (must have new location path)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>server {
+</span></span><span style="display:flex;"><span>    listen 443 ssl;
+</span></span><span style="display:flex;"><span>    server_name _;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ssl_certificate /etc/nginx/certs/selfSignedCert.crt;
+</span></span><span style="display:flex;"><span>    ssl_certificate_key /etc/nginx/certs/selfSignedCert.key;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    location /gitlab { # if you want server to only be reachable via https://&lt;localIP&gt;/gitlab
+</span></span><span style="display:flex;"><span>        proxy_pass http://127.0.0.1:8084;
+</span></span><span style="display:flex;"><span>        proxy_set_header Host $host;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Real-IP $remote_addr;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-Proto $scheme;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        # just add another location block if you have another service (change location path and port to reflect actual)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Also create a symbolic link by running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ln -s /etc/nginx/sites-available/mylocalserver /etc/nginx/sites-enabled/
+</span></span></code></pre></div><p>If you now test the current config using</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nginx -t
+</span></span></code></pre></div><p>it should say success.</p>
+<p>Ok, so now enable nginx at startup and also restart it now to apply new config:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable nginx
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo systemctl restart nginx
+</span></span></code></pre></div><p>In this config, we have specified that when we access</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>https://&lt;localIP&gt;/gitlab
+</span></span></code></pre></div><p>in the browser we should be encrypting all traffic with the self-signed cert we have created and be forwarded to Gitlab which is running at port 8084. For Gitlab specifically, you now also need to adjust your gitlab.rb by running</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano /etc/gitlab/gitlab.rb
+</span></span></code></pre></div><p>Here you want to have the following three lines (external_url already exists and must be adjusted, the other two lines can just be added):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>external_url &#39;https://localhost/gitlab&#39; # adding the /gitlab part is important as this is how it was specified in the nginx config
+</span></span><span style="display:flex;"><span>nginx[&#39;listen_port&#39;] = 8084 			# must match port in nginx config
+</span></span><span style="display:flex;"><span>nginx[&#39;listen_https&#39;] = false 			# avoid gitlab clashing with nginx, this does not mean that the traffic is not encrypted
+</span></span></code></pre></div><p>Now apply the new Gitlab config by running</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo gitlab-ctl reconfigure
+</span></span></code></pre></div><p>Congrats, if you wait a minute or two you can now visit your Gitlab in the browser at the address:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>https://&lt;localIP&gt;/gitlab
+</span></span></code></pre></div><p>You will get a warning (because the certificate is self-signed), so just once tell the browser to ignore the warning and continue.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I wrote the tutorial because when searching online how to encrypt local traffic you get the craziest suggestions, ranging from &ldquo;you should pay for an actual domain name&rdquo; to &ldquo;you should use this shady free service that does it for free&rdquo;. None of these things are necessary, the nginx approach is simple, and the only downside is that one time you have to tell your browser to ignore a warning. I am happy with my free setup, and it is nice that I do not have to rely on some third-party.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/tutorial">tutorial</a></li>
+					
+					<li><a href="/tags/linux">linux</a></li>
+					
+					<li><a href="/tags/raspberrypi">raspberrypi</a></li>
+					
+					<li><a href="/tags/gitlab">gitlab</a></li>
+					
+					<li><a href="/tags/nginx">nginx</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer></div>
+    </body>
+</html>

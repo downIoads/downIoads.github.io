@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>security on Blog for Tech Enjoyers</title>
-    <link>https://example.com/tags/security/</link>
-    <description>Recent content in security on Blog for Tech Enjoyers</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Security on Blog for Tech Enjoyers</title>
+    <link>http://localhost:1313/tags/security/</link>
+    <description>Recent content in Security on Blog for Tech Enjoyers</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 03 Jan 2024 14:00:23 +0200</lastBuildDate>
-    <atom:link href="https://example.com/tags/security/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/security/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to fake GitHub commits</title>
-      <link>https://example.com/posts/github-commit-faking/</link>
+      <link>http://localhost:1313/posts/github-commit-faking/</link>
       <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/github-commit-faking/</guid>
+      <guid>http://localhost:1313/posts/github-commit-faking/</guid>
       <description>Introduction In Git, you have to set your E-Mail address using the command:&#xA;&amp;#34;git config --global user.email myEmail@example.com&amp;#34; The problem is that when you now commit to a GitHub repository, GitHub will map this E-Mail to a GitHub account (if it exists) and then show the commit as if that account would have committed it. This has two direct implications:&#xA;You can find out the GitHub account of people you know the E-Mail of (security problem) You can use this technique to fake contribute to your repo to make it seem more trustworthy The E-Mail addresses of popular devs are often known from mailing lists etc.</description>
     </item>
   </channel>

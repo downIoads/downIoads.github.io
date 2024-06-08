@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>llm on Blog for Tech Enjoyers</title>
-    <link>https://example.com/tags/llm/</link>
-    <description>Recent content in llm on Blog for Tech Enjoyers</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Llm on Blog for Tech Enjoyers</title>
+    <link>http://localhost:1313/tags/llm/</link>
+    <description>Recent content in Llm on Blog for Tech Enjoyers</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 26 Jul 2023 18:00:23 +0200</lastBuildDate>
-    <atom:link href="https://example.com/tags/llm/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/llm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Python script for Llama 2 conversations</title>
-      <link>https://example.com/posts/llama-python/</link>
+      <link>http://localhost:1313/posts/llama-python/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/llama-python/</guid>
+      <guid>http://localhost:1313/posts/llama-python/</guid>
       <description>Introduction I have played around a bit with the new Llama 2 LLM, more specifically with the 13B parameter Huggingface version that you can download here. In order to run it, check out Llama.cpp. It has precise setup instructions, so I will assume you get that running on your own. What I did not enjoy was having to type long commands into my Windows cmd every time, so I decided to write a short Python script that runs the process in the background and displays the output in the Python shell in real-time (well, almost).</description>
     </item>
   </channel>

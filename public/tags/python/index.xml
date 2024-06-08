@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>python on Blog for Tech Enjoyers</title>
-    <link>https://example.com/tags/python/</link>
-    <description>Recent content in python on Blog for Tech Enjoyers</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <title>Python on Blog for Tech Enjoyers</title>
+    <link>http://localhost:1313/tags/python/</link>
+    <description>Recent content in Python on Blog for Tech Enjoyers</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 02 Jan 2024 18:00:23 +0200</lastBuildDate>
-    <atom:link href="https://example.com/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Automated self-hosted GitLab backups to Dropbox using a Python script on Raspberry Pi</title>
-      <link>https://example.com/posts/python-gitlab-backup-rpi/</link>
+      <link>http://localhost:1313/posts/python-gitlab-backup-rpi/</link>
       <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/python-gitlab-backup-rpi/</guid>
+      <guid>http://localhost:1313/posts/python-gitlab-backup-rpi/</guid>
       <description>Introduction I prefer self-hosted GitLab over uploading my code to GitHub. The only disadvantage is that I need to take care of backups myself in case a hard drive dies or gets stolen. Therefore, I wrote a simple Python script that runs on my Raspberry Pi twice a week, which backs up my GitLab config and data and uploads them to my Dropbox. Specifically, I am using the free community edition of GitLab on my RPI.</description>
     </item>
     <item>
       <title>Encrypt data using Argon2 and AES-GCM-256 in Python</title>
-      <link>https://example.com/posts/aes-argon2-python/</link>
+      <link>http://localhost:1313/posts/aes-argon2-python/</link>
       <pubDate>Thu, 10 Aug 2023 08:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/aes-argon2-python/</guid>
+      <guid>http://localhost:1313/posts/aes-argon2-python/</guid>
       <description>Introduction I have bought insecure Mifare Classic 1k cards (Crypto-1 is broken and should not be used), so the only way to securely store data on these cards is with a tamperproof, modern encryption algorithm. So I decided to learn some basics and write a simple Python script that allows me to do this. AES-GCM was chosen because it features tags that are used to determine whether encrypted data was tempered with or not.</description>
     </item>
     <item>
       <title>Python script for Llama 2 conversations</title>
-      <link>https://example.com/posts/llama-python/</link>
+      <link>http://localhost:1313/posts/llama-python/</link>
       <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/llama-python/</guid>
+      <guid>http://localhost:1313/posts/llama-python/</guid>
       <description>Introduction I have played around a bit with the new Llama 2 LLM, more specifically with the 13B parameter Huggingface version that you can download here. In order to run it, check out Llama.cpp. It has precise setup instructions, so I will assume you get that running on your own. What I did not enjoy was having to type long commands into my Windows cmd every time, so I decided to write a short Python script that runs the process in the background and displays the output in the Python shell in real-time (well, almost).</description>
     </item>
     <item>
       <title>NFC in 2023</title>
-      <link>https://example.com/posts/nfc-overview-and-playing-around/</link>
+      <link>http://localhost:1313/posts/nfc-overview-and-playing-around/</link>
       <pubDate>Sun, 09 Jul 2023 14:00:23 +0200</pubDate>
-      <guid>https://example.com/posts/nfc-overview-and-playing-around/</guid>
+      <guid>http://localhost:1313/posts/nfc-overview-and-playing-around/</guid>
       <description>Overview of NFC tags NFC was invented in 2002 by Sony and NXP Semiconductors. Since then, a lot of different standards and tags have been created, so here is a basic overview of commonly used tags and their classification. To simplify things, commonly used NFC tags can usually be put into one of five forum types:&#xA;Forum type 1 (read-only) Forum type 2 (usually read/write and more storage than type 1) Forum type 3 (mainly used in Japan) Forum type 4 (like type 2, but with more storage and features and a higher cost than type 2) Forum type 5 (highest communication range, not commonly used by consumers) These forum types help cluster different tags into categories.</description>
     </item>
   </channel>
