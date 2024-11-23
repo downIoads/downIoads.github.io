@@ -13,7 +13,7 @@
       <link>http://localhost:1313/posts/swiftui-ytdl/</link>
       <pubDate>Sat, 13 Jan 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/posts/swiftui-ytdl/</guid>
-      <description>Introduction Yt-dlp and ffmpeg and two of my favorite command-line tools. But I keep having to look up how to use them! For this reason, I made a simple SwiftUI GUI that has three simple commands built-in. The user only has to choose and output folder and a file type (mp3 [audio only], opus [audio only] and mkv [audio and video]) and click the download button. The binaries for yt-dlp and ffmpeg are downloaded from the most official sources I could find at runtime.</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Yt-dlp and ffmpeg and two of my favorite command-line tools. But I keep having to look up how to use them! For this reason, I made a simple SwiftUI GUI that has three simple commands built-in. The user only has to choose and output folder and a file type (mp3 [audio only], opus [audio only] and mkv [audio and video]) and click the download button. The binaries for yt-dlp and ffmpeg are downloaded from the most official sources I could find at runtime. My GUI is open-source and available at my &lt;a href=&#34;https://github.com/downIoads/swiftui-ytdl&#34;&gt;GitHub repo&lt;/a&gt;, but you have to build it yourself in Xcode. It supports light/dark mode (system setting) and is designed to be as minimalistic as possible.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

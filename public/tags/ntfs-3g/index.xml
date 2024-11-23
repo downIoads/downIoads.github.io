@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ntfs-3g on Blog for Tech Enjoyers</title>
+    <link>http://localhost:1313/tags/ntfs-3g/</link>
+    <description>Recent content in Ntfs-3g on Blog for Tech Enjoyers</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 Nov 2024 21:50:00 +0200</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/ntfs-3g/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to install ntfs-3g on macOS using brew</title>
+      <link>http://localhost:1313/posts/how-to-install-ntfs-3g-macos/</link>
+      <pubDate>Fri, 22 Nov 2024 21:50:00 +0200</pubDate>
+      <guid>http://localhost:1313/posts/how-to-install-ntfs-3g-macos/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Life could be so easy. Want to install ntfs-3g on your new M4 Mac Mini? You might be naive and think you can just run:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;brew install ntfs-3g&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;But wait, it does not work. It says&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Error: ntfs-3g has been disabled because it requires FUSE!&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And that is because Homebrew has disabled any formulae that rely on FUSE. You could now install an unofficial tab like “gromgit/homebrew-fuse” but do you trust unofficial tabs? Since this solution would be boring, this tutorial is dedicated to building ntfs-3g from source on a modern Mac.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

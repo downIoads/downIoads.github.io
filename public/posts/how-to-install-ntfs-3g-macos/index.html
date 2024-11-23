@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>How to install ntfs-3g on macOS using brew - Blog for Tech Enjoyers</title><link rel="icon" type="image/png" href=https://www.pngmart.com/files/23/Nerd-Emoji-PNG.png /><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Brew works nicely, until it doesn’t." />
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content="http://localhost:1313/posts/how-to-install-ntfs-3g-macos/">
+  <meta property="og:site_name" content="Blog for Tech Enjoyers">
+  <meta property="og:title" content="How to install ntfs-3g on macOS using brew">
+  <meta property="og:description" content="Brew works nicely, until it doesn’t.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-11-22T21:50:00+02:00">
+    <meta property="article:modified_time" content="2024-11-22T21:50:00+02:00">
+    <meta property="article:tag" content="C&#43;&#43;">
+    <meta property="article:tag" content="Tutorial">
+    <meta property="article:tag" content="MacOS">
+    <meta property="article:tag" content="Ntfs-3g">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="How to install ntfs-3g on macOS using brew">
+  <meta name="twitter:description" content="Brew works nicely, until it doesn’t.">
+<script src="http://localhost:1313/js/feather.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:1313/css/main.af0932513936b0cde7d4a0d5917aa65438df9a57b01fb2769e2be4bdc492944f.css" />
+		<link id="darkModeStyle" rel="stylesheet" type="text/css" href="http://localhost:1313/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css"  disabled />
+	
+	
+	
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="http://localhost:1313/">Blog for Tech Enjoyers</a>
+	</div>
+	<nav>
+		
+		<a href="/posts">Posts</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+		| <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+		<script src="http://localhost:1313/js/themetoggle.js"></script>
+		
+	</nav>
+</header>
+<main>
+
+	<article>
+		<div class="title">
+			<h1 class="title">How to install ntfs-3g on macOS using brew</h1>
+			<div class="meta">Posted on Nov 22, 2024</div>
+		</div>
+		
+
+	<aside>
+	<hr>
+		Table of Contents:
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#dependencies">Dependencies</a></li>
+    <li><a href="#building-ntfs-3g-from-source">Building ntfs-3g from source</a></li>
+    <li><a href="#using-ntfs-3g-to-write-to-ntfs-devices">Using ntfs-3g to write to NTFS devices</a></li>
+    <li><a href="#unmounting-the-device-sometimes-doesnt-work-help">Unmounting the device sometimes doesn’t work; help!</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+	<hr>
+    </aside>
+
+
+		<section class="body">
+			<h2 id="introduction">Introduction</h2>
+<p>Life could be so easy. Want to install ntfs-3g on your new M4 Mac Mini? You might be naive and think you can just run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install ntfs-3g
+</span></span></code></pre></div><p>But wait, it does not work. It says</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Error: ntfs-3g has been disabled because it requires FUSE!
+</span></span></code></pre></div><p>And that is because Homebrew has disabled any formulae that rely on FUSE. You could now install an unofficial tab like “gromgit/homebrew-fuse” but do you trust unofficial tabs? Since this solution would be boring, this tutorial is dedicated to building ntfs-3g from source on a modern Mac.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>Instead of going error-by-error and showing how to fix it, I will just provide all the prerequisites you need:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xcode-select --install
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>brew install autoconf automake libtool libgcrypt pkg-config gettext
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>brew link --force gettext
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>brew install --cask macfuse
+</span></span></code></pre></div><h2 id="building-ntfs-3g-from-source">Building ntfs-3g from source</h2>
+<p>First get the official source code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/tuxera/ntfs-3g
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cd ntfs-3g
+</span></span></code></pre></div><p>Now generate the configure script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>autoreconf -fvi
+</span></span></code></pre></div><p>Before building the installer, first we need to set an environment variable. Then we can build the installer and configure it so that it uses our brew installation of macfuse:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export SDKROOT<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>xcrun --sdk macosx --show-sdk-path<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./configure --prefix<span style="color:#f92672">=</span>/usr/local --with-fuse<span style="color:#f92672">=</span>external
+</span></span></code></pre></div><p>The previous command might have shown you a warning that you should use some recommended flag so that you can boot from NTFS devices, but the issue with this is that brew does not allow you to build macfuse with that option enabled! You also cannot build macfuse from source yourself with that option enabled because the latest version is not open-source anymore! I could now go into detail about the <a href="https://colatkinson.site/macos/fuse/2019/09/29/osxfuse/">drama behind osxfuse and macfuse and why they are not open-source anymore</a>, but someone already did that for me. So let’s just ignore the warning (it’s an exotic use-case anyways) and continue with trying to build ntfs-3g.</p>
+<p>Before we can just type ‘make’ we need to change some things in the source code, because macOS does not allow access to certain locations (even when csrutil is disabled), so let’s change relevant paths. Basically, any mention of</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rootlibdir <span style="color:#f92672">=</span> /lib
+</span></span><span style="display:flex;"><span>rootbindir <span style="color:#f92672">=</span> /bin
+</span></span></code></pre></div><p>must be changed to</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rootlibdir <span style="color:#f92672">=</span> /usr/local/lib
+</span></span><span style="display:flex;"><span>rootbindir <span style="color:#f92672">=</span> <span style="color:#e6db74">${</span>exec_prefix<span style="color:#e6db74">}</span>/bin
+</span></span></code></pre></div><p>I decided to find and adjust the above lines in all the following files (where ‘.’ is the root of the ntfs-3g folder):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>./Makefile
+</span></span><span style="display:flex;"><span>./include/Makefile
+</span></span><span style="display:flex;"><span>./include/fuse-lite/Makefile
+</span></span><span style="display:flex;"><span>./include/ntfs-3g/Makefile
+</span></span><span style="display:flex;"><span>./libfuse-lite/Makefile
+</span></span><span style="display:flex;"><span>./libntfs-3g/Makefile
+</span></span><span style="display:flex;"><span>./ntfsprogs/Makefile
+</span></span><span style="display:flex;"><span>./src/Makefile
+</span></span></code></pre></div><p>But it might not be necessary to do it for every file. Anyway, after you have done that you can build and install ntfs-3g using:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo make install
+</span></span></code></pre></div><p>If there are no errors, congrats! The binary ntfs-3g should now be located at <code>/usr/local/bin/ntfs-3g</code>. There was no tutorial for any of the above info btw, this was just me fixing every single error that stopped me from building ntfs-3g on my new M4 Mac Mini.</p>
+<h2 id="using-ntfs-3g-to-write-to-ntfs-devices">Using ntfs-3g to write to NTFS devices</h2>
+<p>I only have up to one NTFS devices connected at a time, so I only need to create one mounting point:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo mkdir /Volumes/NTFS
+</span></span></code></pre></div><p>This only has to be done once. Now, whenever you have connected an NTFS device, find out where it is mounted and unmount it. Do not use the Finder Eject symbol to unmount it; otherwise you won’t be able to see the devices anymore via ‘diskutil list’ and we need to do that to determine its path. Instead use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>diskutil list
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>diskutil unmountDisk /dev/disk4
+</span></span></code></pre></div><p>Replace ‘disk4’ with whatever it is in your case. For the rest of the tutorial, I will assume it was disk4. You should for now remember what is shown as ‘IDENTIFIER’ of the entry that has type ‘Windows_NTFS’, because it will be needed later. In my case, it was ‘disk4s1’.</p>
+<p>Now use ntfs-3g to mount the device in read/write mode:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ntfs-3g /dev/disk4s1 /Volumes/NTFS -o auto_xattr -o volname<span style="color:#f92672">=</span>MyNTFS
+</span></span></code></pre></div><p>The ‘-o auto_xattr’ is super important, because without it there would be a bug where all files are invisible in Finder and only viewable via the terminal. Shoutouts to <a href="https://github.com/macfuse/macfuse/issues/574#issuecomment-541309529">lezgomatt</a> for finding this fix! Kinda crazy that this has been known for 5 years and still not fixed by ntfs-3g devs, but who am I to complain? You can replace ‘MyNTFS’ with anything you like btw, this is what is shown in Finder as the name of the mounted device.</p>
+<p>You can now use Finder to write to or delete from that device. When you are done and want to unmount it, either use Finder (but then you won’t see it via the ‘diskutil list’ anymore until it physically has been removed and reconnected) or you just run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>diskutil unmount /Volumes/NTFS
+</span></span></code></pre></div><p>which will always work, no matter which path your device had earlier.</p>
+<h2 id="unmounting-the-device-sometimes-doesnt-work-help">Unmounting the device sometimes doesn’t work; help!</h2>
+<p>MacOS does lots of indexing on externally connected devices, which means you try to unmount them via Finder, but it just won’t work, and you are not sure why. You can disable indexing for a device by storing a file called “.metadata_never_index” in the root folder of the device. This should greatly decrease the amount of times you can’t unmount via Finder. Should it still happen, just find out what uses the devices via:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo lsof | grep /Volumes/NTFS
+</span></span></code></pre></div><p>and then kill each number you see like, e.g.:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo kill -9 &lt;number&gt;
+</span></span></code></pre></div><p>where you replace &lt;number&gt; with each shown number. Then try unmounting again, and it should work.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Half my weekend gone, just because I was stupid enough to think</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>* My Apple device would just work
+</span></span><span style="display:flex;"><span>* Installing sth like ntfs-3g could easily be <span style="color:#66d9ef">done</span> via brew
+</span></span><span style="display:flex;"><span>* After installing ntfs-3g I would be able to see the files on the device without having to employ exotic fixes like <span style="color:#e6db74">&#39;-o auto_xattr&#39;</span>
+</span></span></code></pre></div><p>Anyway, I learned a lot, and I hope you (yes, you!) did too.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/c&#43;&#43;">c&#43;&#43;</a></li>
+					
+					<li><a href="/tags/tutorial">tutorial</a></li>
+					
+					<li><a href="/tags/macos">macos</a></li>
+					
+					<li><a href="/tags/ntfs-3g">ntfs-3g</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+		</article>
+	
+
+	
+</main>
+<footer>
+  <div style="display:flex"></div>
+  <div class="footer-info">
+    2024  <a
+      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer></div>
+    </body>
+</html>

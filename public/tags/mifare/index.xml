@@ -13,14 +13,14 @@
       <link>http://localhost:1313/posts/aes-argon2-python/</link>
       <pubDate>Thu, 10 Aug 2023 08:00:23 +0200</pubDate>
       <guid>http://localhost:1313/posts/aes-argon2-python/</guid>
-      <description>Introduction I have bought insecure Mifare Classic 1k cards (Crypto-1 is broken and should not be used), so the only way to securely store data on these cards is with a tamperproof, modern encryption algorithm. So I decided to learn some basics and write a simple Python script that allows me to do this. AES-GCM was chosen because it features tags that are used to determine whether encrypted data was tempered with or not.</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;I have bought insecure Mifare Classic 1k cards (Crypto-1 is broken and should not be used), so the only way to securely store data on these cards is with a tamperproof, modern encryption algorithm. So I decided to learn some basics and write a simple Python script that allows me to do this. AES-GCM was chosen because it features tags that are used to determine whether encrypted data was tempered with or not.&lt;/p&gt;</description>
     </item>
     <item>
       <title>How to authenticate and write data to Mifare Classic 1k using ACS ACR122U</title>
       <link>http://localhost:1313/posts/nfc-mifare-acr122u/</link>
       <pubDate>Sun, 23 Jul 2023 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/posts/nfc-mifare-acr122u/</guid>
-      <description>Goal I bought some Mifare Classic 1k tags and all Android/iOS apps I tried (official NXP apps, NFC Tools Pro and Mifare Classic Tool) failed to write data to my tags! Mifare Classic tags are not as straight-forward as e.g. NTAG ones because they are proprietary (they do technically support NDEF, but it&amp;rsquo;s not a compatible as you would like it to be). So to write data to these tags using my ACS ACR122U, I use the Windows Smart Card API to communicate with the NFC reader.</description>
+      <description>&lt;h2 id=&#34;goal&#34;&gt;Goal&lt;/h2&gt;&#xA;&lt;p&gt;I bought some Mifare Classic 1k tags and all Android/iOS apps I tried (official NXP apps, NFC Tools Pro and Mifare Classic Tool) failed to write data to my tags! Mifare Classic tags are not as straight-forward as e.g. NTAG ones because they are proprietary (they do technically support NDEF, but it&amp;rsquo;s not a compatible as you would like it to be). So to write data to these tags using my ACS ACR122U, I use the Windows Smart Card API to communicate with the NFC reader. Then I use special commands to authenticate the block I want to write data to, and then the data is written. I also added a function to NDEF format the entire card so that it becomes compatible with iOS and Android apps!&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

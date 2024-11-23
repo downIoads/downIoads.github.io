@@ -13,7 +13,7 @@
       <link>http://localhost:1313/posts/nginx-selfsigned-certs-tutorial/</link>
       <pubDate>Fri, 07 Jun 2024 20:00:00 +0200</pubDate>
       <guid>http://localhost:1313/posts/nginx-selfsigned-certs-tutorial/</guid>
-      <description>Introduction When you run local servers on your Raspberry Pi you by default only get unencrypted http communications which makes it trivial for anyone in your LAN to snoop the traffic. This post is a brief tutorial how to get free encrypted https communcations without having to purchase a real domain name. I use the example of a self-hosted Gitlab server as this was my actual use-case, but this tutorial should be useful even if you do not care about the Gitlab part.</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;When you run local servers on your Raspberry Pi, you by default only get unencrypted http communications which makes it trivial for anyone in your LAN to snoop the traffic. This post is a brief tutorial how to get free encrypted https communications without having to purchase a real domain name. I use the example of a self-hosted Gitlab server as this was my actual use-case, but this tutorial should be useful even if you do not care about the Gitlab part.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

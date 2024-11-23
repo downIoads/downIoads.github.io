@@ -2,8 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/posts/how-to-install-ntfs-3g-macos/</loc>
+    <lastmod>2024-11-22T21:50:00+02:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
+    <lastmod>2024-11-22T21:50:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/c&#43;&#43;/</loc>
+    <lastmod>2024-11-22T21:50:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2024-11-22T21:50:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/programming/</loc>
+    <lastmod>2024-11-22T21:50:00+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2024-11-22T21:50:00+02:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/gitlab/</loc>
     <lastmod>2024-06-07T20:00:00+02:00</lastmod>
@@ -14,13 +29,7 @@
     <loc>http://localhost:1313/tags/nginx/</loc>
     <lastmod>2024-06-07T20:00:00+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/raspberrypi/</loc>
-    <lastmod>2024-06-07T20:00:00+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2024-06-07T20:00:00+02:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/tutorial/</loc>
@@ -66,9 +75,6 @@
     <lastmod>2024-01-02T18:00:23+02:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/crontab/</loc>
-    <lastmod>2024-01-02T18:00:23+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/programming/</loc>
     <lastmod>2024-01-02T18:00:23+02:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/python/</loc>
@@ -136,9 +142,6 @@
   </url><url>
     <loc>http://localhost:1313/posts/golang-unintuitive-pitfalls/</loc>
     <lastmod>2023-07-28T08:00:23+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/c&#43;&#43;/</loc>
-    <lastmod>2023-07-27T22:50:00+02:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/d2-runewords/</loc>
     <lastmod>2023-07-27T22:50:00+02:00</lastmod>

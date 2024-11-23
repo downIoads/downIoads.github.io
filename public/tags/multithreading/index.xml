@@ -13,7 +13,7 @@
       <link>http://localhost:1313/posts/mine-your-username/</link>
       <pubDate>Mon, 03 Jul 2023 21:50:00 +0200</pubDate>
       <guid>http://localhost:1313/posts/mine-your-username/</guid>
-      <description>Introduction So you wanted to sign up for a website but couldn&amp;rsquo;t think of a cool username that wasn&amp;rsquo;t already taken? No way, I was in that same situation! So I decided to write a C++ program that takes your base name (e.g., &amp;ldquo;cafe&amp;rdquo;) and adds a few numbers. The idea is to generate usernames that, when hashed using SHA256 or KECCAK256 result in strings that contain your base name again!</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;So you wanted to sign up for a website but couldn&amp;rsquo;t think of a cool username that wasn&amp;rsquo;t already taken? No way, I was in that same situation! So I decided to write a C++ program that takes your base name (e.g., &amp;ldquo;cafe&amp;rdquo;) and adds a few numbers. The idea is to generate usernames that, when hashed using SHA256 or KECCAK256 result in strings that contain your base name again! I also added a mode where the requirement is that your base name must be included at least twice in both the SHA256 and the KECCAK256 output. The code of the resulting program is available at this &lt;a href=&#34;https://github.com/downIoads/cpp_username_miner/&#34;&gt;Github repo&lt;/a&gt;. It goes without saying that your base word must be hex-compatible (e.g. cafe, decaf, decade or facade), otherwise it can&amp;rsquo;t possibly be included in the hash output!&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

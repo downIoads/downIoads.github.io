@@ -13,7 +13,7 @@
       <link>http://localhost:1313/posts/win98-se-vmware/</link>
       <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/posts/win98-se-vmware/</guid>
-      <description>Introduction Remember the good old days when your OS did not annoy you with ads or features you never asked for? When everything seemed minimalistic and lightweight, and it did not feel as if every mouse movement you make gets data mined and sent to Microsoft servers? I found an old Win98 SE (Second Edition, 4.10.2222A) install disc, created an image and tried to set it up using VMware Workstation 16.</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Remember the good old days when your OS did not annoy you with ads or features you never asked for? When everything seemed minimalistic and lightweight, and it did not feel as if every mouse movement you make gets data mined and sent to Microsoft servers? I found an old Win98 SE (Second Edition, 4.10.2222A) install disc, created an image and tried to set it up using VMware Workstation 16. This blog post is about the general setup and a few tricks to make it work. It is not as easy to spin up as let&amp;rsquo;s say a Win XP VM, but when you get it working it runs flawlessly (except that there is no 3D acceleration with stops some but not all games from running).&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

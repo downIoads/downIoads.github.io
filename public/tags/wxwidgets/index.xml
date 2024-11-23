@@ -13,14 +13,14 @@
       <link>http://localhost:1313/posts/wxwidget-macos-universal-binary/</link>
       <pubDate>Wed, 25 Oct 2023 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/posts/wxwidget-macos-universal-binary/</guid>
-      <description>Introduction I wanted to publish my wxwidgets project &amp;ldquo;D2R Runeword Calculator&amp;rdquo; which I already blogged about, to the macOS App Store. In order to do this with wxwidgets, you are advised to create statically-linked binaries that run both on x86_64 and arm64. But the instructions in the wxwidgets tutorials are outdated and lack crucial information. It took me a few hours, but I figured out how it can be done on macOS Ventura (13.</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;I wanted to publish my wxwidgets project &amp;ldquo;D2R Runeword Calculator&amp;rdquo; which I already blogged about, to the macOS App Store. In order to do this with wxwidgets, you are advised to create statically-linked binaries that run both on x86_64 and arm64. But the instructions in the wxwidgets tutorials are outdated and lack crucial information. It took me a few hours, but I figured out how it can be done on macOS Ventura (13.6). The wxwidgets version I will be using is 3.2.3, which was released on October 10, 2023.&lt;/p&gt;</description>
     </item>
     <item>
       <title>C&#43;&#43; runeword calculator GUI for Diablo 2 Resurrected</title>
       <link>http://localhost:1313/posts/d2-runewords/</link>
       <pubDate>Thu, 27 Jul 2023 22:50:00 +0200</pubDate>
       <guid>http://localhost:1313/posts/d2-runewords/</guid>
-      <description>Introduction Diablo 2 Resurrected is one of my favorite games of all time, but there are a lot of things you need to remember. There are various online tools (the idea of a runeword calculator is not new), but many of them have a terrible User Interface, are outdated, or are located on slow websites that autoplay Twitch streams when you open them. So I decided to learn how to use wxWidgets by making an assistant GUI tool for my favorite game!</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Diablo 2 Resurrected is one of my favorite games of all time, but there are a lot of things you need to remember. There are various online tools (the idea of a runeword calculator is not new), but many of them have a terrible User Interface, are outdated, or are located on slow websites that autoplay Twitch streams when you open them. So I decided to learn how to use wxWidgets by making an assistant GUI tool for my favorite game! I have open-sourced this tool, and you can download it from this &lt;a href=&#34;https://github.com/downIoads/cpp_diablo2r_runewordCalculator/tree/main&#34;&gt;Github repo&lt;/a&gt;. The repo contains the source code and you can build it yourself. The tool has been tested on Windows 11, Ubuntu 22.04.3 LTS and macOS Ventura and Sonoma. It also is available for 4.99€ on the macOS App Store (best option if you are lazy).&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

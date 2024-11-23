@@ -6,243 +6,243 @@
     <description>Recent content in Tags on Blog for Tech Enjoyers</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 07 Jun 2024 20:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 22 Nov 2024 21:50:00 +0200</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>http://localhost:1313/tags/c&#43;&#43;/</link>
+      <pubDate>Fri, 22 Nov 2024 21:50:00 +0200</pubDate>
+      <guid>http://localhost:1313/tags/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Programming</title>
+      <link>http://localhost:1313/tags/programming/</link>
+      <pubDate>Fri, 22 Nov 2024 21:50:00 +0200</pubDate>
+      <guid>http://localhost:1313/tags/programming/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Gitlab</title>
       <link>http://localhost:1313/tags/gitlab/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 07 Jun 2024 20:00:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/gitlab/</guid>
       <description></description>
     </item>
     <item>
       <title>Linux</title>
       <link>http://localhost:1313/tags/linux/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 07 Jun 2024 20:00:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/linux/</guid>
       <description></description>
     </item>
     <item>
       <title>Nginx</title>
       <link>http://localhost:1313/tags/nginx/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 07 Jun 2024 20:00:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/nginx/</guid>
       <description></description>
     </item>
     <item>
       <title>Raspberrypi</title>
       <link>http://localhost:1313/tags/raspberrypi/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 07 Jun 2024 20:00:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/raspberrypi/</guid>
       <description></description>
     </item>
     <item>
       <title>Tutorial</title>
       <link>http://localhost:1313/tags/tutorial/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 07 Jun 2024 20:00:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/tutorial/</guid>
       <description></description>
     </item>
     <item>
       <title>Vmware</title>
       <link>http://localhost:1313/tags/vmware/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/vmware/</guid>
       <description></description>
     </item>
     <item>
       <title>Windows</title>
       <link>http://localhost:1313/tags/windows/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/windows/</guid>
       <description></description>
     </item>
     <item>
       <title>Windows 98</title>
       <link>http://localhost:1313/tags/windows-98/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 13 Feb 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/windows-98/</guid>
       <description></description>
     </item>
     <item>
       <title>MacOS</title>
       <link>http://localhost:1313/tags/macos/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/macos/</guid>
       <description></description>
     </item>
     <item>
       <title>Swift</title>
       <link>http://localhost:1313/tags/swift/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/swift/</guid>
       <description></description>
     </item>
     <item>
       <title>Swiftui</title>
       <link>http://localhost:1313/tags/swiftui/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 13 Jan 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/swiftui/</guid>
       <description></description>
     </item>
     <item>
       <title>Git</title>
       <link>http://localhost:1313/tags/git/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/git/</guid>
       <description></description>
     </item>
     <item>
       <title>Security</title>
       <link>http://localhost:1313/tags/security/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 03 Jan 2024 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/security/</guid>
       <description></description>
     </item>
     <item>
       <title>Crontab</title>
       <link>http://localhost:1313/tags/crontab/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/crontab/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Programming</title>
-      <link>http://localhost:1313/tags/programming/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/programming/</guid>
       <description></description>
     </item>
     <item>
       <title>Python</title>
       <link>http://localhost:1313/tags/python/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/python/</guid>
       <description></description>
     </item>
     <item>
       <title>Rpi</title>
       <link>http://localhost:1313/tags/rpi/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 02 Jan 2024 18:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/rpi/</guid>
       <description></description>
     </item>
     <item>
       <title>Firebase</title>
       <link>http://localhost:1313/tags/firebase/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 2024 20:00:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/firebase/</guid>
       <description></description>
     </item>
     <item>
       <title>Go</title>
       <link>http://localhost:1313/tags/go/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 2024 20:00:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/go/</guid>
       <description></description>
     </item>
     <item>
       <title>IOS</title>
       <link>http://localhost:1313/tags/ios/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 2024 20:00:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/ios/</guid>
       <description></description>
     </item>
     <item>
       <title>Wxwidgets</title>
       <link>http://localhost:1313/tags/wxwidgets/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 25 Oct 2023 14:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/wxwidgets/</guid>
       <description></description>
     </item>
     <item>
       <title>Hackintosh</title>
       <link>http://localhost:1313/tags/hackintosh/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 24 Oct 2023 08:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/hackintosh/</guid>
       <description></description>
     </item>
     <item>
       <title>Ai</title>
       <link>http://localhost:1313/tags/ai/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 20 Oct 2023 22:50:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/ai/</guid>
       <description></description>
     </item>
     <item>
       <title>Text-to-Image</title>
       <link>http://localhost:1313/tags/text-to-image/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 20 Oct 2023 22:50:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/text-to-image/</guid>
       <description></description>
     </item>
     <item>
       <title>Cryptography</title>
       <link>http://localhost:1313/tags/cryptography/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 10 Aug 2023 08:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/cryptography/</guid>
       <description></description>
     </item>
     <item>
       <title>Encryption</title>
       <link>http://localhost:1313/tags/encryption/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 10 Aug 2023 08:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/encryption/</guid>
       <description></description>
     </item>
     <item>
       <title>Mifare</title>
       <link>http://localhost:1313/tags/mifare/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 10 Aug 2023 08:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/mifare/</guid>
       <description></description>
     </item>
     <item>
       <title>Nfc</title>
       <link>http://localhost:1313/tags/nfc/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 10 Aug 2023 08:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/nfc/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>C&#43;&#43;</title>
-      <link>http://localhost:1313/tags/c&#43;&#43;/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/c&#43;&#43;/</guid>
       <description></description>
     </item>
     <item>
       <title>Gaming</title>
       <link>http://localhost:1313/tags/gaming/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 27 Jul 2023 22:50:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/gaming/</guid>
       <description></description>
     </item>
     <item>
       <title>Llama</title>
       <link>http://localhost:1313/tags/llama/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/llama/</guid>
       <description></description>
     </item>
     <item>
       <title>Llm</title>
       <link>http://localhost:1313/tags/llm/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 26 Jul 2023 18:00:23 +0200</pubDate>
       <guid>http://localhost:1313/tags/llm/</guid>
       <description></description>
     </item>
     <item>
       <title>Hashing</title>
       <link>http://localhost:1313/tags/hashing/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 03 Jul 2023 21:50:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/hashing/</guid>
       <description></description>
     </item>
     <item>
       <title>Multithreading</title>
       <link>http://localhost:1313/tags/multithreading/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 03 Jul 2023 21:50:00 +0200</pubDate>
       <guid>http://localhost:1313/tags/multithreading/</guid>
       <description></description>
     </item>
